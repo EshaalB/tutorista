@@ -9,29 +9,29 @@ import './About.css'
 
 const founders = [
   {
-    initials: 'ER',
+    img: '/founders/eshaal.png',
     name: 'Eshaal Rehmatullah',
     role: 'Chief Executive Officer',
-    desc: 'Former educational consultant with 5+ years driving transparency in the Lahore private tuition market. Eshaal leads Tutorista\'s mission to build a merit-first educator marketplace that puts student outcomes above agency profits.',
+    desc: 'Former educational consultant with 5+ years driving transparency in the Lahore private tuition market. Eshaal leads Tutorista\'s mission to build a merit-first educator marketplace.',
     featured: true,
   },
   {
-    initials: 'AU',
+    img: '/founders/asad.png',
     name: 'Asad Usman',
     role: 'Chief Technology Officer',
-    desc: 'Computer Science graduate specializing in distributed systems and real-time communication. Asad architects the virtual classroom, matching engine, and payment infrastructure powering our platform.',
+    desc: 'Computer Science graduate specializing in distributed systems. Asad architects the virtual classroom, matching engine, and payment infrastructure.',
   },
   {
-    initials: 'AM',
+    img: '/founders/ali.png',
     name: 'Ali Mahoon',
     role: 'Head of Growth',
-    desc: 'Growth strategist focused on scaling educational access across Punjab. Ali leads our partnerships with schools, coaching centres, and educational NGOs to drive Tutorista adoption.',
+    desc: 'Growth strategist focused on scaling educational access across Punjab. Ali leads partnerships with schools and educational NGOs.',
   },
   {
-    initials: 'EI',
+    img: '/founders/eesha.png',
     name: 'Eesha Irfan',
     role: 'Head of Operations',
-    desc: 'Operations specialist who designed our rigorous 5-step vetting funnel. Eesha ensures only the top 1% of educators are onboarded and maintains quality standards across 2,500+ active tutors.',
+    desc: 'Operations specialist who designed our rigorous 5-step vetting funnel. Eesha ensures only the top 1% of educators are onboarded.',
   },
 ]
 
@@ -64,7 +64,7 @@ export default function About() {
         <div className="glow-orb" style={{ top: '20%', left: '-5%' }} />
         <div className="container about-hero__inner reveal">
           <div className="hero-content">
-            <div className="chip mb-6"><RiHeartLine /> Our Mission</div>
+            <div className="chip chip--on-dark mb-6"><RiHeartLine /> Our Mission</div>
             <h1 className="display-hero text-white">
               Democratizing Quality<br />
               <span className="text-gold">Education in Lahore.</span>
@@ -182,36 +182,34 @@ export default function About() {
             </p>
           </div>
 
-          {/* CEO Card - Full Width */}
-          <div className="founder-card founder--ceo card reveal">
-            <div className="ceo-layout">
-              <div className="founder-left">
-                <div className="founder-avatar founder-avatar--lg">{ceo.initials}</div>
-              </div>
-              <div className="founder-right">
-                <div className="founder-role-chip">{ceo.role}</div>
-                <h4 className="founder-name founder-name--lg">{ceo.name}</h4>
-                <p className="body-lg">{ceo.desc}</p>
-                <div className="founder-links mt-6">
-                  <a href="#" className="founder-btn" aria-label="LinkedIn"><RiLinkedinFill /></a>
-                  <a href="#" className="founder-btn" aria-label="Email"><RiMailLine /></a>
-                </div>
+          {/* CEO - Full Width Featured Card */}
+          <div className="founder-ceo-card card reveal">
+            <div className="founder-ceo-img-wrap">
+              <img src={ceo.img} alt={ceo.name} className="founder-ceo-img" />
+            </div>
+            <div className="founder-ceo-info">
+              <div className="founder-role-chip">{ceo.role}</div>
+              <h4 className="founder-name founder-name--lg">{ceo.name}</h4>
+              <p className="body-lg">{ceo.desc}</p>
+              <div className="founder-links mt-6">
+                <a href="#" className="founder-btn" aria-label="LinkedIn"><RiLinkedinFill /></a>
+                <a href="#" className="founder-btn" aria-label="Email"><RiMailLine /></a>
               </div>
             </div>
           </div>
 
-          {/* Team Cards - Vertical Stack */}
-          <div className="founders-stack">
+          {/* Team - 3 Vertical Portrait Cards */}
+          <div className="founders-grid">
             {team.map((f, i) => (
               <div key={i} className={`founder-card card reveal reveal-d${i+1}`}>
-                <div className="team-layout">
-                  <div className="founder-avatar">{f.initials}</div>
-                  <div className="team-info">
-                    <div className="founder-role-chip">{f.role}</div>
-                    <h4 className="founder-name">{f.name}</h4>
-                    <p className="body-md">{f.desc}</p>
-                  </div>
-                  <div className="founder-links">
+                <div className="founder-img-wrap">
+                  <img src={f.img} alt={f.name} className="founder-img" />
+                </div>
+                <div className="founder-card-body">
+                  <div className="founder-role-chip">{f.role}</div>
+                  <h4 className="founder-name">{f.name}</h4>
+                  <p className="body-md">{f.desc}</p>
+                  <div className="founder-links mt-4">
                     <a href="#" className="founder-btn" aria-label="LinkedIn"><RiLinkedinFill /></a>
                     <a href="#" className="founder-btn" aria-label="Email"><RiMailLine /></a>
                   </div>

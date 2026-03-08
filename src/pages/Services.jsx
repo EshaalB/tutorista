@@ -46,7 +46,7 @@ export default function Services() {
         <div className="glow-orb" style={{ top: '15%', left: '-5%' }} />
         <div className="container services-hero__inner reveal">
           <div className="hero-content">
-            <div className="chip mb-6"><RiSparklingLine /> Platform Capabilities</div>
+            <div className="chip chip--on-dark mb-6"><RiSparklingLine /> Platform Capabilities</div>
             <h1 className="display-hero text-white">
               The Complete Learning<br />
               <span className="text-gold">Infrastructure.</span>

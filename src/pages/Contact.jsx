@@ -64,7 +64,7 @@ export default function Contact() {
         <div className="glow-orb" style={{ top: '10%', left: '-5%' }} />
         <div className="container reveal">
           <div className="contact-hero__content">
-            <div className="chip mb-6"><RiCustomerServiceLine /> Talk to Our Team</div>
+            <div className="chip chip--on-dark mb-6"><RiCustomerServiceLine /> Talk to Our Team</div>
             <h1 className="display-hero text-white">Let's start a<br />conversation.</h1>
             <p className="body-lg text-white opacity-70 mt-6 max-w-600">
               Whether you are a parent looking for the right tutor, an educator wanting to 

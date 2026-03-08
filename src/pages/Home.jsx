@@ -76,7 +76,7 @@ export default function Home() {
 
         <div className="container hero__inner reveal">
           <div className="hero__content">
-            <div className="chip mb-6">
+            <div className="chip chip--on-dark mb-6">
               <RiFlashlightLine /> Rated #1 Tutor Platform in Lahore
             </div>
             <h1 className="display-hero text-white">

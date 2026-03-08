@@ -100,40 +100,38 @@
 }
 
 /* =========================================
-   FOUNDERS - Vertical Layout
-   CEO on top (full width), team stacked below
+   FOUNDERS - CEO Featured + Vertical Team Cards
    ========================================= */
 
-/* CEO Card */
-.founder--ceo {
-  margin-bottom: 2px;
-  border: 1px solid var(--grey-100) !important;
-}
-.ceo-layout {
-  display: flex;
+/* CEO Featured Card */
+.founder-ceo-card {
+  display: flex !important;
   gap: 48px;
   align-items: center;
+  padding: 0 !important;
+  margin-bottom: 24px;
+  overflow: hidden;
 }
-.founder-left { flex-shrink: 0; }
-.founder-right { flex: 1; }
-
-.founder-avatar {
-  width: 52px; height: 52px;
-  background: var(--brand-teal-dark);
-  color: var(--brand-gold);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display);
-  font-size: 1.125rem; font-weight: 800;
-  border: 2px solid var(--brand-gold);
+.founder-ceo-img-wrap {
   flex-shrink: 0;
+  width: 280px;
+  height: 340px;
+  overflow: hidden;
 }
-.founder-avatar--lg {
-  width: 100px; height: 100px;
-  font-size: 2rem;
+.founder-ceo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.founder-ceo-info {
+  flex: 1;
+  padding: 40px 40px 40px 0;
 }
 
+/* Role chip */
 .founder-role-chip {
-  font-size: .7rem; font-weight: 700;
+  font-size: .65rem; font-weight: 700;
   color: var(--brand-gold-dark);
   text-transform: uppercase; letter-spacing: .08em;
   margin-bottom: 8px;
@@ -168,24 +166,41 @@
   color: var(--brand-gold);
 }
 
-/* Team Stack */
-.founders-stack {
+/* Team Grid - 3 Vertical Portrait Cards */
+.founders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.founder-card {
+  padding: 0 !important;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 2px;
 }
-.founders-stack .founder-card {
-  border: 1px solid var(--grey-100) !important;
+.founder-img-wrap {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
 }
-.team-layout {
+.founder-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform .4s ease;
+}
+.founder-card:hover .founder-img {
+  transform: scale(1.03);
+}
+.founder-card-body {
+  padding: 28px 28px 32px;
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 28px;
-}
-.team-info { flex: 1; }
-.team-layout .founder-links {
-  flex-shrink: 0;
   flex-direction: column;
+}
+.founder-card-body .founder-links {
+  margin-top: auto;
 }
 
 /* RESPONSIVE */
@@ -196,10 +211,10 @@
   .timeline-marker { display: none; }
   .timeline-item { padding-top: 0; }
   .pillars-grid { grid-template-columns: 1fr; }
-  .ceo-layout { flex-direction: column; gap: 28px; text-align: center; }
-  .ceo-layout .founder-links { justify-content: center; }
-  .team-layout { flex-direction: column; text-align: center; gap: 20px; }
-  .team-layout .founder-links { flex-direction: row; }
+  .founder-ceo-card { flex-direction: column; gap: 0; }
+  .founder-ceo-img-wrap { width: 100%; height: 300px; }
+  .founder-ceo-info { padding: 32px; }
+  .founders-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
 }
 
 @media (max-width: 600px) {
@@ -207,4 +222,6 @@
   .about-metrics { flex-direction: column; gap: 24px; }
   .timeline { grid-template-columns: 1fr; }
   .about-visual img { height: 300px; }
+  .founder-ceo-img-wrap { height: 260px; }
+  .founder-img-wrap { height: 240px; }
 }
