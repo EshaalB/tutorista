@@ -1,0 +1,171 @@
+/* =============================================
+   TUTORISTA — ULTRA-PREMIUM SHARP (STRIPE/LINEAR TIER)
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Brand Palette - Deep & Localized */
+  --brand-teal-dark: #052331; /* Deepest Navy/Teal */
+  --brand-teal: #0c4a6e; 
+  --brand-teal-light: #186f9e;
+  
+  --brand-gold-dark: #b48608;
+  --brand-gold: #f59e0b; /* Amber/Gold */
+  --brand-gold-light: #fbbf24;
+  
+  /* Neutral Grays */
+  --white: #ffffff;
+  --grey-50:  #f8fafc;
+  --grey-100: #f1f5f9;
+  --grey-200: #e2e8f0;
+  --grey-300: #cbd5e1;
+  --grey-400: #94a3b8;
+  --grey-600: #475569;
+  --grey-800: #1e293b;
+  --black:    #0f172a;
+
+  /* Typography */
+  --font-main: 'Open Sans', system-ui, sans-serif;
+  --font-display: 'Poppins', sans-serif;
+
+  /* Layout Precision - NO RADIUS, NO SHADOWS */
+  --max-w: 1200px; /* Tighter container for professional focus */
+  --section-pad-y: 160px; /* Massive white space for premium feel */
+  --section-pad-x: 6%;
+
+  /* Subtle Border System (Stripe-tier) */
+  --border-subtle: 1px solid rgba(0, 0, 0, 0.08);
+  --border-light: 1px solid rgba(255, 255, 255, 0.08);
+  --border-focus: 1px solid var(--brand-teal);
+}
+
+/* ---- RESET & BASE ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-main);
+  background: var(--white);
+  color: var(--grey-800);
+  line-height: 1.7; /* Increased for readability */
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+img { display: block; max-width: 100%; height: auto; }
+button { cursor: pointer; font-family: inherit; }
+ul { list-style: none; }
+
+/* ---- LAYOUT ---- */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--section-pad-x);
+}
+
+.section { padding: var(--section-pad-y) 0; }
+
+/* ---- BUTTONS (TACTILE & SHARP) ---- */
+.btn-primary, .btn-outline, .btn-yellow, .btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-size: 0.875rem; /* Tighter font for professional apps */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-width: 1px;
+  border-style: solid;
+}
+
+.btn-primary { background: var(--brand-teal); color: var(--white); border-color: var(--brand-teal); }
+.btn-primary:hover { background: var(--brand-teal-dark); border-color: var(--brand-teal-dark); }
+
+.btn-outline { background: transparent; color: var(--brand-teal); border-color: var(--brand-teal); }
+.btn-outline:hover { background: var(--brand-teal); color: var(--white); }
+
+.btn-yellow { background: var(--brand-gold); color: var(--black); border-color: var(--brand-gold); }
+.btn-yellow:hover { background: var(--brand-gold-dark); border-color: var(--brand-gold-dark); }
+
+.btn-outline-white { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.3); }
+.btn-outline-white:hover { background: var(--white); color: var(--brand-teal-dark); border-color: var(--white); }
+
+/* TACTILE PRESS STATE */
+.btn-primary:active, .btn-outline:active, .btn-yellow:active, .btn-outline-white:active {
+  transform: scale(0.96);
+}
+
+/* ---- TYPOGRAPHY SCALE (STRIPE-TIER) ---- */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem); /* Tighter max size */
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--black);
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+.heading-md {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--grey-800);
+}
+
+.body-lg {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--grey-600);
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--brand-gold);
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* ---- PREMIUM UTILITIES ---- */
+.bg-teal { background: var(--brand-teal-dark); }
+.bg-grey { background: var(--grey-50); }
+.text-white { color: var(--white); }
+.highlight-gold { color: var(--brand-gold); }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+@media (max-width: 1024px) {
+  :root { --section-pad-y: 100px; }
+  .parallax-bg { background-attachment: scroll; }
+}
+

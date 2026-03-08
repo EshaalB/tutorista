@@ -1,0 +1,97 @@
+/* ─── 01: HERO (NARRATIVE) ─── */
+.about-hero {
+  min-height: 75vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--brand-teal-dark);
+}
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(5, 35, 49, 0.95) 0%, rgba(5, 35, 49, 0.5) 100%);
+}
+
+.about-hero-inner { position: relative; z-index: 2; width: 100%; }
+.hero-box { border-left: 2px solid var(--brand-gold); padding-left: 40px; max-width: 650px; }
+.mt-6 { margin-top: 24px; }
+
+/* ─── 02: DUALITY SPLIT ─── */
+.masonry-split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+.ms-text h2 { margin-bottom: 24px; }
+.ms-text p { max-width: 500px; }
+
+.visual-frame {
+  position: relative;
+  border: 1px solid var(--grey-200); /* Subtle Stripe-tier border */
+  padding: 1px;
+}
+
+.visual-frame img { width: 100%; height: 500px; object-fit: cover; }
+
+.visual-tag {
+  position: absolute; bottom: 0; right: 0;
+  padding: 12px 24px; font-size: 0.875rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+
+/* ─── 03: PILLARS TILES ─── */
+.section-header { margin-bottom: 80px; }
+.pillars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--grey-200); }
+
+.pillar-tile {
+  background: var(--brand-teal-dark);
+  padding: 80px 60px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+.pillar-tile:hover { background: rgba(255, 255, 255, 0.03); }
+
+.pillar-icon { color: var(--brand-gold); font-size: 2.5rem; margin-bottom: 32px; }
+.pillar-tile h3 { margin-bottom: 16px; }
+
+/* ─── 04: LEADERSHIP ASYMMETRIC ─── */
+.founders-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+
+.founder-card {
+  padding: 48px;
+  background: var(--white);
+  border: 1px solid var(--grey-200);
+  display: flex; flex-direction: column;
+  transition: border-color 0.2s;
+}
+.founder-card:hover { border-color: var(--brand-teal); }
+
+.founder--featured { grid-column: span 2; }
+
+.founder-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+.founder-avatar {
+  width: 60px; height: 60px;
+  background: var(--brand-teal-dark); color: var(--brand-gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+}
+
+.founder-links { display: flex; gap: 8px; }
+.founder-btn {
+  width: 44px; height: 44px;
+  background: var(--grey-50); border: 1px solid var(--grey-200);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--grey-600); font-size: 1.25rem;
+  transition: all 0.2s;
+}
+.founder-btn:hover { background: var(--brand-teal-dark); border-color: var(--brand-teal-dark); color: var(--white); }
+
+.founder-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; font-family: var(--font-display); }
+.founder-role { font-size: 0.75rem; font-weight: 700; color: var(--brand-gold-dark); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
+
+/* ─── UTILITIES ─── */
+.border-top { border-top: 1px solid var(--grey-200); }
+.border-sharp { border-radius: 0 !important; }
+
+@media (max-width: 1024px) {
+  .masonry-split { grid-template-columns: 1fr; }
+  .founders-layout { grid-template-columns: 1fr; }
+  .founder--featured { grid-column: auto; }
+}
+
