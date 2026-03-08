@@ -1,139 +1,119 @@
-/* ---- NAVBAR ---- */
+/* ============== NAVBAR ============== */
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 1000;
   background: transparent;
-  transition: background 0.25s, border-bottom 0.25s;
-  border-bottom: 1px solid transparent;
+  transition: all .35s ease;
 }
-
 .navbar--scrolled {
-  background: rgba(13, 27, 42, 0.98); /* Update to deep navy from logo */
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(12px);
+  background: rgba(3, 27, 38, .97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,.05);
 }
 
 .navbar__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 80px;
+  transition: height .35s;
 }
+.navbar--scrolled .navbar__inner { height: 64px; }
 
+/* Brand */
 .navbar__brand {
   display: flex;
   align-items: center;
   gap: 12px;
   font-family: var(--font-display);
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: var(--white);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
-
 .navbar__logo {
-  height: 48px;
+  height: 52px;
   width: auto;
+  transition: height .35s;
 }
+.navbar--scrolled .navbar__logo { height: 42px; }
 
-.brand-text {
-  color: var(--white);
-}
-
-.navbar__links {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+/* Nav Links */
+.navbar__links { display: flex; align-items: center; gap: 4px; }
 
 .navbar__link {
-  color: rgba(255,255,255,0.75);
-  font-size: 0.92rem;
+  color: rgba(255,255,255,.65);
+  font-size: .8125rem;
   font-weight: 600;
-  padding: 8px 14px;
-  transition: color 0.15s;
+  padding: 8px 16px;
+  transition: color .2s;
   position: relative;
 }
-
 .navbar__link::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 14px;
-  right: 14px;
+  bottom: 2px; left: 16px; right: 16px;
   height: 2px;
   background: var(--brand-gold);
   transform: scaleX(0);
-  transition: transform 0.2s;
+  transition: transform .25s;
 }
+.navbar__link:hover { color: var(--white); }
+.navbar__link:hover::after { transform: scaleX(1); }
+.navbar__link--active { color: var(--white); }
+.navbar__link--active::after { transform: scaleX(1); }
 
-.navbar__link:hover {
-  color: var(--white);
-}
-
-.navbar__link:hover::after,
-.navbar__link--active::after {
-  transform: scaleX(1);
-}
-
-.navbar__link--active {
-  color: var(--white);
-}
-
+/* CTA */
 .navbar__cta {
   margin-left: 16px;
-  font-size: 0.85rem;
-  padding: 10px 22px;
+  padding: 9px 22px;
+  font-size: .8125rem;
+  font-weight: 700;
+  background: var(--brand-gold);
+  color: var(--brand-teal-dark);
+  border: none;
+  transition: box-shadow .25s;
+}
+.navbar__cta:hover {
+  box-shadow: 0 0 16px rgba(245,158,11,.4);
 }
 
+/* Mobile */
 .navbar__burger {
   display: none;
-  background: none;
-  border: none;
   color: var(--white);
   padding: 4px;
 }
 
-@media (max-width: 768px) {
-  .navbar__inner { height: 68px; }
-  .navbar__burger { display: flex; }
-
+@media (max-width: 1024px) {
   .navbar__links {
     position: fixed;
-    top: 68px;
-    left: 0;
-    right: 0;
-    background: var(--blue-900);
+    top: 0; bottom: 0; right: 0;
+    width: 300px;
+    background: var(--brand-teal-dark);
     flex-direction: column;
-    align-items: flex-start;
-    padding: 24px;
+    align-items: stretch;
+    padding: 100px 24px 40px;
     gap: 4px;
-    transform: translateY(-10px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s, transform 0.2s;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transform: translateX(100%);
+    transition: transform .35s ease;
+    border-left: 1px solid rgba(255,255,255,.06);
+    z-index: 999;
   }
-
-  .navbar__links.open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
-  }
+  .navbar__links.open { transform: translateX(0); }
+  .navbar__burger { display: flex; position: relative; z-index: 1000; }
 
   .navbar__link {
-    padding: 12px 0;
-    width: 100%;
-    font-size: 1rem;
+    padding: 14px 16px;
+    font-size: .9375rem;
+    border-bottom: 1px solid rgba(255,255,255,.04);
   }
-
+  .navbar__link::after { display: none; }
   .navbar__cta {
     margin-left: 0;
-    margin-top: 16px;
-    width: 100%;
-    justify-content: center;
+    margin-top: 24px;
+    text-align: center;
   }
 }

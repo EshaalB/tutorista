@@ -25,7 +25,7 @@ export default function Navbar() {
       <div className="navbar__inner container">
         <Link to="/" className="navbar__brand">
           <img src="/logo.png" alt="Tutorista Logo" className="navbar__logo" />
-          <span className="brand-text">Tutorista</span>
+          <span>Tutorista</span>
         </Link>
 
         <ul className={`navbar__links ${open ? 'open' : ''}`}>
@@ -46,9 +46,8 @@ export default function Navbar() {
           <li>
             <Link 
               to="/contact" 
-              className="btn-primary navbar__cta" 
+              className="navbar__cta" 
               onClick={() => setOpen(false)}
-              data-tooltip="Get started with Tutorista"
             >
               Get Started
             </Link>

@@ -11,6 +11,7 @@ export default function Footer() {
         <div className="footer__grid">
           <div className="footer__col">
             <div className="footer__brand">
+              <img src="/logo.png" alt="Tutorista Logo" className="footer__logo" />
               <span className="brand-text">Tutorista.</span>
             </div>
             <p className="footer__tagline">
@@ -18,9 +19,9 @@ export default function Footer() {
               Bridging the gap between certified educators and ambitious students.
             </p>
             <div className="footer__social">
-              <a href="#" aria-label="LinkedIn" data-tooltip="Network"><RiLinkedinFill /></a>
-              <a href="#" aria-label="Instagram" data-tooltip="Moments"><RiInstagramLine /></a>
-              <a href="#" aria-label="Facebook" data-tooltip="Community"><RiFacebookFill /></a>
+              <a href="#" aria-label="LinkedIn"><RiLinkedinFill /></a>
+              <a href="#" aria-label="Instagram"><RiInstagramLine /></a>
+              <a href="#" aria-label="Facebook"><RiFacebookFill /></a>
             </div>
           </div>
 
@@ -39,8 +40,8 @@ export default function Footer() {
             <ul>
               <li><Link to="/contact">Inquiry Desk</Link></li>
               <li><a href="#">Arfa Technology Park</a></li>
-              <li><a href="#">support@tutorista.com</a></li>
-              <li><a href="#">+92 300 1234567</a></li>
+              <li><a href="mailto:hello@tutorista.pk">hello@tutorista.pk</a></li>
+              <li><a href="tel:+923001234567">+92 300 1234567</a></li>
             </ul>
           </div>
 
@@ -49,22 +50,21 @@ export default function Footer() {
             <ul>
               <li><a href="#">Tutor Dashboard</a></li>
               <li><a href="#">Parent Portal</a></li>
-              <li><a href="#">Privacy Protocol</a></li>
-              <li><a href="#">Service Terms</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
             </ul>
           </div>
         </div>
 
         <div className="footer__bottom">
-          <span>© {year} Tutorista Protocol. Lahore, PK.</span>
+          <span>{year} Tutorista. All rights reserved. Lahore, Pakistan.</span>
           <div className="footer__legal">
-            <a href="#">Status</a>
-            <a href="#">Archive</a>
-            <a href="#">Documentation</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Sitemap</a>
           </div>
         </div>
       </div>
     </footer>
   )
 }
-

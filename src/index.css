@@ -1,171 +1,319 @@
 /* =============================================
-   TUTORISTA — ULTRA-PREMIUM SHARP (STRIPE/LINEAR TIER)
+   TUTORISTA - PRODUCTION DESIGN SYSTEM v2.0
+   Sharp edges - Flat hover - Glow buttons - Outline cards
+   Color Theme: Dark Teal + Gold accents only
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Brand Palette - Deep & Localized */
-  --brand-teal-dark: #052331; /* Deepest Navy/Teal */
-  --brand-teal: #0c4a6e; 
-  --brand-teal-light: #186f9e;
-  
-  --brand-gold-dark: #b48608;
-  --brand-gold: #f59e0b; /* Amber/Gold */
-  --brand-gold-light: #fbbf24;
-  
-  /* Neutral Grays */
-  --white: #ffffff;
-  --grey-50:  #f8fafc;
-  --grey-100: #f1f5f9;
-  --grey-200: #e2e8f0;
-  --grey-300: #cbd5e1;
-  --grey-400: #94a3b8;
-  --grey-600: #475569;
-  --grey-800: #1e293b;
-  --black:    #0f172a;
+  /* -- Core Brand -- */
+  --brand-teal-dark: #031B26;
+  --brand-teal: #083344;
+  --brand-teal-mid: #0C4A60;
 
-  /* Typography */
-  --font-main: 'Open Sans', system-ui, sans-serif;
+  --brand-gold-dark: #92400E;
+  --brand-gold: #F59E0B;
+  --brand-gold-light: #FCD34D;
+
+  /* -- Neutrals -- */
+  --white: #FFFFFF;
+  --off-white: #F8FAFC;
+  --grey-50:  #F1F5F9;
+  --grey-100: #E2E8F0;
+  --grey-200: #CBD5E1;
+  --grey-300: #94A3B8;
+  --grey-400: #64748B;
+  --grey-500: #475569;
+  --grey-600: #334155;
+  --grey-700: #1E293B;
+  --grey-800: #0F172A;
+  --black: #020617;
+
+  /* -- Typography -- */
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Poppins', sans-serif;
 
-  /* Layout Precision - NO RADIUS, NO SHADOWS */
-  --max-w: 1200px; /* Tighter container for professional focus */
-  --section-pad-y: 160px; /* Massive white space for premium feel */
-  --section-pad-x: 6%;
-
-  /* Subtle Border System (Stripe-tier) */
-  --border-subtle: 1px solid rgba(0, 0, 0, 0.08);
-  --border-light: 1px solid rgba(255, 255, 255, 0.08);
-  --border-focus: 1px solid var(--brand-teal);
+  /* -- Layout -- */
+  --max-w: 1200px;
+  --section-py: 120px;
+  --gutter: clamp(20px, 5vw, 64px);
 }
 
-/* ---- RESET & BASE ---- */
+/* ============== RESET ============== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 body {
-  font-family: var(--font-main);
+  font-family: var(--font-body);
   background: var(--white);
-  color: var(--grey-800);
-  line-height: 1.7; /* Increased for readability */
+  color: var(--grey-600);
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-a { text-decoration: none; color: inherit; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
-img { display: block; max-width: 100%; height: auto; }
-button { cursor: pointer; font-family: inherit; }
+a { text-decoration: none; color: inherit; transition: all .3s ease; }
+button { cursor: pointer; font-family: inherit; border: none; outline: none; background: none; }
 ul { list-style: none; }
+img { max-width: 100%; display: block; }
 
-/* ---- LAYOUT ---- */
+/* ============== LAYOUT ============== */
 .container {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 var(--section-pad-x);
+  padding: 0 var(--gutter);
+  position: relative;
+  z-index: 1;
+}
+.section { padding: var(--section-py) 0; position: relative; overflow: hidden; }
+
+/* ============== BACKGROUND PATTERNS ============== */
+.bg-grid { position: relative; }
+.bg-grid::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--grey-100) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grey-100) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  pointer-events: none;
+  opacity: .6;
+  z-index: 0;
 }
 
-.section { padding: var(--section-pad-y) 0; }
-
-/* ---- BUTTONS (TACTILE & SHARP) ---- */
-.btn-primary, .btn-outline, .btn-yellow, .btn-outline-white {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
-  font-size: 0.875rem; /* Tighter font for professional apps */
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 0;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border-width: 1px;
-  border-style: solid;
+.bg-dots {
+  background-image: radial-gradient(circle, var(--grey-200) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
-.btn-primary { background: var(--brand-teal); color: var(--white); border-color: var(--brand-teal); }
-.btn-primary:hover { background: var(--brand-teal-dark); border-color: var(--brand-teal-dark); }
+.bg-dark {
+  background: var(--brand-teal-dark);
+  color: var(--grey-200);
+}
+.bg-dark .section-eyebrow { color: var(--brand-gold); }
+.bg-dark .section-title { color: var(--white); }
+.bg-dark .section-subtitle { color: var(--grey-300); }
 
-.btn-outline { background: transparent; color: var(--brand-teal); border-color: var(--brand-teal); }
-.btn-outline:hover { background: var(--brand-teal); color: var(--white); }
+.bg-grey { background: var(--off-white); }
 
-.btn-yellow { background: var(--brand-gold); color: var(--black); border-color: var(--brand-gold); }
-.btn-yellow:hover { background: var(--brand-gold-dark); border-color: var(--brand-gold-dark); }
-
-.btn-outline-white { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.3); }
-.btn-outline-white:hover { background: var(--white); color: var(--brand-teal-dark); border-color: var(--white); }
-
-/* TACTILE PRESS STATE */
-.btn-primary:active, .btn-outline:active, .btn-yellow:active, .btn-outline-white:active {
-  transform: scale(0.96);
+/* ============== GLOW / AMBIENT ============== */
+.glow-orb {
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--brand-gold) 0%, transparent 70%);
+  opacity: .04;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* ---- TYPOGRAPHY SCALE (STRIPE-TIER) ---- */
-.display-xl {
+/* ============== TYPOGRAPHY ============== */
+.display-hero {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 4rem); /* Tighter max size */
-  line-height: 1.05;
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
+  line-height: 1.08;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: var(--black);
+  color: var(--grey-800);
 }
-
 .display-lg {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  line-height: 1.1;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.15;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--grey-800);
 }
-
 .heading-md {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  line-height: 1.25;
+  line-height: 1.3;
   font-weight: 600;
-  color: var(--grey-800);
+  color: var(--grey-700);
 }
-
-.body-lg {
+.heading-sm {
+  font-family: var(--font-display);
   font-size: 1.125rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--grey-700);
+}
+.body-lg {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--grey-500);
+}
+.body-md {
+  font-size: 0.9375rem;
   line-height: 1.7;
-  color: var(--grey-600);
+  color: var(--grey-400);
 }
 
-.section-label {
+/* -- Section Header Pattern -- */
+.section-eyebrow {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--brand-gold);
   margin-bottom: 16px;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-eyebrow::before {
+  content: "";
+  width: 32px; height: 2px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.section-title { margin-bottom: 16px; }
+.section-subtitle { max-width: 600px; }
+.section-header { margin-bottom: 64px; }
+.section-header.centered { text-align: center; }
+.section-header.centered .section-eyebrow { justify-content: center; }
+.section-header.centered .section-subtitle { margin-inline: auto; }
+
+/* ============== BUTTONS - SHARP + GLOW ============== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0;
+  transition: all .25s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-/* ---- PREMIUM UTILITIES ---- */
-.bg-teal { background: var(--brand-teal-dark); }
-.bg-grey { background: var(--grey-50); }
-.text-white { color: var(--white); }
-.highlight-gold { color: var(--brand-gold); }
+.btn--primary {
+  background: var(--brand-teal);
+  color: var(--white);
+  border-color: var(--brand-teal);
+}
+.btn--primary:hover {
+  box-shadow: 0 0 20px rgba(8,51,68,.45), 0 0 60px rgba(8,51,68,.15);
+}
 
+.btn--gold {
+  background: var(--brand-gold);
+  color: var(--brand-teal-dark);
+  border-color: var(--brand-gold);
+  font-weight: 700;
+}
+.btn--gold:hover {
+  box-shadow: 0 0 20px rgba(245,158,11,.45), 0 0 60px rgba(245,158,11,.15);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--grey-700);
+  border-color: var(--grey-200);
+}
+.btn--outline:hover {
+  border-color: var(--brand-gold);
+  color: var(--brand-gold-dark);
+}
+
+.btn--outline-light {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255,255,255,.25);
+}
+.btn--outline-light:hover {
+  border-color: var(--brand-gold);
+  color: var(--brand-gold);
+}
+
+.btn--lg { padding: 16px 36px; font-size: 0.9375rem; }
+.btn--sm { padding: 10px 20px; font-size: 0.8125rem; }
+.btn--full { width: 100%; }
+.btn:active { transform: scale(.97); }
+
+/* ============== CARDS - SHARP + OUTLINE HOVER ============== */
+.card {
+  background: var(--white);
+  border: 1px solid var(--grey-100);
+  border-radius: 0;
+  padding: 40px;
+  transition: border-color .3s ease;
+}
+.card:hover {
+  border-color: var(--brand-gold);
+}
+.card--dark {
+  background: var(--brand-teal);
+  border-color: rgba(255,255,255,.06);
+  color: var(--grey-200);
+}
+.card--dark:hover {
+  border-color: var(--brand-gold);
+}
+
+/* ============== BADGE / CHIP ============== */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-color: rgb(226, 204, 7);
+  background: rgba(245,158,11,.08);
+  color: var(--brand-gold-dark);
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(245,158,11,.15);
+}
+.chip--gold {
+  color: var(--brand-gold-dark);
+  border-color: rgb(226, 204, 7);
+}
+
+/* ============== UTILITY ============== */
+.text-white { color: var(--white) !important; }
+.text-gold { color: var(--brand-gold) !important; }
+.text-center { text-align: center; }
+.mx-auto { margin-inline: auto; }
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.mt-8 { margin-top: 32px; }
+.mt-12 { margin-top: 48px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.mb-8 { margin-bottom: 32px; }
+.mb-12 { margin-bottom: 48px; }
+.opacity-70 { opacity: .7; }
+.opacity-50 { opacity: .5; }
+.max-w-600 { max-width: 600px; }
+.max-w-700 { max-width: 700px; }
+.max-w-800 { max-width: 800px; }
+
+/* ============== SCROLL REVEAL ============== */
 .reveal {
   opacity: 0;
-  transform: translateY(15px);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(24px);
+  transition: all .7s cubic-bezier(.4,0,.2,1);
 }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
+.reveal-d1 { transition-delay: .1s; }
+.reveal-d2 { transition-delay: .2s; }
+.reveal-d3 { transition-delay: .3s; }
+.reveal-d4 { transition-delay: .4s; }
 
-.parallax-bg {
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
-}
-
+/* ============== RESPONSIVE ============== */
 @media (max-width: 1024px) {
-  :root { --section-pad-y: 100px; }
-  .parallax-bg { background-attachment: scroll; }
+  :root { --section-py: 80px; }
 }
-
+@media (max-width: 600px) {
+  :root { --section-py: 56px; }
+}
