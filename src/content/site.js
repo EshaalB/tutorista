@@ -1,14 +1,17 @@
 // Single source for business facts. Anything `null` is unconfirmed and its UI stays
 // hidden until the owner supplies a real value (see docs/REDESIGN.md).
+// PLACEHOLDERS for the concept design: whatsapp and social point nowhere real yet.
+// The number is deliberately invalid and the socials open each platform's homepage,
+// so no stranger's account is linked. Replace before launch.
 export const site = {
   name: 'Tutorista',
   email: 'hello@tutorista.pk',
-  whatsapp: null, // digits only, e.g. '923001234567'
+  whatsapp: '920000000000', // digits only, e.g. '923001234567'
   phone: null,
   social: {
-    instagram: null,
-    facebook: null,
-    linkedin: null,
+    instagram: 'https://www.instagram.com/',
+    facebook: 'https://www.facebook.com/',
+    linkedin: 'https://www.linkedin.com/',
   },
 }
 

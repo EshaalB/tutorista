@@ -101,7 +101,7 @@ Faded-in content stays in the accessibility tree (fades use opacity, never `visi
 
 ## 8. Needs owner confirmation
 
-1. Social profile URLs and a WhatsApp number in `src/content/site.js`. The Follow us column, the WhatsApp buttons and the contact page socials stay hidden until they are set.
+1. **Placeholder links are live for the concept design.** WhatsApp (`920000000000`, deliberately invalid) and the Instagram, Facebook and LinkedIn links (each platform's homepage) in `src/content/site.js` must be replaced with the real accounts before launch.
 2. Permission or comfort with showing the ten institution logos.
 3. A native-speaker review of the Urdu and of the Roman Urdu touches.
 4. A review of the Privacy policy and Terms of service drafts before launch.
