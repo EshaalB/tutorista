@@ -2,9 +2,9 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import { PhotoTile } from '../components/Motifs'
-import TactileHighlight from '../components/ui/tactile-highlight'
 import { requestLink } from '../content/site'
 import { useLang } from '../i18n'
+import { useAuthModal } from '../auth'
 import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './Plans.css'
@@ -12,6 +12,7 @@ import './Plans.css'
 export default function Plans() {
   const { t, lang } = useLang()
   const p = t.plans
+  const auth = useAuthModal()
   const scope = useRef(null)
   usePageMeta(t.meta.plans)
   usePageMotion(scope, lang)
@@ -23,7 +24,7 @@ export default function Plans() {
           <div>
             <p className="kicker">{p.kicker}</p>
             <h1 className="t-display">
-              {p.titleA} <TactileHighlight trigger="auto" delay={0.4}>{p.titleB}</TactileHighlight>
+              {p.titleA} {p.titleB}
             </h1>
             <p className="t-lead plans-hero__lead">{p.lead}</p>
           </div>
@@ -46,13 +47,12 @@ export default function Plans() {
                 <ul className="list-check">
                   {plan.points.map(pt => <li key={pt}><RiCheckLine aria-hidden="true" />{pt}</li>)}
                 </ul>
-                <Link to={`/signup?plan=${plan.id}`} className={`btn ${plan.id === 'monthly' ? 'btn--gold' : 'btn--primary'} btn--block`}>
+                <button type="button" onClick={() => auth.open('signup', { plan: plan.id })} className={`btn ${plan.id === 'monthly' ? 'btn--gold' : 'btn--primary'} btn--block`}>
                   {plan.cta} <RiArrowRightLine aria-hidden="true" />
-                </Link>
+                </button>
               </li>
             ))}
           </ul>
-          <p className="t-small plans__note">{p.note}</p>
         </div>
       </section>
 

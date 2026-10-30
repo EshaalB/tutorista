@@ -1,36 +1,52 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { RiArrowLeftLine, RiArrowRightLine } from 'react-icons/ri'
+import { useLang } from '../i18n'
 import './DragScroller.css'
 
-// Horizontal strip you can drag with a mouse, swipe on touch, or scroll with the keyboard.
-// A round "drag" cursor follows the pointer on devices with a fine pointer.
+// Horizontal strip: drag with a mouse, swipe on touch, scroll with the keyboard,
+// or use the back / next buttons. Every item, including the last, can reach the start.
 export default function DragScroller({ children, label, dragLabel = 'drag', className = '', onActiveChange }) {
+  const { lang, t } = useLang()
   const ref = useRef(null)
   const drag = useRef(null)
   const [cursor, setCursor] = useState(null)
+  const [edges, setEdges] = useState({ start: true, end: false })
+  const [active, setActive] = useState(0)
+
+  const measure = useCallback(() => {
+    const el = ref.current
+    if (!el) return
+    const items = [...el.querySelectorAll(':scope > :not(.dragger__tail)')]
+    const pos = Math.abs(el.scrollLeft)
+    const max = el.scrollWidth - el.clientWidth
+    const step = items[1] ? Math.abs(items[1].offsetLeft - items[0].offsetLeft) : el.clientWidth
+    const index = Math.min(items.length - 1, Math.round(pos / step))
+    setEdges({ start: pos < 4, end: index >= items.length - 1 || pos > max - 4 })
+    setActive(index)
+    onActiveChange?.(index)
+  }, [onActiveChange])
 
   useEffect(() => {
     const el = ref.current
-    if (!onActiveChange) return
-    const onScroll = () => {
-      const items = [...el.children]
-      const start = el.getBoundingClientRect().left
-      const rtl = getComputedStyle(el).direction === 'rtl'
-      let best = 0
-      let bestDist = Infinity
-      items.forEach((item, i) => {
-        const r = item.getBoundingClientRect()
-        const dist = Math.abs((rtl ? el.getBoundingClientRect().right - r.right : r.left - start))
-        if (dist < bestDist) { bestDist = dist; best = i }
-      })
-      onActiveChange(best)
-    }
-    el.addEventListener('scroll', onScroll, { passive: true })
-    return () => el.removeEventListener('scroll', onScroll)
-  }, [onActiveChange])
+    measure()
+    el.addEventListener('scroll', measure, { passive: true })
+    window.addEventListener('resize', measure)
+    return () => { el.removeEventListener('scroll', measure); window.removeEventListener('resize', measure) }
+  }, [measure])
+
+  const go = (dir) => {
+    const el = ref.current
+    const items = [...el.querySelectorAll(':scope > :not(.dragger__tail)')]
+    const target = items[Math.max(0, Math.min(items.length - 1, active + dir))]
+    if (!target) return
+    const rtl = getComputedStyle(el).direction === 'rtl'
+    const offset = rtl ? -(el.clientWidth - target.offsetLeft - target.offsetWidth) : target.offsetLeft - items[0].offsetLeft
+    el.scrollTo({ left: offset, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+  }
 
   const onPointerDown = (e) => {
-    if (e.pointerType !== 'mouse') return
-    drag.current = { x: e.clientX, left: ref.current.scrollLeft, moved: false }
+    if (e.pointerType !== 'mouse' || e.target.closest('button, a')) return
+    drag.current = { x: e.clientX, left: ref.current.scrollLeft }
     ref.current.setPointerCapture(e.pointerId)
     ref.current.classList.add('is-dragging')
   }
@@ -40,9 +56,7 @@ export default function DragScroller({ children, label, dragLabel = 'drag', clas
       setCursor({ x: e.clientX - r.left, y: e.clientY - r.top })
     }
     if (!drag.current) return
-    const dx = e.clientX - drag.current.x
-    if (Math.abs(dx) > 4) drag.current.moved = true
-    ref.current.scrollLeft = drag.current.left - dx
+    ref.current.scrollLeft = drag.current.left - (e.clientX - drag.current.x)
   }
   const end = (e) => {
     if (!drag.current) return
@@ -51,6 +65,7 @@ export default function DragScroller({ children, label, dragLabel = 'drag', clas
     drag.current = null
   }
 
+  const rtl = lang === 'ur'
   return (
     <div className="dragger" onPointerLeave={() => setCursor(null)}>
       <div
@@ -66,12 +81,21 @@ export default function DragScroller({ children, label, dragLabel = 'drag', clas
         onPointerCancel={end}
       >
         {children}
+        <span className="dragger__tail" aria-hidden="true" />
       </div>
       {cursor && (
         <span className="dragger__cursor" aria-hidden="true" style={{ transform: `translate(${cursor.x}px, ${cursor.y}px)` }}>
           {dragLabel}
         </span>
       )}
+      <div className="dragger__controls">
+        <button type="button" onClick={() => go(-1)} disabled={edges.start} aria-label={t.nav.prev}>
+          {rtl ? <RiArrowRightLine aria-hidden="true" /> : <RiArrowLeftLine aria-hidden="true" />}
+        </button>
+        <button type="button" onClick={() => go(1)} disabled={edges.end} aria-label={t.nav.next}>
+          {rtl ? <RiArrowLeftLine aria-hidden="true" /> : <RiArrowRightLine aria-hidden="true" />}
+        </button>
+      </div>
     </div>
   )
 }

@@ -16,7 +16,7 @@ export default {
     main: 'Main', subjects: 'Subjects', how: 'How it works', plans: 'Plans', about: 'About', teach: 'Teach with us', find: 'Find a tutor', login: 'Log in', signup: 'Sign up',
     search: 'Search subjects', searchLabel: 'Search subjects and pages', searchHint: 'Try “physics”, “MDCAT” or “fees”',
     noResults: 'Nothing matched. Ask us anyway, we may still have a tutor.', groupSubjects: 'Subjects', groupPages: 'Pages',
-    openMenu: 'Open menu', closeMenu: 'Close menu', language: 'Language', seeAll: 'See every subject', close: 'Close',
+    prev: 'Previous', next: 'Next', openMenu: 'Open menu', closeMenu: 'Close menu', language: 'Language', seeAll: 'See every subject', close: 'Close',
   },
 
   levels: {
@@ -304,6 +304,12 @@ export default {
       twoTutor: ['We reply by email', 'to arrange your subject test and interview.'],
       three: ['You decide.', 'Nothing is booked or charged until you say so.'],
     },
+    quick: {
+      whatsapp: 'Chat on WhatsApp', whatsappNote: 'Quickest for short questions',
+      email: 'Email us', emailNote: 'We reply within a working day',
+      form: 'Request a tutor', formNote: 'Two minutes, tutors sent by email',
+    },
+    nextTitle: 'What happens next',
     preferEmail: 'Prefer plain email?',
     privacy: 'How we use your details',
     follow: 'Follow us',

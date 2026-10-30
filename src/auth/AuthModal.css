@@ -1,0 +1,41 @@
+.am {
+  margin: auto; width: min(420px, calc(100% - 24px)); max-height: calc(100svh - 32px);
+  border: 0; padding: 0; border-radius: var(--r-quote); background: var(--paper); color: var(--ink);
+  box-shadow: var(--shadow-2); overflow: hidden;
+}
+.am::backdrop { background: rgb(22 45 87 / 50%); backdrop-filter: blur(3px); }
+.am[open] { animation: am-in .22s var(--ease); }
+@keyframes am-in { from { opacity: 0; transform: translateY(10px); } }
+.am__panel { position: relative; overflow-y: auto; max-height: inherit; padding: 20px 24px 22px; }
+.am__close { position: absolute; top: 12px; inset-inline-end: 12px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: var(--r-btn); color: var(--muted); }
+.am__close:hover { background: var(--cream); color: var(--ink); }
+
+.am__tabs { display: inline-flex; gap: 4px; padding: 3px; border-radius: var(--r-btn); background: var(--cream); margin-bottom: 18px; }
+.am__tabs button { min-height: 36px; padding: 0 14px; border-radius: 9px; font-size: var(--step--1); font-weight: 500; color: var(--muted); }
+.am__tabs button[aria-selected='true'] { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgb(35 54 83 / 12%); }
+.am__title { font-size: var(--step-2); font-weight: 500; }
+.am__lead { margin: 4px 0 18px; color: var(--muted); font-size: var(--step--1); }
+
+.am__form { display: grid; gap: 14px; }
+.am-field { display: grid; gap: 6px; }
+.am-field > label { font-size: var(--step--1); font-weight: 500; }
+.am-field input:not([type='checkbox']), .am-field select {
+  width: 100%; min-height: 44px; padding: 10px 12px; border-radius: var(--r-btn);
+  border: 1.5px solid var(--line); background: var(--ivory);
+}
+.am-field input:focus, .am-field select:focus { outline: none; border-color: var(--cobalt); box-shadow: 0 0 0 3px rgb(37 77 145 / 15%); background: var(--paper); }
+.am-field.has-error :is(input, select) { border-color: #a8322b; }
+.am-password { position: relative; }
+.am-password input { padding-inline-end: 68px !important; }
+.am-password button { position: absolute; inset-inline-end: 4px; top: 50%; transform: translateY(-50%); min-height: 36px; padding: 0 10px; border-radius: 8px; font-size: var(--step--1); font-weight: 500; color: var(--cobalt); }
+.am-hint { font-size: 0.8125rem; color: var(--muted); }
+.am-error { font-size: 0.8125rem; font-weight: 500; color: #a8322b; }
+.am-check { display: flex; gap: 10px; align-items: flex-start; font-size: var(--step--1); line-height: 1.45; cursor: pointer; }
+.am-check input { width: 24px; height: 24px; flex: none; accent-color: var(--cobalt); }
+.am-check a { color: var(--cobalt); text-decoration: underline; text-underline-offset: 3px; }
+
+.am__done { display: flex; gap: 12px; padding: 16px; border-radius: var(--r-card); background: var(--emerald-100); }
+.am__done svg { flex: none; width: 24px; height: 24px; color: var(--emerald); }
+.am__done p { margin-top: 2px; font-size: var(--step--1); color: var(--muted); }
+.am__switch { margin-top: 16px; font-size: var(--step--1); color: var(--muted); text-align: center; }
+.am__switch button { color: var(--cobalt); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }

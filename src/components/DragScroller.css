@@ -5,13 +5,23 @@
 }
 .dragger__track::-webkit-scrollbar { display: none; }
 .dragger__track > * { scroll-snap-align: start; flex: none; }
+/* trailing space so the last item can snap to the start like the others */
+.dragger__tail { flex: 0 0 max(0px, calc(100% - min(340px, 82vw))); scroll-snap-align: none; }
 .dragger__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
 .dragger__track.is-dragging * { pointer-events: none; }
 
 .dragger__cursor {
-  position: absolute; left: -44px; top: -44px; z-index: 3; pointer-events: none;
-  width: 88px; height: 88px; display: grid; place-items: center; border-radius: 50%;
-  background: var(--cobalt-900); color: var(--on-primary); font-weight: 600; font-size: 0.875rem;
-  transition: transform .08s linear;
+  position: absolute; left: -40px; top: -40px; z-index: 3; pointer-events: none;
+  width: 80px; height: 80px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--cobalt-900); color: var(--on-primary); font-weight: 500; font-size: 0.875rem;
 }
 @media (hover: none) { .dragger__cursor { display: none; } }
+
+.dragger__controls { display: flex; gap: 8px; margin-top: 20px; }
+.dragger__controls button {
+  width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%;
+  border: 1.5px solid var(--ink); color: var(--ink); transition: background-color .2s ease, color .2s ease, opacity .2s ease;
+}
+.dragger__controls button:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+.dragger__controls button:active:not(:disabled) { transform: scale(.94); }
+.dragger__controls button:disabled { opacity: .3; cursor: default; }

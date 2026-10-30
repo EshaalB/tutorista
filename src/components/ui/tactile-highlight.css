@@ -3,7 +3,7 @@
    rounded ends on every line fragment. */
 .tactile {
   display: inline; pointer-events: none;
-  padding: 0.04em 0.14em; margin: 0 -0.06em; border-radius: 4px;
+  padding: 0.02em 0.1em; margin: 0; border-radius: 4px;
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
   background-image: linear-gradient(var(--gold), var(--gold));
   background-repeat: no-repeat; background-position: left center; background-size: 0% 100%;

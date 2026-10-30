@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { RiArrowRightLine } from 'react-icons/ri'
 import { PhotoTile } from '../components/Motifs'
-import TactileHighlight from '../components/ui/tactile-highlight'
 import { requestLink } from '../content/site'
 import { useLang } from '../i18n'
 import { usePageMotion } from '../motion/usePageMotion'
@@ -29,7 +28,7 @@ export default function About() {
         <div className="container">
           <p className="kicker">{a.hero.kicker}</p>
           <h1 className="t-display about-hero__title">
-            {a.hero.titleA} <TactileHighlight trigger="auto" delay={0.4}>{a.hero.titleB}</TactileHighlight>
+            {a.hero.titleA} {a.hero.titleB}
           </h1>
           <div className="about-hero__cols">
             <p className="t-lead">{a.hero.p1}</p>

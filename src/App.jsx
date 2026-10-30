@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -9,8 +9,8 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Legal from './pages/Legal'
 import Plans from './pages/Plans'
-import Login from './pages/auth/Login'
-import Signup from './pages/auth/Signup'
+import AuthProvider from './auth/AuthModal'
+import { useAuthModal } from './auth'
 import AccessibilityPanel from './components/AccessibilityPanel'
 import Preloader from './components/Preloader'
 import SmoothScroll from './motion/SmoothScroll'
@@ -27,6 +27,14 @@ function ScrollToTop() {
     else window.scrollTo(0, 0)
   }, [pathname, hash])
   return null
+}
+
+// Old /login and /signup links open the account dialog over the home page.
+function OpenAuth({ mode }) {
+  const { open } = useAuthModal()
+  const [params] = useSearchParams()
+  useEffect(() => { open(mode, { plan: params.get('plan') }) }, [open, mode, params])
+  return <Navigate to="/" replace />
 }
 
 function NotFound() {
@@ -53,8 +61,8 @@ function Pages() {
         <Route path="/services" element={<Services />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<OpenAuth mode="login" />} />
+        <Route path="/signup" element={<OpenAuth mode="signup" />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy" element={<Legal key="privacy" doc="privacy" />} />
         <Route path="/terms" element={<Legal key="terms" doc="terms" />} />
@@ -74,6 +82,7 @@ export default function App() {
     <LanguageProvider>
       <PreferencesProvider>
         <BrowserRouter>
+          <AuthProvider>
           <Preloader />
           <SmoothScroll />
           <ScrollToTop />
@@ -83,6 +92,7 @@ export default function App() {
           <Footer />
           <FloatingDock />
           <AccessibilityPanel />
+          </AuthProvider>
         </BrowserRouter>
       </PreferencesProvider>
     </LanguageProvider>

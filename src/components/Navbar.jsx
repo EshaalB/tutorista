@@ -4,27 +4,19 @@ import { RiMenuLine, RiCloseLine, RiArrowDownSLine, RiArrowRightSLine, RiSearchL
 import { catalog, requestLink, subjectName } from '../content/site'
 import { useLang, languages } from '../i18n'
 import SearchDialog from './SearchDialog'
+import { useAuthModal } from '../auth'
 import AnnouncementBar from './AnnouncementBar'
 import './Navbar.css'
 
+// One compact toggle: shows the language you would switch to.
 function LangSwitch({ className = '' }) {
   const { lang, setLang, t } = useLang()
+  const other = languages.find(l => l.id !== lang)
   return (
-    <div className={`lang ${className}`} role="group" aria-label={t.nav.language}>
-      {languages.map(l => (
-        <button
-          key={l.id}
-          type="button"
-          lang={l.htmlLang}
-          title={l.name}
-          aria-pressed={lang === l.id}
-          className="lang__btn"
-          onClick={() => setLang(l.id)}
-        >
-          {l.label}
-        </button>
-      ))}
-    </div>
+    <button type="button" className={`lang ${className}`} lang={other.htmlLang} onClick={() => setLang(other.id)}
+      aria-label={`${t.nav.language}: ${other.name}`} title={other.name}>
+      {other.label}
+    </button>
   )
 }
 
@@ -109,6 +101,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [searching, setSearching] = useState(false)
   const overlay = useOverlay() && !open
+  const auth = useAuthModal()
 
   useEffect(() => {
     const onKey = (e) => {
@@ -146,10 +139,10 @@ export default function Navbar() {
         </Link>
 
         <nav className="nav__desktop" aria-label={t.nav.main}>
-          <SubjectsMenu />
-          <NavLink to="/services" className="nav__link">{t.nav.how}</NavLink>
-          <NavLink to="/plans" className="nav__link">{t.nav.plans}</NavLink>
           <NavLink to="/about" className="nav__link">{t.nav.about}</NavLink>
+          <NavLink to="/services" className="nav__link">{t.nav.how}</NavLink>
+          <SubjectsMenu />
+          <NavLink to="/plans" className="nav__link">{t.nav.plans}</NavLink>
         </nav>
 
         <div className="nav__actions">
@@ -159,7 +152,7 @@ export default function Navbar() {
             <kbd aria-hidden="true">/</kbd>
           </button>
           <LangSwitch className="nav__lang" />
-          <NavLink to="/login" className="nav__link nav__teach">{t.nav.login}</NavLink>
+          <button type="button" className="nav__link nav__teach" onClick={() => auth.open('login')}>{t.nav.login}</button>
           <Link to="/contact" className="btn btn--primary nav__cta">{t.nav.find}</Link>
           <button
             className="nav__burger"
@@ -192,14 +185,14 @@ export default function Navbar() {
               </details>
             ))}
             <ul className="nav__mobile-links">
+              <li><NavLink to="/about">{t.nav.about}</NavLink></li>
               <li><NavLink to="/services">{t.nav.how}</NavLink></li>
               <li><NavLink to="/plans">{t.nav.plans}</NavLink></li>
-              <li><NavLink to="/about">{t.nav.about}</NavLink></li>
               <li><Link to={requestLink({ role: 'tutor' })}>{t.nav.teach}</Link></li>
             </ul>
             <div className="nav__mobile-cta">
-              <Link to="/login" className="btn btn--ghost">{t.nav.login}</Link>
-              <Link to="/signup" className="btn btn--primary">{t.nav.signup}</Link>
+              <button type="button" className="btn btn--ghost" onClick={() => { setOpen(false); auth.open('login') }}>{t.nav.login}</button>
+              <button type="button" className="btn btn--primary" onClick={() => { setOpen(false); auth.open('signup') }}>{t.nav.signup}</button>
             </div>
           </nav>
         </div>

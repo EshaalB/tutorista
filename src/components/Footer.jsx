@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { RiArrowRightLine } from 'react-icons/ri'
 import { site, catalog, requestLink } from '../content/site'
 import { useLang } from '../i18n'
+import { useAuthModal } from '../auth'
 import './Footer.css'
 
 const socialNames = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn' }
@@ -9,13 +10,14 @@ const socialNames = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'L
 export default function Footer() {
   const { t } = useLang()
   const f = t.footer
+  const auth = useAuthModal()
   const L = f.links
   const socials = Object.entries(site.social).filter(([, url]) => url)
 
   const columns = [
     { title: f.subjects, links: [...catalog.map(c => [t.levels[c.id].label, `/services#subjects`]), [L.pricing, '/services#pricing']] },
     { title: f.company, links: [[L.about, '/about'], [L.how, '/services'], [L.plans, '/plans'], [L.teach, requestLink({ role: 'tutor' })]] },
-    { title: f.support, links: [[L.request, '/contact'], [L.faq, '/services#faq'], [L.login, '/login'], [L.privacy, '/privacy'], [L.terms, '/terms']] },
+    { title: f.support, links: [[L.request, '/contact'], [L.faq, '/services#faq'], [L.privacy, '/privacy'], [L.terms, '/terms']] },
   ]
 
   return (
@@ -23,7 +25,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer__top">
           <p className="footer__tagline">{f.tagline}</p>
-          <Link to="/signup" className="btn btn--gold">{f.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+          <button type="button" className="btn btn--gold" onClick={() => auth.open('signup')}>{f.cta} <RiArrowRightLine aria-hidden="true" /></button>
         </div>
 
         <div className="footer__grid">

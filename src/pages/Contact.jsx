@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { RiArrowRightLine, RiMailSendLine, RiWhatsappLine, RiInstagramLine, RiFacebookFill, RiLinkedinFill } from 'react-icons/ri'
+import { RiArrowRightLine, RiMailSendLine, RiWhatsappLine, RiMailLine, RiFileEditLine } from 'react-icons/ri'
 import { site, catalog, subjectInfo } from '../content/site'
 import { useLang, dictionaries } from '../i18n'
 import { usePageMotion } from '../motion/usePageMotion'
@@ -8,7 +8,6 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import './Contact.css'
 
 const roleIds = ['parent', 'student', 'tutor', 'other']
-const socialIcons = { instagram: RiInstagramLine, facebook: RiFacebookFill, linkedin: RiLinkedinFill }
 const subjectOptions = Object.keys(subjectInfo)
 const en = dictionaries.en
 
@@ -64,14 +63,30 @@ function Contact({ params }) {
 
   return (
     <section className="request" ref={scope}>
-      <div className="container request__grid">
-        <div className="request__intro">
+      <div className="container">
+        <header className="request__head">
           <p className="kicker">{c.kicker[kind]}</p>
           <h1 key={kind} className="t-title">{c.title[kind]}</h1>
-          <p className="t-lead" data-reveal>{c.lead[kind]}</p>
-        </div>
+          <p className="t-lead">{c.lead[kind]}</p>
+        </header>
 
-        <div className="request__card" data-reveal>
+        <ul className="quick" aria-label={c.kicker.other}>
+          {site.whatsapp && (
+            <li><a className="quick__item" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">
+              <RiWhatsappLine aria-hidden="true" /><span><strong>{c.quick.whatsapp}</strong><small>{c.quick.whatsappNote}</small></span>
+            </a></li>
+          )}
+          <li><a className="quick__item" href={`mailto:${site.email}`}>
+            <RiMailLine aria-hidden="true" /><span><strong>{c.quick.email}</strong><small dir="ltr">{site.email}</small></span>
+          </a></li>
+          <li><a className="quick__item quick__item--primary" href="#request-form">
+            <RiFileEditLine aria-hidden="true" /><span><strong>{c.quick.form}</strong><small>{c.quick.formNote}</small></span>
+          </a></li>
+        </ul>
+      </div>
+
+      <div className="container request__body">
+        <div id="request-form" className="request__card">
           {sent ? (
             <div className="request__sent" role="status">
               <RiMailSendLine className="request__sent-icon" aria-hidden="true" />
@@ -161,29 +176,15 @@ function Contact({ params }) {
           )}
         </div>
 
-        <div className="request__aside" data-reveal>
+        <aside className="request__aside">
+          <h2 className="request__aside-title">{c.nextTitle}</h2>
           <ol className="request__next">
             {[c.next.one, role === 'tutor' ? c.next.twoTutor : c.next.twoLearner, c.next.three].map(([strong, rest]) => (
               <li key={strong}><span><strong>{strong}</strong> {rest}</span></li>
             ))}
           </ol>
-          <p className="t-small">{c.preferEmail} <a className="request__mail" href={`mailto:${site.email}`} dir="ltr">{site.email}</a></p>
-          {site.whatsapp && (
-            <a className="btn btn--ghost request__wa" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">
-              <RiWhatsappLine aria-hidden="true" /> WhatsApp
-            </a>
-          )}
-          {Object.values(site.social).some(Boolean) && (
-            <div className="request__social">
-              <p className="t-small">{c.follow}</p>
-              {Object.entries(site.social).filter(([, url]) => url).map(([name, url]) => {
-                const Icon = socialIcons[name]
-                return <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={name}><Icon aria-hidden="true" /></a>
-              })}
-            </div>
-          )}
           <p className="t-small"><Link className="request__mail" to="/privacy">{c.privacy}</Link></p>
-        </div>
+        </aside>
       </div>
     </section>
   )

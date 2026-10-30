@@ -52,7 +52,11 @@
 .journey-map { padding-block: var(--section-y); background: var(--cobalt-900); color: var(--on-primary); }
 .journey-map .intro { margin-bottom: clamp(40px, 5vw, 64px); }
 .journey-map__list { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: auto auto auto; column-gap: 12px; }
-.journey-map__list::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed rgb(254 249 232 / 28%); }
+.journey-map { min-height: 100svh; display: flex; align-items: center; }
+.journey-map > .container { width: 100%; }
+.journey-map__track { position: relative; }
+.journey-map__track::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed rgb(254 249 232 / 22%); }
+.journey-map__rail { position: absolute; left: 0; right: 0; top: calc(50% - 1px); height: 3px; border-radius: 3px; background: var(--gold); }
 .jstep { display: grid; grid-row: 1 / span 3; grid-template-rows: subgrid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
 .jstep__pill {
   grid-row: 2; z-index: 1; align-self: center; padding: 8px 18px; border-radius: 999px;
@@ -74,9 +78,9 @@
 
 /* why tutorista: stacked photo deck, text columns you drag through */
 .why__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px clamp(32px, 6vw, 88px); align-items: start; }
-.why__deck { position: relative; height: clamp(300px, 32vw, 420px); }
+.why__deck { position: relative; height: clamp(320px, 34vw, 460px); overflow: hidden; border-radius: var(--r-card); }
 .why__card {
-  position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: 100%;
+  position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: calc(100% - 44px);
   object-fit: cover; border-radius: var(--r-card); transform-origin: center top;
   transform: translateY(calc(var(--o) * -14px)) scale(calc(1 - var(--o) * .05));
   opacity: calc(1 - var(--o) * .15);
@@ -108,8 +112,10 @@
 
 @media (max-width: 1100px) {
   .journey-map__list { grid-template-columns: 1fr; grid-template-rows: none; }
-  .journey-map__list::before { left: 23px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 2px dashed rgb(254 249 232 / 28%); }
-  :dir(rtl) .journey-map__list::before { left: auto; right: 23px; border-left: 0; border-right: 2px dashed rgb(254 249 232 / 28%); }
+  .journey-map { min-height: 0; display: block; }
+  .journey-map__track::before { left: 23px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 2px dashed rgb(254 249 232 / 28%); }
+  :dir(rtl) .journey-map__track::before { left: auto; right: 23px; border-left: 0; border-right: 2px dashed rgb(254 249 232 / 28%); }
+  .journey-map__rail { display: none; }
   .jstep, .jstep--up, .jstep--down { grid-row: auto; grid-template-rows: none; grid-template-columns: 1fr; justify-items: start; gap: 10px; padding: 0 0 28px; padding-inline-start: 0; }
   .jstep__pill { grid-row: 1; }
   .jstep__line { display: none; }

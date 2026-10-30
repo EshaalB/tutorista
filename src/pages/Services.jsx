@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import Accordion from '../components/Accordion'
 import { PhotoTile, LoopVideo } from '../components/Motifs'
-import TactileHighlight from '../components/ui/tactile-highlight'
 import { catalog, requestLink, subjectName } from '../content/site'
 import { useLang } from '../i18n'
 import { usePageMotion } from '../motion/usePageMotion'
@@ -25,7 +24,7 @@ export default function Services() {
         <div className="container how-hero__grid">
           <div>
             <p className="kicker">{s.hero.kicker}</p>
-            <h1 className="t-display">{s.hero.titleA} <TactileHighlight trigger="auto" delay={0.4}>{s.hero.titleB}</TactileHighlight></h1>
+            <h1 className="t-display">{s.hero.titleA} {s.hero.titleB}</h1>
           </div>
           <div>
             <p className="t-lead">{s.hero.lead}</p>

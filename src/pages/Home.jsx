@@ -73,18 +73,21 @@ function Journey({ data }) {
     <section className="journey-map" aria-labelledby="journey-title">
       <div className="container">
         <SectionIntro id="journey-title" label={data.label} title={data.title} light />
-        <ol className="journey-map__list">
-          {data.steps.map((s, i) => (
-            <li key={s.pill} className={`jstep jstep--${i % 2 ? 'up' : 'down'}`} data-reveal>
-              <span className="jstep__pill">{s.pill}</span>
-              <span className="jstep__line" aria-hidden="true" />
-              <div className={`jstep__card jstep__card--${s.tone}`}>
-                <p className="jstep__head">{s.head}</p>
-                <p className="jstep__body">{s.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <div className="journey-map__track" data-journey>
+          <span className="journey-map__rail" aria-hidden="true" />
+          <ol className="journey-map__list">
+            {data.steps.map((s, i) => (
+              <li key={s.pill} className={`jstep jstep--${i % 2 ? 'up' : 'down'}`}>
+                <span className="jstep__pill">{s.pill}</span>
+                <span className="jstep__line" aria-hidden="true" />
+                <div className={`jstep__card jstep__card--${s.tone}`}>
+                  <p className="jstep__head">{s.head}</p>
+                  <p className="jstep__body">{s.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   )
@@ -124,7 +127,6 @@ function Why({ data }) {
               </article>
             ))}
           </DragScroller>
-          <p className="t-small why__hint">{data.hint}</p>
         </div>
       </div>
     </section>

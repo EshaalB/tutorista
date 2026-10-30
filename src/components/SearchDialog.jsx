@@ -21,7 +21,6 @@ function useIndex() {
     const pageDefs = [
       ['how', '/services', 'process how works tareeqa طریقہ'],
       ['plans', '/plans', 'plans pricing monthly sprint packages پلان'],
-      ['login', '/login', 'login sign in signup account لاگ'],
       ['pricing', '/services#pricing', 'fees price cost rate qeemat kharcha فیس'],
       ['faq', '/services#faq', 'questions faq sawal سوال'],
       ['about', '/about', 'about team founders'],
