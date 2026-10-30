@@ -1,18 +1,68 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { RiArrowRightLine } from 'react-icons/ri'
+import { RiArrowRightLine, RiPauseFill, RiPlayFill } from 'react-icons/ri'
 import { catalog, requestLink, subjectInfo, subjectName } from '../content/site'
 import { useLang } from '../i18n'
-import { PhotoTile, LoopVideo, PageCurves } from '../components/Motifs'
+import { useMotionAllowed } from '../a11y'
+import { PhotoTile, LoopVideo } from '../components/Motifs'
+import TactileHighlight from '../components/ui/tactile-highlight'
 import LogoMarquee from '../components/LogoMarquee'
 import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './Home.css'
 
-// "I need help with [subject] for [level]" — the hero's one call to action.
+// Full-bleed classroom footage behind the hero. Poster only under Lite mode,
+// reduced motion or Save-Data; always pausable.
+function HeroVideo({ label, caption }) {
+  const { t } = useLang()
+  const allowed = useMotionAllowed()
+  const ref = useRef(null)
+  const [playing, setPlaying] = useState(false)
+  const play = allowed && !navigator.connection?.saveData
+
+  useEffect(() => {
+    const video = ref.current
+    if (!play) { video.pause(); return }
+    video.play().catch(() => {})
+  }, [play])
+
+  const toggle = () => {
+    const video = ref.current
+    if (video.paused) video.play().catch(() => {})
+    else video.pause()
+  }
+
+  return (
+    <>
+      <video
+        ref={ref}
+        className="vhero__video"
+        muted
+        loop
+        playsInline
+        preload={play ? 'auto' : 'none'}
+        poster="/video/hero.webp"
+        aria-label={label}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+      >
+        <source src="/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 640px)" />
+        <source src="/video/hero.mp4" type="video/mp4" />
+      </video>
+      <div className="container vhero__meta">
+        <button type="button" className="vhero__toggle" onClick={toggle} aria-label={playing ? t.video.pause : t.video.play}>
+          {playing ? <RiPauseFill aria-hidden="true" /> : <RiPlayFill aria-hidden="true" />}
+        </button>
+        <p>{caption}</p>
+      </div>
+    </>
+  )
+}
+
+// "I need help with [subject] for [level]": one line to a pre-filled request.
 function SentencePicker() {
   const { t, lang } = useLang()
-  const p = t.home.hero.picker
+  const p = t.home.picker
   const navigate = useNavigate()
 
   const onSubmit = (e) => {
@@ -59,52 +109,78 @@ export default function Home() {
   const scope = useRef(null)
   usePageMeta(t.meta.home)
   usePageMotion(scope, lang)
+  const roman = lang === 'ur' ? 'ur' : 'ur-Latn'
 
   return (
     <div ref={scope}>
-      <section className="hero">
-        <div className="container hero__grid">
-          <div className="hero__copy">
-            <h1 className="t-display" data-split="hero">
-              {h.hero.titleA} <em>{h.hero.titleB}</em>
+      <section className="vhero">
+        <HeroVideo label={h.hero.videoAlt} caption={h.hero.media} />
+        <div className="vhero__shade" aria-hidden="true" />
+        <div className="container vhero__grid">
+          <div className="vhero__main">
+            <h1 className="t-display vhero__title">
+              {h.hero.titleA}{' '}
+              <TactileHighlight trigger="auto" delay={0.6}>{h.hero.titleB}</TactileHighlight>
             </h1>
-            <p className="t-lead hero__lead">{h.hero.lead}</p>
-            <SentencePicker />
-            <Link to="/services#vetting" className="link-arrow hero__secondary">{h.hero.secondary} <RiArrowRightLine aria-hidden="true" /></Link>
-          </div>
-
-          <figure className="hero__book">
-            <div className="book" data-pages>
-              <LoopVideo name="online-study" frame="page" label={h.hero.videoAlt} className="book__page book__page--left" />
-              <PhotoTile src="/img/classroom-sq.webp" frame="page" alt={h.hero.photoAlt} priority sizes="(max-width: 960px) 44vw, 260px" className="book__page book__page--right" />
+            <p className="vhero__lead">{h.hero.lead}</p>
+            <div className="vhero__actions">
+              <Link to="/signup" className="btn btn--gold">{h.hero.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+              <Link to="/plans" className="btn vhero__ghost">{h.hero.secondary}</Link>
             </div>
-            <PageCurves className="book__curves" />
-            <p className="hero__note aside-ur" lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{h.hero.note}</p>
-            <figcaption className="t-small hero__caption">{h.hero.caption}</figcaption>
-          </figure>
+          </div>
+          <div className="vhero__side">
+            <p>{h.hero.side}</p>
+            <aside className="trust" aria-labelledby="trust-title">
+              <h2 id="trust-title" className="trust__title">{h.hero.trust.title}</h2>
+              <dl className="trust__stats">
+                {h.hero.trust.stats.map(s => (
+                  <div key={s.label}>
+                    <dt>{s.num}</dt>
+                    <dd>{s.label}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="trust__note">{h.hero.trust.note}</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="pickband" aria-labelledby="pick-title">
+        <div className="container pickband__inner">
+          <h2 id="pick-title" className="kicker pickband__title">{h.picker.title}</h2>
+          <SentencePicker />
         </div>
       </section>
 
       <LogoMarquee />
 
-      <section className="section statement">
-        <div className="container">
-          <p className="kicker">{h.statement.kicker}</p>
-          <p className="statement__text" data-reveal>
-            {h.statement.before} <span className="mark">{h.statement.em}</span>{h.statement.after}
+      <section className="section who">
+        <div className="container who__grid">
+          <p className="who__label">{h.about.label}</p>
+          <p className="who__text" data-reveal>
+            {h.about.before} <TactileHighlight direction="left" delay={0.2}>{h.about.em}</TactileHighlight> {h.about.after}
           </p>
+          <dl className="who__stats">
+            {h.about.stats.map(s => (
+              <div key={s.label} data-reveal>
+                <dt>{s.num}</dt>
+                <dd>{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
       <section className="section section--cream checks">
         <div className="container checks__grid">
           <div className="checks__media">
-            <LoopVideo name="classroom" frame="page" label={h.checks.videoAlt} className="checks__video" />
+            <LoopVideo name="online-study" frame="page" label={h.checks.videoAlt} className="checks__video" />
           </div>
           <div>
             <p className="kicker">{h.checks.kicker}</p>
-            <h2 className="t-title" data-split="">
-              {h.checks.title} <em lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{h.checks.titleEm}</em>
+            <h2 className="t-title">
+              {h.checks.title} <em lang={roman}>{h.checks.titleEm}</em>
             </h2>
             <div className="checks__track">
               <CheckPath />
@@ -129,7 +205,7 @@ export default function Home() {
         <div className="container">
           <div className="section-head">
             <p className="kicker">{h.compare.kicker}</p>
-            <h2 className="t-title" data-split="">{h.compare.title}</h2>
+            <h2 className="t-title">{h.compare.title}</h2>
           </div>
           <table className="compare__table" data-reveal>
             <thead>
@@ -153,28 +229,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section--cream fees">
-        <div className="container fees__grid">
-          <div>
-            <p className="kicker">{h.fees.kicker}</p>
-            <h2 className="t-title" data-split="">{h.fees.title}</h2>
-            <Link to="/services#pricing" className="link-arrow fees__link">{h.fees.link} <RiArrowRightLine aria-hidden="true" /></Link>
-          </div>
-          <dl className="fees__list">
-            {h.fees.items.map(f => (
-              <div key={f.num} data-reveal>
-                <dt>{f.num}</dt>
-                <dd>{f.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-
-      <section className="section paths">
+      <section className="section section--cream paths">
         <div className="container paths__grid">
           <article className="path path--learn">
-            <PhotoTile src="/img/young-learner.webp" frame="page" alt={h.paths.learn.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 640px" className="path__image zoom" data-mask />
+            <PhotoTile src="/img/pk-uniform.webp" frame="page" alt={h.paths.learn.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 640px" className="path__image zoom" data-mask />
             <div className="path__body">
               <p className="kicker">{h.paths.learn.kicker}</p>
               <h2 className="t-sub">{h.paths.learn.title}</h2>
@@ -182,8 +240,8 @@ export default function Home() {
               <Link to="/contact" className="btn btn--primary">{h.paths.learn.cta} <RiArrowRightLine aria-hidden="true" /></Link>
             </div>
           </article>
-          <article className="path path--teach" data-reveal>
-            <PhotoTile src="/img/focused-writing.webp" frame="card" alt={h.paths.teach.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 420px" className="path__image" />
+          <article className="path path--teach">
+            <PhotoTile src="/img/pk-notes.webp" frame="card" alt={h.paths.teach.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 420px" className="path__image" />
             <div className="path__body">
               <p className="kicker">{h.paths.teach.kicker}</p>
               <h2 className="t-sub">{h.paths.teach.title}</h2>
@@ -191,18 +249,6 @@ export default function Home() {
               <Link to={requestLink({ role: 'tutor' })} className="btn btn--gold">{h.paths.teach.cta} <RiArrowRightLine aria-hidden="true" /></Link>
             </div>
           </article>
-        </div>
-      </section>
-
-      <section className="closing">
-        <PageCurves edge className="closing__curves" />
-        <div className="closing__body">
-          <div className="container closing__inner">
-            <p className="closing__aside aside-ur" lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{h.cta.aside}</p>
-            <h2 className="t-title" data-split="">{h.cta.title}</h2>
-            <p className="closing__text">{h.cta.body}</p>
-            <Link to="/contact" className="btn btn--gold">{h.cta.button} <RiArrowRightLine aria-hidden="true" /></Link>
-          </div>
         </div>
       </section>
     </div>

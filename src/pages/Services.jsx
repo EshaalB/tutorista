@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import Accordion from '../components/Accordion'
 import { PhotoTile, LoopVideo } from '../components/Motifs'
+import TactileHighlight from '../components/ui/tactile-highlight'
 import { catalog, requestLink, subjectName } from '../content/site'
 import { useLang } from '../i18n'
 import { usePageMotion } from '../motion/usePageMotion'
@@ -24,7 +25,7 @@ export default function Services() {
         <div className="container how-hero__grid">
           <div>
             <p className="kicker">{s.hero.kicker}</p>
-            <h1 className="t-display" data-split="hero">{s.hero.titleA} <em>{s.hero.titleB}</em></h1>
+            <h1 className="t-display">{s.hero.titleA} <TactileHighlight trigger="auto" delay={0.4}>{s.hero.titleB}</TactileHighlight></h1>
           </div>
           <div>
             <p className="t-lead">{s.hero.lead}</p>
@@ -38,7 +39,7 @@ export default function Services() {
       <section id="process" className="section journey">
         <div className="container journey__grid">
           <div className="journey__aside">
-            <h2 className="t-title" data-split="">{s.process.title}</h2>
+            <h2 className="t-title">{s.process.title}</h2>
             <p className="t-lead">{s.process.lead}</p>
             <Link to="/contact" className="btn btn--primary">{s.process.cta} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
@@ -64,7 +65,7 @@ export default function Services() {
 
       <section className="section section--cream formats">
         <div className="container">
-          <h2 className="t-title formats__title" data-split="">{s.formats.title}</h2>
+          <h2 className="t-title formats__title">{s.formats.title}</h2>
           <div className="formats__grid">
             <article className="format">
               <LoopVideo name="notes" frame="page" label={s.formats.onlineAlt} className="format__media" />
@@ -72,7 +73,7 @@ export default function Services() {
               <p>{s.formats.online.desc}</p>
             </article>
             <article className="format format--offset">
-              <PhotoTile src="/img/young-learner.webp" frame="card" alt={s.formats.homeAlt} size={800} small={480} sizes="(max-width: 640px) 92vw, 520px" className="format__media" data-mask />
+              <PhotoTile src="/img/pk-reading.webp" frame="card" alt={s.formats.homeAlt} size={800} small={480} sizes="(max-width: 640px) 92vw, 520px" className="format__media" data-mask />
               <h3 className="t-sub">{s.formats.home.title}</h3>
               <p>{s.formats.home.desc}</p>
             </article>
@@ -85,7 +86,7 @@ export default function Services() {
           <div className="checks__head">
             <div className="section-head">
               <p className="kicker">{s.checks.kicker}</p>
-              <h2 className="t-title" data-split="">{s.checks.title}</h2>
+              <h2 className="t-title">{s.checks.title}</h2>
               <p className="t-lead">{s.checks.lead}</p>
             </div>
             <Link to={requestLink({ role: 'tutor' })} className="link-arrow">{s.checks.cta} <RiArrowRightLine aria-hidden="true" /></Link>
@@ -105,7 +106,7 @@ export default function Services() {
       <section id="subjects" className="section subjects">
         <div className="container">
           <div className="section-head">
-            <h2 className="t-title" data-split="">{s.subjects.title}</h2>
+            <h2 className="t-title">{s.subjects.title}</h2>
             <p className="t-lead">{s.subjects.lead}</p>
           </div>
           <div className="subjects__grid">
@@ -131,7 +132,7 @@ export default function Services() {
       <section id="pricing" className="section section--cream pricing">
         <div className="container pricing__grid">
           <div>
-            <h2 className="t-title" data-split="">{s.pricing.title}</h2>
+            <h2 className="t-title">{s.pricing.title}</h2>
             <p className="t-lead pricing__lead">{s.pricing.lead}</p>
           </div>
           {[
@@ -153,7 +154,7 @@ export default function Services() {
       <section id="faq" className="section faq">
         <div className="container faq__grid">
           <div>
-            <h2 className="t-title" data-split="">{s.faq.title}</h2>
+            <h2 className="t-title">{s.faq.title}</h2>
             <p className="faq__lead">
               <span className="aside-ur" lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{s.faq.lead}</span>{' '}
               <Link to="/contact" className="faq__link">{s.faq.link}</Link>

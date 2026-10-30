@@ -8,6 +8,9 @@ import Services from './pages/Services'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Legal from './pages/Legal'
+import Plans from './pages/Plans'
+import Login from './pages/auth/Login'
+import Signup from './pages/auth/Signup'
 import AccessibilityPanel from './components/AccessibilityPanel'
 import LanguageProvider from './i18n/LanguageProvider'
 import PreferencesProvider from './a11y/PreferencesProvider'
@@ -46,7 +49,10 @@ function Pages() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/plans" element={<Plans />} />
         <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy" element={<Legal key="privacy" doc="privacy" />} />
         <Route path="/terms" element={<Legal key="terms" doc="terms" />} />

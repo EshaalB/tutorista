@@ -68,7 +68,7 @@ function Contact({ params }) {
       <div className="container request__grid">
         <div className="request__intro">
           <p className="kicker">{c.kicker[kind]}</p>
-          <h1 key={kind} className="t-title" data-split="hero">{c.title[kind]}</h1>
+          <h1 key={kind} className="t-title">{c.title[kind]}</h1>
           <p className="t-lead" data-reveal>{c.lead[kind]}</p>
         </div>
 

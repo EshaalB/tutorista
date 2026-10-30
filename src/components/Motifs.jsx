@@ -3,18 +3,6 @@ import { RiPauseFill, RiPlayFill } from 'react-icons/ri'
 import { useLang } from '../i18n'
 import { useMotionAllowed } from '../a11y'
 
-// Layered page curves from the logo, like pages lifting off the book. As a section
-// edge (`edge`), gold peeks out behind and cobalt runs on into the section below.
-export function PageCurves({ className = '', edge = false }) {
-  const [back, front] = edge ? ['#efc35d', '#254d91'] : ['#254d91', '#efc35d']
-  return (
-    <svg className={className} viewBox="0 0 600 160" fill="none" aria-hidden="true" preserveAspectRatio="none">
-      <path d="M0 120C120 40 230 20 300 70c70-50 180-30 300 50v40H0z" fill={back} />
-      <path d="M0 140c120-60 220-70 300-30 80-40 180-30 300 30v20H0z" fill={front} />
-    </svg>
-  )
-}
-
 // Every photo has a `-s` variant at `small` px wide next to it in /public.
 export function PhotoTile({ src, frame = 'card', alt = '', priority = false, size = 560, small = 280, sizes, className = '', ...rest }) {
   return (

@@ -15,7 +15,7 @@ export default function Legal({ doc }) {
   return (
     <section className="section" ref={scope}>
       <div className="container legal">
-        <h1 className="t-title" data-split="hero">{page.title}</h1>
+        <h1 className="t-title">{page.title}</h1>
         <p className="t-small legal__updated">{page.updated}</p>
         {page.sections.map(s => (
           <section key={s.h} className="legal__block">

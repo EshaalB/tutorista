@@ -1,0 +1,38 @@
+.tactile {
+  position: relative; display: inline-block; white-space: nowrap; isolation: isolate;
+  padding: 0 0.15em; margin: 0 -0.05em;
+}
+.tactile__block {
+  position: absolute; inset: 0.04em 0 0; z-index: 0; background: var(--gold);
+  border-radius: 12px; transform: scaleX(0); transform-origin: left center;
+  box-shadow: 0 10px 24px -14px rgb(35 54 83 / 50%);
+  transition:
+    transform .75s cubic-bezier(.34, 1.45, .5, 1) var(--tactile-delay, .1s),
+    border-radius .75s ease var(--tactile-delay, .1s);
+}
+.tactile--right .tactile__block { transform-origin: right center; }
+.tactile--top .tactile__block { transform: scaleY(0); transform-origin: center top; }
+.tactile--bottom .tactile__block { transform: scaleY(0); transform-origin: center bottom; }
+:dir(rtl) .tactile--left .tactile__block { transform-origin: right center; }
+:dir(rtl) .tactile--right .tactile__block { transform-origin: left center; }
+
+.tactile.is-shown .tactile__block { transform: none; border-radius: 4px; }
+.tactile--hover:hover .tactile__block, .tactile--hover:focus-within .tactile__block { transform: none; border-radius: 4px; }
+
+/* the "tactile" press: a small lift and tilt once it has landed */
+.tactile.is-shown:hover .tactile__block {
+  transform: scale(1.05) rotate(-1.5deg); border-radius: 8px;
+  transition: transform .3s cubic-bezier(.34, 1.6, .5, 1), border-radius .3s ease;
+}
+.tactile--right.is-shown:hover .tactile__block { transform: scale(1.05) rotate(1.5deg); }
+
+/* white text in difference mode: dark on light pages, cobalt-blue on the gold block */
+.tactile__text { position: relative; z-index: 1; color: #fff; mix-blend-mode: difference; pointer-events: none; }
+
+/* where blending is unreliable (forced colours, high contrast), fall back to plain ink on gold */
+:root[data-contrast='high'] .tactile__text { color: var(--ink); mix-blend-mode: normal; }
+:root[data-contrast='high'] .tactile__block { transform: none; }
+@media (forced-colors: active) {
+  .tactile__text { mix-blend-mode: normal; color: CanvasText; }
+  .tactile__block { display: none; }
+}

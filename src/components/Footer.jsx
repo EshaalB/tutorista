@@ -1,66 +1,56 @@
 import { Link } from 'react-router-dom'
-import { RiInstagramLine, RiFacebookFill, RiLinkedinFill, RiWhatsappLine, RiPhoneLine, RiMailLine } from 'react-icons/ri'
-import { site, requestLink } from '../content/site'
+import { RiArrowRightLine } from 'react-icons/ri'
+import { site, catalog, requestLink } from '../content/site'
 import { useLang } from '../i18n'
 import './Footer.css'
 
-const socialIcons = { instagram: RiInstagramLine, facebook: RiFacebookFill, linkedin: RiLinkedinFill }
 const socialNames = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn' }
 
 export default function Footer() {
   const { t } = useLang()
   const f = t.footer
+  const L = f.links
   const socials = Object.entries(site.social).filter(([, url]) => url)
-  const menu = [
-    ['home', '/'], ['how', '/services'], ['subjects', '/services#subjects'], ['pricing', '/services#pricing'],
-    ['faq', '/services#faq'], ['about', '/about'], ['request', '/contact'], ['teach', requestLink({ role: 'tutor' })],
-    ['privacy', '/privacy'], ['terms', '/terms'],
+
+  const columns = [
+    { title: f.subjects, links: [...catalog.map(c => [t.levels[c.id].label, `/services#subjects`]), [L.pricing, '/services#pricing']] },
+    { title: f.company, links: [[L.about, '/about'], [L.how, '/services'], [L.plans, '/plans'], [L.teach, requestLink({ role: 'tutor' })]] },
+    { title: f.support, links: [[L.request, '/contact'], [L.faq, '/services#faq'], [L.login, '/login'], [L.privacy, '/privacy'], [L.terms, '/terms']] },
   ]
 
   return (
     <footer className="footer">
       <div className="container">
-        <p className="footer__word" aria-hidden="true">
-          {'tutorista'.split('').map((ch, i) => <span key={i} style={{ '--i': i }}>{ch}</span>)}
-        </p>
+        <div className="footer__top">
+          <p className="footer__tagline">{f.tagline}</p>
+          <Link to="/signup" className="btn btn--gold">{f.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+        </div>
 
         <div className="footer__grid">
-          <p className="footer__tagline">{f.tagline}</p>
-
-          <nav aria-labelledby="footer-menu">
-            <h2 id="footer-menu" className="footer__heading">{f.menu}</h2>
-            <ul className="footer__menu">
-              {menu.map(([key, to]) => <li key={key}><Link to={to}>{f.links[key]}</Link></li>)}
-            </ul>
-          </nav>
-
+          {columns.map(col => (
+            <nav key={col.title} aria-label={col.title}>
+              <h2 className="footer__heading">{col.title}</h2>
+              <ul>
+                {col.links.map(([label, to]) => <li key={label}><Link to={to}>{label}</Link></li>)}
+              </ul>
+            </nav>
+          ))}
           <div>
-            <h2 className="footer__heading">{f.contact}</h2>
-            <ul className="footer__contact">
-              <li><a href={`mailto:${site.email}`}><RiMailLine aria-hidden="true" /> <span dir="ltr">{site.email}</span></a></li>
-              {site.whatsapp && <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer"><RiWhatsappLine aria-hidden="true" /> WhatsApp</a></li>}
-              {site.phone && <li><a href={`tel:${site.phone}`}><RiPhoneLine aria-hidden="true" /> <span dir="ltr">{site.phone}</span></a></li>}
-              <li className="footer__place">{f.place}</li>
+            <h2 className="footer__heading">{f.social}</h2>
+            <ul>
+              {socials.map(([name, url]) => <li key={name}><a href={url} target="_blank" rel="noreferrer">{socialNames[name]}</a></li>)}
+              {site.whatsapp && <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp</a></li>}
+              <li><a href={`mailto:${site.email}`} dir="ltr">{site.email}</a></li>
             </ul>
-            {socials.length > 0 && (
-              <>
-                <h2 className="footer__heading footer__heading--gap">{f.social}</h2>
-                <ul className="footer__social">
-                  {socials.map(([name, url]) => {
-                    const Icon = socialIcons[name]
-                    return <li key={name}><a href={url} target="_blank" rel="noreferrer"><Icon aria-hidden="true" /> {socialNames[name]}</a></li>
-                  })}
-                </ul>
-              </>
-            )}
           </div>
         </div>
 
-        <div className="footer__bottom">
-          <span>© {new Date().getFullYear()} Tutorista™</span>
-          <span>{f.rights}</span>
-        </div>
+        <p className="footer__legal">© {new Date().getFullYear()} Tutorista™. {f.rights}</p>
       </div>
+
+      <p className="footer__word" aria-hidden="true">
+        {'Tutorista'.split('').map((ch, i) => <span key={i}>{ch}</span>)}
+      </p>
     </footer>
   )
 }

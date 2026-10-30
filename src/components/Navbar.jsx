@@ -132,6 +132,7 @@ export default function Navbar() {
         <nav className="nav__desktop" aria-label={t.nav.main}>
           <SubjectsMenu />
           <NavLink to="/services" className="nav__link">{t.nav.how}</NavLink>
+          <NavLink to="/plans" className="nav__link">{t.nav.plans}</NavLink>
           <NavLink to="/about" className="nav__link">{t.nav.about}</NavLink>
         </nav>
 
@@ -142,7 +143,7 @@ export default function Navbar() {
             <kbd aria-hidden="true">/</kbd>
           </button>
           <LangSwitch className="nav__lang" />
-          <Link to={requestLink({ role: 'tutor' })} className="nav__link nav__teach">{t.nav.teach}</Link>
+          <NavLink to="/login" className="nav__link nav__teach">{t.nav.login}</NavLink>
           <Link to="/contact" className="btn btn--primary nav__cta">{t.nav.find}</Link>
           <button
             className="nav__burger"
@@ -173,10 +174,14 @@ export default function Navbar() {
             ))}
             <ul className="nav__mobile-links">
               <li><NavLink to="/services">{t.nav.how}</NavLink></li>
+              <li><NavLink to="/plans">{t.nav.plans}</NavLink></li>
               <li><NavLink to="/about">{t.nav.about}</NavLink></li>
               <li><Link to={requestLink({ role: 'tutor' })}>{t.nav.teach}</Link></li>
             </ul>
-            <Link to="/contact" className="btn btn--primary btn--block">{t.nav.find}</Link>
+            <div className="nav__mobile-cta">
+              <Link to="/login" className="btn btn--ghost">{t.nav.login}</Link>
+              <Link to="/signup" className="btn btn--primary">{t.nav.signup}</Link>
+            </div>
           </nav>
         </div>
       )}
