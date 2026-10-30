@@ -3,8 +3,9 @@ import { useMotionAllowed } from '../../a11y'
 import './tactile-highlight.css'
 
 /**
- * TactileHighlight: a gold block that springs in behind a phrase.
- * Port of the framer-motion original to plain React + CSS. Tied to scroll:
+ * TactileHighlight: a gold fill that sweeps in behind a phrase.
+ * Port of the framer-motion original to plain React + CSS, drawn as an inline
+ * background so it wraps with the text. Tied to scroll:
  * it fills when the phrase scrolls into view and empties again when you
  * scroll back up past it, so it replays on the way down. Not interactive.
  *   direction  'left' | 'right' | 'top' | 'bottom'
@@ -35,7 +36,6 @@ export default function TactileHighlight({ children, className = '', direction =
       className={`tactile tactile--${direction} ${shown ? 'is-shown' : ''} ${className}`}
       style={{ '--tactile-delay': `${delay}s` }}
     >
-      <span className="tactile__block" aria-hidden="true" />
       <span className="tactile__text">{children}</span>
     </span>
   )

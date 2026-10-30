@@ -6,7 +6,6 @@ import { useMotionAllowed } from '../a11y'
 import TactileHighlight from '../components/ui/tactile-highlight'
 import LogoMarquee from '../components/LogoMarquee'
 import DragScroller from '../components/DragScroller'
-import Accordion from '../components/Accordion'
 import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './Home.css'
@@ -59,11 +58,21 @@ function HeroVideo({ label }) {
   )
 }
 
+// Every story section opens the same way: a small label, then one statement.
+function SectionIntro({ id, label, title, light = false }) {
+  return (
+    <div className={`intro ${light ? 'intro--light' : ''}`}>
+      <p className="intro__label">{label}</p>
+      <h2 id={id} className="intro__title">{title}</h2>
+    </div>
+  )
+}
+
 function Journey({ data }) {
   return (
     <section className="journey-map" aria-labelledby="journey-title">
       <div className="container">
-        <h2 id="journey-title" className="t-title">{data.title}</h2>
+        <SectionIntro id="journey-title" label={data.label} title={data.title} light />
         <ol className="journey-map__list">
           {data.steps.map((s, i) => (
             <li key={s.pill} className={`jstep jstep--${i % 2 ? 'up' : 'down'}`} data-reveal>
@@ -85,8 +94,11 @@ function Why({ data }) {
   const [active, setActive] = useState(0)
   return (
     <section className="section why" aria-labelledby="why-title">
+      <div className="container">
+        <SectionIntro id="why-title" label={data.label} title={data.title} />
+      </div>
       <div className="container why__grid">
-        <div className="why__deck" aria-hidden="true" data-parallax="-0.08">
+        <div className="why__deck" aria-hidden="true">
           {data.items.map((item, i) => {
             const offset = (i - active + data.items.length) % data.items.length
             return (
@@ -104,11 +116,9 @@ function Why({ data }) {
           })}
         </div>
         <div className="why__text">
-          <h2 id="why-title" className="why__label">{data.label}</h2>
           <DragScroller label={data.hint} dragLabel={data.drag} onActiveChange={setActive} className="why__track">
             {data.items.map((item, i) => (
               <article key={item.title} className={`why__col ${i === active ? 'is-active' : ''}`}>
-                <p className="why__letter">{String.fromCharCode(65 + i)}</p>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
               </article>
@@ -127,16 +137,13 @@ function Testimonials({ data }) {
   return (
     <section className="section testimonials" aria-labelledby="tm-title">
       <div className="container">
-        <h2 id="tm-title" className="testimonials__label">{data.label}</h2>
+        <SectionIntro id="tm-title" label={data.label} title={data.title} />
       </div>
       <div className="testimonials__rail">
         <DragScroller label={data.label} dragLabel={data.drag} className="testimonials__track">
           {data.items.map((item, i) => (
             <figure key={item.quote} className={`tcard tcard--${i % 5}`}>
-              <div className="tcard__top">
-                <span>{String(i + 1).padStart(2, '0')}</span>
-                <RiDoubleQuotesL aria-hidden="true" />
-              </div>
+              <RiDoubleQuotesL className="tcard__mark" aria-hidden="true" />
               <blockquote>“{item.quote}”</blockquote>
               <figcaption>
                 <span className="tcard__tag">{item.tag}</span>
@@ -145,6 +152,9 @@ function Testimonials({ data }) {
             </figure>
           ))}
         </DragScroller>
+      </div>
+      <div className="container">
+        <Link to="/services#faq" className="link-arrow testimonials__more">{data.more} <RiArrowRightLine aria-hidden="true" /></Link>
       </div>
     </section>
   )
@@ -191,7 +201,7 @@ export default function Home() {
 
       <section className="section who">
         <div className="container who__grid">
-          <p className="who__label">{h.about.label}</p>
+          <p className="intro__label">{h.about.label}</p>
           <p className="who__text" data-reveal>
             {h.about.before} <TactileHighlight direction="left" delay={0.2}>{h.about.em}</TactileHighlight> {h.about.after}
           </p>
@@ -202,13 +212,6 @@ export default function Home() {
       <Why data={h.why} />
       <Testimonials data={h.testimonials} />
 
-      <section className="section faqs" aria-labelledby="faq-title">
-        <div className="container faqs__inner">
-          <h2 id="faq-title" className="t-title">{h.faq.title}</h2>
-          <Accordion items={t.how.faq.items} numbered />
-          <Link to="/contact" className="link-arrow faqs__more">{t.how.faq.link} <RiArrowRightLine aria-hidden="true" /></Link>
-        </div>
-      </section>
     </div>
   )
 }

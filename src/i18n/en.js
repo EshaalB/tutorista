@@ -76,7 +76,8 @@ export default {
     ],
     announceLabel: 'About Tutorista',
     journey: {
-      title: 'How Tutorista works',
+      label: 'How it works',
+      title: 'From first message to exam day',
       steps: [
         { pill: 'Request', head: 'Two minutes', body: 'Tell us the subject, board and exam date. It’s free.', tone: 'cobalt' },
         { pill: 'Match', head: 'Shortlist', body: 'Tested tutors who teach your exact syllabus, with rates.', tone: 'gold' },
@@ -87,7 +88,8 @@ export default {
       ],
     },
     why: {
-      label: 'Why Tutorista?',
+      label: 'Who it’s for',
+      title: 'Built around the exam you’re sitting',
       drag: 'drag',
       hint: 'Swipe or drag sideways to read on',
       items: [
@@ -99,6 +101,8 @@ export default {
     },
     testimonials: {
       label: 'Before you start',
+      title: 'Fair questions, straight answers',
+      more: 'More questions',
       drag: 'drag',
       items: [
         { quote: 'Kya online parhai se sach mein farq parega?', answer: 'Every lesson is live and one-to-one, so your tutor sees your working and corrects it as you go.', tag: 'Online learning' },
@@ -113,7 +117,7 @@ export default {
     marquee: 'Boards and entry tests our students prepare for',
     marqueeNote: 'Tutorista is not affiliated with these institutions.',
     about: {
-      label: 'Who we are',
+      label: 'Why we exist',
       before: 'Tutorista is an online tutoring service from Lahore, built on one idea:',
       em: 'the best teacher gets the job,',
       after: 'not the best connected one. We test every tutor, show every fee, and match students with people who teach their exact syllabus.',

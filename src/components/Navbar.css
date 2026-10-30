@@ -14,6 +14,8 @@
 .nav--overlay .lang { background: rgb(254 249 232 / 14%); }
 .nav--overlay .lang__btn { color: var(--on-primary-muted); }
 .nav--overlay .nav__brand img { filter: brightness(0) invert(1); }
+.nav--overlay .mega__trigger[aria-expanded='true'] { background: rgb(254 249 232 / 18%); color: var(--on-primary); }
+.nav--overlay .nav__link:hover { background: rgb(254 249 232 / 12%); }
 .nav__inner { display: flex; align-items: center; gap: 24px; min-height: var(--nav-h); }
 .nav__brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 600; font-size: 1.45rem; color: var(--cobalt); flex: none; }
 .nav__brand img { width: 27px; height: 40px; transition: transform .4s var(--ease); }
@@ -22,7 +24,7 @@
 .nav__desktop { display: flex; align-items: center; gap: 2px; }
 .nav__link {
   position: relative; display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 8px 12px;
-  border-radius: var(--r-btn); font-weight: 600; color: var(--ink); white-space: nowrap;
+  border-radius: var(--r-btn); font-weight: 500; color: var(--ink); white-space: nowrap;
   transition: background-color .2s var(--ease), color .2s var(--ease);
 }
 .nav__link::after {

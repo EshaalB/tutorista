@@ -48,3 +48,40 @@ Flags checked by hand and judged false positives:
   - The "Why Tutorista?" drag strip updates the photo stack as you move.
 - **Reduced motion:** content renders fully with motion forced off (in the headless screenshots).
 - **Not verified:** real phones, Safari or Firefox, landscape phones, 400% zoom beyond 320px reflow, screen reader announcements, and Lighthouse after this round.
+
+## Anti-slop pass (story, weight, spacing)
+
+| Location | Level | Finding | Change |
+| --- | --- | --- | --- |
+| Header over the hero | Usability bug | Open "Subjects" label was white text on a cream fill, so invisible | A translucent light fill keeps the label readable |
+| Headings sitewide | L3 typography | Weight 600 everywhere, so nothing stood out and the page read heavy | Headings at 500, statement text at 400, labels and nav at 500, a smaller hero |
+| Homepage order | L3 product | The sections didn't connect, and each had a different heading style | One story: promise → why we exist → how it works → who it's for → your worries, answered. Every section opens with the same label and statement. |
+| Home FAQ vs "Before you start" | L3 product | Fees, fit and online were answered twice | Home FAQ removed. The full list stays on How it works and is linked from the cards. |
+| 01–05 on cards, A–D on columns | L2 | Decorative numbering | Removed. The journey map keeps its order because it is a real sequence. |
+| Spacing | L3 layout | Section and intro gaps varied; the photo deck sat 48px below its text | `--section-y` and `--intro-gap` tokens; deck aligned to the text |
+| "Why we exist" highlight | L3 typography | The highlight was an unbreakable block, so it jumped to its own line and stranded "idea:" | Rebuilt as an inline background that wraps with the sentence |
+
+The direction was kept rather than re-proposed, because the owner has already approved it: cobalt and gold, open-book motif, Pakistani photography, online-only.
+
+### Quality gate scores (0–10, after this pass)
+
+| Criterion | Score | Evidence |
+| --- | --- | --- |
+| Brand distinctiveness | 6 | Brand colours, open-book logo, Pakistani footage and photos, Roman Urdu touches. The type is still fairly neutral. |
+| Audience and business relevance | 8 | Pakistani boards and tests, online-only, fees upfront, parent worries answered |
+| Typography and hierarchy | 7 | One sans family, clearer weight steps. Urdu still uses English for some new sections. |
+| Colour discipline | 7 | Each colour has a defined job. Several one-off blue shades (#3a6bc0) remain. |
+| Layout and composition | 7 | A different form per section, one intro pattern. The journey map is dense on tablets. |
+| Content quality and authenticity | 7 | No fabricated proof. Plan prices are still examples, and labelled as such. |
+| Imagery and art direction | 6 | Real Pakistani stock. No real Tutorista sessions or tutors yet. |
+| Interaction and motion | 7 | Scroll-linked highlight, light parallax, drag strips, reduced-motion and Lite mode respected |
+| Accessibility and responsiveness | 8 | Measured clean at 320–1920px, keyboard and focus checked, 24px targets |
+| Functional completeness | 6 | The request form uses `mailto:`. Log in and sign up are demos only. |
+| Design-system consistency | 7 | Shared tokens and intro, but each page has its own CSS with some repeated values |
+| Freedom from unjustified AI defaults | 7 | Decorative numbering, fake proof and heavy bold removed. The logo marquee and stats row are conventional but justified. |
+
+Remaining priorities:
+1. Real tutor and session photography.
+2. Urdu copy for the "Who it's for" and "Before you start" sections.
+3. Fold the one-off blue shades into tokens.
+4. A real form backend.

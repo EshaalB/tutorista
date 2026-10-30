@@ -37,7 +37,7 @@
   --lh-body: 1.6;
   --lh-head: 1.1;
   --tracking-head: -0.025em;
-  --head-weight: 600;
+  --head-weight: 500;
 
   --step--1: 0.875rem;
   --step-0: 1.0625rem;
@@ -48,7 +48,8 @@
 
   --gutter: clamp(16px, 4vw, 48px);
   --max-w: 1200px;
-  --section-y: clamp(64px, 9vw, 128px);
+  --section-y: clamp(64px, 8vw, 112px);
+  --intro-gap: clamp(28px, 3.5vw, 48px);
   --nav-h: 72px;
   --bar-h: 34px;
   --header-h: calc(var(--nav-h) + var(--bar-h));
@@ -142,7 +143,7 @@ h1 em, h2 em { font-style: normal; color: var(--cobalt); }
 .t-lead { font-size: var(--step-1); color: var(--muted); max-width: 54ch; }
 .section--blue .t-lead { color: var(--on-primary-muted); }
 .t-small { font-size: var(--step--1); color: var(--muted); }
-.kicker { font-size: var(--step--1); font-weight: 600; color: var(--emerald); margin-bottom: 14px; }
+.kicker { font-size: var(--step--1); font-weight: 500; color: var(--emerald); margin-bottom: 14px; }
 .section--blue .kicker { color: var(--gold); }
 /* Roman Urdu asides, set in italic like a margin note */
 .aside-ur { font-family: var(--font-body); font-weight: 500; color: var(--emerald); }

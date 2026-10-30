@@ -15,7 +15,7 @@
 .vhero__inner { display: flex; flex-direction: column; justify-content: space-between; gap: clamp(40px, 7vh, 72px); padding-bottom: 64px; }
 .vhero__grid { max-width: 620px; }
 
-.vhero__title { display: grid; font-size: clamp(2.6rem, 1.4rem + 5vw, 5.4rem); line-height: 1; letter-spacing: -0.035em; color: var(--on-primary); }
+.vhero__title { display: grid; font-size: clamp(2.4rem, 1.3rem + 4.2vw, 4.6rem); font-weight: 500; line-height: 1.02; letter-spacing: -0.03em; color: var(--on-primary); }
 :lang(ur) .vhero__title { line-height: 1.5; letter-spacing: 0; }
 .vhero__title-gold { color: var(--gold); }
 .vhero__lead { margin-top: 24px; max-width: 46ch; font-size: var(--step-1); line-height: 1.55; color: var(--on-primary-muted); }
@@ -28,30 +28,35 @@
 .vhero__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 980px; padding-top: 24px; border-top: 1px solid rgb(254 249 232 / 22%); }
 .vhero__stats > div { padding-inline: 20px; border-inline-start: 1px solid rgb(254 249 232 / 22%); }
 .vhero__stats > div:first-child { padding-inline-start: 0; border: 0; }
-.vhero__stats dt { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem); line-height: 1.2; }
+.vhero__stats dt { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem); line-height: 1.2; }
 .vhero__stats dd { margin-top: 2px; font-size: var(--step--1); color: var(--on-primary-muted); }
 
 .vhero__media { position: absolute; inset-inline-end: var(--gutter); bottom: 24px; }
 .vhero__toggle { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border-radius: var(--r-btn); border: 1px solid rgb(254 249 232 / 45%); color: var(--on-primary); }
 .vhero__toggle:active { transform: scale(.94); }
 
-/* who we are: label and a single large statement */
-.who__grid { display: grid; grid-template-columns: 0.35fr 1fr; gap: 24px 48px; }
-.who__label { display: inline-flex; align-items: center; gap: 10px; align-self: start; font-weight: 500; }
-.who__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ink); }
+/* section intro: small label, then one statement; same on every story section */
+.intro { display: grid; gap: 12px; margin-bottom: var(--intro-gap); max-width: 720px; }
+.intro__label { display: inline-flex; align-items: center; gap: 10px; font-size: var(--step--1); font-weight: 500; color: var(--muted); }
+.intro__label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex: none; }
+.intro__title { font-size: var(--step-3); font-weight: 500; line-height: 1.12; max-width: 22ch; }
+.intro--light .intro__label { color: var(--on-primary-muted); }
+.intro--light .intro__title { color: var(--on-primary); }
+
+/* why we exist: label and a single large statement */
+.who__grid { display: grid; grid-template-columns: 0.35fr 1fr; gap: 16px 48px; align-items: baseline; }
 .who__text { font-family: var(--font-display); font-size: clamp(1.6rem, 1.1rem + 2.1vw, 2.75rem); line-height: 1.28; letter-spacing: -0.01em; }
 :lang(ur) .who__text { line-height: 2; letter-spacing: 0; }
-.who__text .tactile { white-space: normal; }
 
 /* journey map: verb pills on a dashed line, detail cards alternating above and below */
 .journey-map { padding-block: var(--section-y); background: var(--cobalt-900); color: var(--on-primary); }
-.journey-map h2 { color: var(--on-primary); margin-bottom: clamp(40px, 6vw, 72px); }
+.journey-map .intro { margin-bottom: clamp(40px, 5vw, 64px); }
 .journey-map__list { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: auto auto auto; column-gap: 12px; }
 .journey-map__list::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed rgb(254 249 232 / 28%); }
 .jstep { display: grid; grid-row: 1 / span 3; grid-template-rows: subgrid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
 .jstep__pill {
   grid-row: 2; z-index: 1; align-self: center; padding: 8px 18px; border-radius: 999px;
-  background: var(--on-primary); color: var(--ink); font-family: var(--font-display); font-size: var(--step-1); white-space: nowrap;
+  background: var(--on-primary); color: var(--ink); font-size: var(--step-0); font-weight: 500; white-space: nowrap;
 }
 .jstep__line, .jstep__card, .jstep__pill { grid-column: 1; }
 .jstep__line { width: 0; height: 32px; border-inline-start: 2px dashed rgb(254 249 232 / 35%); }
@@ -60,7 +65,7 @@
 .jstep--up .jstep__line { grid-row: 1; align-self: end; }
 .jstep--up .jstep__card { grid-row: 1; margin-bottom: 32px; align-self: end; }
 .jstep__card { justify-self: stretch; width: auto; max-width: none; border-radius: var(--r-card); overflow: hidden; background: var(--cobalt); }
-.jstep__head { padding: 10px 14px; font-weight: 600; font-size: 0.875rem; }
+.jstep__head { padding: 10px 14px; font-weight: 500; font-size: 0.875rem; }
 .jstep__body { padding: 12px 14px 14px; font-size: 0.875rem; line-height: 1.45; color: var(--on-primary-muted); }
 .jstep__card--cobalt .jstep__head { background: #3a6bc0; }
 .jstep__card--gold .jstep__head { background: var(--gold); color: var(--ink); }
@@ -69,7 +74,7 @@
 
 /* why tutorista: stacked photo deck, text columns you drag through */
 .why__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px clamp(32px, 6vw, 88px); align-items: start; }
-.why__deck { position: relative; height: clamp(300px, 34vw, 440px); margin-top: 48px; }
+.why__deck { position: relative; height: clamp(300px, 32vw, 420px); }
 .why__card {
   position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: 100%;
   object-fit: cover; border-radius: var(--r-card); transform-origin: center top;
@@ -77,35 +82,29 @@
   opacity: calc(1 - var(--o) * .15);
   transition: transform .6s var(--ease), opacity .6s var(--ease);
 }
-.why__label { font-family: var(--font-body); font-size: var(--step-0); font-weight: 500; letter-spacing: 0; margin-bottom: 24px; }
 .why__track { gap: 40px; }
 .why__col { width: min(300px, 78vw); opacity: .35; transition: opacity .4s var(--ease); }
 .why__col.is-active { opacity: 1; }
-.why__letter { font-size: 0.8125rem; color: var(--muted); margin-bottom: 18px; }
-.why__col h3 { font-size: var(--step-2); margin-bottom: 20px; }
+.why__col h3 { font-size: var(--step-2); font-weight: 500; margin: 14px 0 12px; }
 .why__col p:last-child { color: var(--muted); line-height: 1.7; }
 .why__hint { margin-top: 20px; }
 
 /* testimonials: tall colour cards on a rail */
 .testimonials { background: var(--cream); }
-.testimonials__label { font-family: var(--font-body); font-size: var(--step-0); font-weight: 500; letter-spacing: 0; margin-bottom: 32px; }
 .testimonials__rail { padding-inline-start: max(var(--gutter), calc((100vw - var(--max-w)) / 2 + var(--gutter))); }
 .tcard { display: flex; flex-direction: column; width: min(340px, 82vw); min-height: 420px; margin: 0; padding: 28px; background: var(--cobalt); color: var(--on-primary); }
 .tcard--1 { background: var(--gold); color: var(--ink); }
 .tcard--2 { background: var(--emerald); }
 .tcard--3 { background: var(--cobalt-900); }
 .tcard--4 { background: #3a6bc0; }
-.tcard__top { display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem; }
-.tcard__top svg { width: 28px; height: 28px; }
-.tcard blockquote { margin-top: 48px; font-family: var(--font-display); font-size: var(--step-2); line-height: 1.3; }
+.tcard__mark { width: 28px; height: 28px; opacity: .7; }
+.tcard blockquote { margin-top: 28px; font-family: var(--font-display); font-size: var(--step-2); font-weight: 500; line-height: 1.3; }
 .tcard figcaption { margin-top: auto; padding-top: 32px; display: grid; gap: 8px; }
-.tcard__tag { font-size: var(--step--1); font-weight: 600; }
+.tcard__tag { font-size: var(--step--1); font-weight: 500; opacity: .85; }
 .tcard figcaption p { font-size: var(--step-0); line-height: 1.5; }
 
-/* faqs */
-.faqs__inner { max-width: 960px; }
-.faqs h2 { margin-bottom: 32px; }
-.faqs__more { margin-top: 24px; }
+/* link out to the full question list */
+.testimonials__more { margin-top: 24px; }
 
 @media (max-width: 1100px) {
   .journey-map__list { grid-template-columns: 1fr; grid-template-rows: none; }
