@@ -1,13 +1,15 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { RiArrowRightLine, RiCheckLine, RiComputerLine, RiHome4Line } from 'react-icons/ri'
+import { RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
 import Accordion from '../components/Accordion'
-import { PhotoTile, LoopVideo, Star } from '../components/Motifs'
+import { PhotoTile, LoopVideo } from '../components/Motifs'
 import { catalog, requestLink, subjectName } from '../content/site'
 import { useLang } from '../i18n'
 import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './Services.css'
+
+const sections = { process: 'process', checks: 'vetting', subjects: 'subjects', pricing: 'pricing', faq: 'faq' }
 
 export default function Services() {
   const { t, lang } = useLang()
@@ -21,15 +23,13 @@ export default function Services() {
       <section className="how-hero">
         <div className="container how-hero__grid">
           <div>
-            <p className="eyebrow" data-reveal>{s.hero.eyebrow}</p>
-            <h1 className="t-display" data-split="hero">{s.hero.titleStart} <span className="mark">{s.hero.titleMark}</span></h1>
+            <p className="kicker">{s.hero.kicker}</p>
+            <h1 className="t-display" data-split="hero">{s.hero.titleA} <em>{s.hero.titleB}</em></h1>
           </div>
-          <div className="how-hero__side">
-            <p className="t-lead" data-reveal>{s.hero.lead}</p>
-            <nav className="how-hero__toc" aria-label={s.hero.tocLabel} data-reveal>
-              {Object.entries({ process: 'process', checks: 'vetting', subjects: 'subjects', pricing: 'pricing', faq: 'faq' }).map(([key, id]) => (
-                <a key={key} href={`#${id}`}>{s.hero.toc[key]}</a>
-              ))}
+          <div>
+            <p className="t-lead">{s.hero.lead}</p>
+            <nav className="how-hero__toc" aria-label={s.hero.tocLabel}>
+              {Object.entries(sections).map(([key, id]) => <a key={key} href={`#${id}`}>{s.hero.toc[key]}</a>)}
             </nav>
           </div>
         </div>
@@ -39,14 +39,17 @@ export default function Services() {
         <div className="container journey__grid">
           <div className="journey__aside">
             <h2 className="t-title" data-split="">{s.process.title}</h2>
-            <p className="t-lead" data-reveal>{s.process.lead}</p>
-            <Link to="/contact" className="btn btn--primary" data-reveal>{s.process.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+            <p className="t-lead">{s.process.lead}</p>
+            <Link to="/contact" className="btn btn--primary">{s.process.cta} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
           <div className="journey__track">
-            <span className="journey__line" data-draw aria-hidden="true" />
+            <svg className="journey__line" viewBox="0 0 4 100" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M2 0V100" stroke="#e6dbba" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+              <path data-path d="M2 0V100" stroke="#254d91" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+            </svg>
             <ol className="journey__list">
               {s.process.steps.map((j, i) => (
-                <li key={j.title} className="journey__step" data-reveal>
+                <li key={j.title} className="journey__step">
                   <span className="journey__num" aria-hidden="true">{i + 1}</span>
                   <div>
                     <h3 className="t-sub">{j.title}</h3>
@@ -63,21 +66,15 @@ export default function Services() {
         <div className="container">
           <h2 className="t-title formats__title" data-split="">{s.formats.title}</h2>
           <div className="formats__grid">
-            <article className="format" data-reveal>
-              <LoopVideo name="notes" shape="leaf" label={s.formats.onlineAlt} className="format__media" />
-              <div className="format__body">
-                <RiComputerLine className="format__icon" aria-hidden="true" />
-                <h3 className="t-sub">{s.formats.online.title}</h3>
-                <p>{s.formats.online.desc}</p>
-              </div>
+            <article className="format">
+              <LoopVideo name="notes" frame="page" label={s.formats.onlineAlt} className="format__media" />
+              <h3 className="t-sub">{s.formats.online.title}</h3>
+              <p>{s.formats.online.desc}</p>
             </article>
-            <article className="format" data-reveal>
-              <PhotoTile src="/img/young-learner.webp" shape="arch" alt={s.formats.homeAlt} size={800} small={480} sizes="(max-width: 640px) 90vw, 540px" className="format__media zoom" />
-              <div className="format__body">
-                <RiHome4Line className="format__icon" aria-hidden="true" />
-                <h3 className="t-sub">{s.formats.home.title}</h3>
-                <p>{s.formats.home.desc}</p>
-              </div>
+            <article className="format format--offset">
+              <PhotoTile src="/img/young-learner.webp" frame="card" alt={s.formats.homeAlt} size={800} small={480} sizes="(max-width: 640px) 92vw, 520px" className="format__media" data-mask />
+              <h3 className="t-sub">{s.formats.home.title}</h3>
+              <p>{s.formats.home.desc}</p>
             </article>
           </div>
         </div>
@@ -87,19 +84,16 @@ export default function Services() {
         <div className="container">
           <div className="checks__head">
             <div className="section-head">
-              <p className="eyebrow" data-reveal>{s.checks.eyebrow}</p>
+              <p className="kicker">{s.checks.kicker}</p>
               <h2 className="t-title" data-split="">{s.checks.title}</h2>
-              <p className="t-lead" data-reveal>{s.checks.lead}</p>
+              <p className="t-lead">{s.checks.lead}</p>
             </div>
-            <Link to={requestLink({ role: 'tutor' })} className="link-arrow" data-reveal>{s.checks.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+            <Link to={requestLink({ role: 'tutor' })} className="link-arrow">{s.checks.cta} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
           <ol className="checks__row">
             {s.checks.items.map((c, i) => (
-              <li key={c.title} data-reveal>
-                <span className="checks__badge" aria-hidden="true">
-                  <Star size={44} />
-                  <b>{i + 1}</b>
-                </span>
+              <li key={c.title}>
+                <span className="checks__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 <h3>{c.title}</h3>
                 <p>{c.desc}</p>
               </li>
@@ -112,11 +106,11 @@ export default function Services() {
         <div className="container">
           <div className="section-head">
             <h2 className="t-title" data-split="">{s.subjects.title}</h2>
-            <p className="t-lead" data-reveal>{s.subjects.lead}</p>
+            <p className="t-lead">{s.subjects.lead}</p>
           </div>
           <div className="subjects__grid">
             {catalog.map(c => (
-              <div key={c.id} className="subjects__group" data-reveal>
+              <div key={c.id} className="subjects__group">
                 <h3>{t.levels[c.id].label}</h3>
                 <p className="t-small">{t.levels[c.id].blurb}</p>
                 <ul>
@@ -135,26 +129,24 @@ export default function Services() {
       </section>
 
       <section id="pricing" className="section section--cream pricing">
-        <div className="container">
-          <div className="section-head">
+        <div className="container pricing__grid">
+          <div>
             <h2 className="t-title" data-split="">{s.pricing.title}</h2>
-            <p className="t-lead" data-reveal>{s.pricing.lead}</p>
+            <p className="t-lead pricing__lead">{s.pricing.lead}</p>
           </div>
-          <div className="pricing__grid">
-            {[
-              ['students', '/contact', 'btn--primary'],
-              ['tutors', requestLink({ role: 'tutor' }), 'btn--gold'],
-            ].map(([key, to, btn]) => (
-              <div key={key} className={`price price--${key}`} data-reveal>
-                <p className="price__who">{s.pricing[key].who}</p>
-                <p className="price__amount">{s.pricing[key].amount} <span>{s.pricing[key].unit}</span></p>
-                <ul className="list-check">
-                  {s.pricing[key].points.map(p => <li key={p}><RiCheckLine aria-hidden="true" />{p}</li>)}
-                </ul>
-                <Link to={to} className={`btn ${btn}`}>{s.pricing[key].cta} <RiArrowRightLine aria-hidden="true" /></Link>
-              </div>
-            ))}
-          </div>
+          {[
+            ['students', '/contact', 'btn--primary'],
+            ['tutors', requestLink({ role: 'tutor' }), 'btn--gold'],
+          ].map(([key, to, btn]) => (
+            <div key={key} className={`price price--${key}`}>
+              <p className="price__who">{s.pricing[key].who}</p>
+              <p className="price__amount">{s.pricing[key].amount} <span>{s.pricing[key].unit}</span></p>
+              <ul className="list-check">
+                {s.pricing[key].points.map(p => <li key={p}><RiCheckLine aria-hidden="true" />{p}</li>)}
+              </ul>
+              <Link to={to} className={`btn ${btn}`}>{s.pricing[key].cta} <RiArrowRightLine aria-hidden="true" /></Link>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -162,9 +154,12 @@ export default function Services() {
         <div className="container faq__grid">
           <div>
             <h2 className="t-title" data-split="">{s.faq.title}</h2>
-            <p className="t-lead faq__lead" data-reveal>{s.faq.lead} <Link to="/contact" className="faq__link">{s.faq.link}</Link></p>
+            <p className="faq__lead">
+              <span className="aside-ur" lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{s.faq.lead}</span>{' '}
+              <Link to="/contact" className="faq__link">{s.faq.link}</Link>
+            </p>
           </div>
-          <div data-reveal><Accordion items={s.faq.items} /></div>
+          <Accordion items={s.faq.items} />
         </div>
       </section>
     </div>

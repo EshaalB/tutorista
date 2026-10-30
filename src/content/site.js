@@ -16,7 +16,7 @@ export const site = {
 export const catalog = [
   { id: 'cambridge', subjects: ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'English Language', 'Economics', 'Accounting'] },
   { id: 'board', subjects: ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'English', 'Urdu', 'Islamiyat', 'Pakistan Studies'] },
-  { id: 'entry', subjects: ['MDCAT', 'ECAT', 'NUST NET', 'SAT'] },
+  { id: 'entry', subjects: ['MDCAT', 'ECAT', 'NUST NET', 'FAST NU test', 'LUMS LCAT', 'GIKI test', 'SAT'] },
   { id: 'language', subjects: ['IELTS', 'Spoken English', 'Essay writing'] },
 ]
 
@@ -37,6 +37,9 @@ export const subjectInfo = {
   'MDCAT': { ur: 'ایم ڈی کیٹ', alias: 'medical entry test' },
   'ECAT': { ur: 'ای کیٹ', alias: 'engineering entry test uet' },
   'NUST NET': { ur: 'نسٹ نیٹ', alias: 'net nust' },
+  'FAST NU test': { ur: 'فاسٹ داخلہ ٹیسٹ', alias: 'fast nuces nu entry' },
+  'LUMS LCAT': { ur: 'لمز ایل کیٹ', alias: 'lums lcat sbase' },
+  'GIKI test': { ur: 'جی آئی کے آئی ٹیسٹ', alias: 'giki gik admission' },
   'SAT': { ur: 'ایس اے ٹی', alias: 'sat' },
   'IELTS': { ur: 'آئلٹس', alias: 'ielts' },
   'Spoken English': { ur: 'بول چال انگریزی', alias: 'speaking angrezi' },
@@ -47,12 +50,17 @@ export function subjectName(subject, lang) {
   return lang === 'ur' ? subjectInfo[subject]?.ur ?? subject : subject
 }
 
-// Exam boards and tests we prepare students for. Marks belong to their owners.
+// Boards, universities and tests our students prepare for. Marks belong to their owners;
+// Tutorista is not affiliated with any of them.
 export const examLogos = [
   { src: '/logos/cambridge.webp', alt: 'Cambridge International Education', w: 426 },
+  { src: '/logos/biselahore.webp', alt: 'Board of Intermediate and Secondary Education Lahore', w: 87 },
   { src: '/logos/fbise.webp', alt: 'Federal Board of Intermediate and Secondary Education', w: 96 },
-  { src: '/logos/uet.webp', alt: 'UET Lahore (ECAT)', w: 95 },
+  { src: '/logos/lums.webp', alt: 'LUMS', w: 117 },
+  { src: '/logos/fast.webp', alt: 'FAST-NUCES', w: 96 },
+  { src: '/logos/giki.webp', alt: 'GIK Institute', w: 312 },
   { src: '/logos/nust.webp', alt: 'NUST (NET)', w: 142 },
+  { src: '/logos/uet.webp', alt: 'UET Lahore (ECAT)', w: 95 },
   { src: '/logos/sat.webp', alt: 'SAT', w: 139 },
   { src: '/logos/ielts.webp', alt: 'IELTS', w: 255 },
 ]

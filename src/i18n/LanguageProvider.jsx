@@ -3,7 +3,7 @@ import { LanguageContext, dictionaries, languages } from '.'
 
 const STORAGE_KEY = 'tutorista-lang'
 
-// ?lang=ur or ?lang=roman wins, so a shared link opens in the sender's language.
+// ?lang=ur wins, so a shared link opens in the sender's language.
 function initialLang() {
   const fromUrl = new URLSearchParams(window.location.search).get('lang')
   if (dictionaries[fromUrl]) return fromUrl

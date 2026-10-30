@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { RiArrowRightLine, RiMailSendLine } from 'react-icons/ri'
+import { RiArrowRightLine, RiMailSendLine, RiWhatsappLine, RiInstagramLine, RiFacebookFill, RiLinkedinFill } from 'react-icons/ri'
 import { site, catalog, subjectInfo } from '../content/site'
 import { useLang, dictionaries } from '../i18n'
 import { usePageMotion } from '../motion/usePageMotion'
@@ -8,6 +8,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import './Contact.css'
 
 const roleIds = ['parent', 'student', 'tutor', 'other']
+const socialIcons = { instagram: RiInstagramLine, facebook: RiFacebookFill, linkedin: RiLinkedinFill }
 const subjectOptions = Object.keys(subjectInfo)
 const en = dictionaries.en
 
@@ -66,7 +67,7 @@ function Contact({ params }) {
     <section className="request" ref={scope}>
       <div className="container request__grid">
         <div className="request__intro">
-          <p className="eyebrow" data-reveal>{c.eyebrow[kind]}</p>
+          <p className="kicker">{c.kicker[kind]}</p>
           <h1 key={kind} className="t-title" data-split="hero">{c.title[kind]}</h1>
           <p className="t-lead" data-reveal>{c.lead[kind]}</p>
         </div>
@@ -186,6 +187,20 @@ function Contact({ params }) {
             ))}
           </ol>
           <p className="t-small">{c.preferEmail} <a className="request__mail" href={`mailto:${site.email}`} dir="ltr">{site.email}</a></p>
+          {site.whatsapp && (
+            <a className="btn btn--ghost request__wa" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">
+              <RiWhatsappLine aria-hidden="true" /> WhatsApp
+            </a>
+          )}
+          {Object.values(site.social).some(Boolean) && (
+            <div className="request__social">
+              <p className="t-small">{c.follow}</p>
+              {Object.entries(site.social).filter(([, url]) => url).map(([name, url]) => {
+                const Icon = socialIcons[name]
+                return <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={name}><Icon aria-hidden="true" /></a>
+              })}
+            </div>
+          )}
           <p className="t-small"><Link className="request__mail" to="/privacy">{c.privacy}</Link></p>
         </div>
       </div>

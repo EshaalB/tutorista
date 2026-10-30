@@ -1,10 +1,11 @@
 export default {
   meta: {
-    home: { title: null, desc: 'Tutorista matches students in Lahore with tested, verified one-to-one tutors for O and A Levels, Matric, FSc and entry tests, at fair fees.' },
-    how: { title: 'How it works', desc: 'How Tutorista works: the request process, the five checks every tutor passes, subjects, fees and FAQs.' },
-    about: { title: 'About us', desc: 'Why Tutorista exists: merit-first tutoring in Lahore, quality teaching at a fair price, and the team behind it.' },
+    home: { title: null, desc: 'Tutorista finds you a tested, verified one-to-one tutor in Lahore for O and A Levels, Matric, FSc and entry tests. Fees shown upfront, pay per lesson.' },
+    how: { title: 'How it works', desc: 'How Tutorista works: sending a request, the five checks every tutor passes, subjects, fees and common questions.' },
+    about: { title: 'About us', desc: 'Why Tutorista exists: tutors chosen on merit, quality teaching at a fair price, and the team behind it.' },
     contact: { title: 'Request a tutor', tutorTitle: 'Apply to teach', desc: 'Tell us what you need and we will reply with tested tutors who fit your subject, level and schedule.' },
     privacy: { title: 'Privacy policy', desc: 'What Tutorista collects, why, and how to ask us to delete it.' },
+    terms: { title: 'Terms of service', desc: 'The terms for using Tutorista as a student, parent or tutor.' },
     notFound: { title: 'Page not found' },
   },
 
@@ -18,7 +19,7 @@ export default {
   levels: {
     cambridge: { label: 'O & A Levels', blurb: 'Cambridge, paper by paper' },
     board: { label: 'Matric & FSc', blurb: 'Punjab and Federal Board' },
-    entry: { label: 'Entry tests', blurb: 'MDCAT, ECAT, NET and SAT' },
+    entry: { label: 'Entry tests', blurb: 'MDCAT, ECAT, NET, SAT and more' },
     language: { label: 'Language & skills', blurb: 'IELTS, speaking and writing' },
     university: 'University',
     other: 'Other',
@@ -27,64 +28,83 @@ export default {
   dock: { find: 'Find a tutor', top: 'Back to top' },
   video: { pause: 'Pause video', play: 'Play video' },
 
+  a11y: {
+    open: 'Reading and accessibility options',
+    title: 'Make reading easier',
+    text: 'Text size',
+    sizes: { base: 'Normal', lg: 'Large', xl: 'Larger' },
+    contrast: 'Stronger contrast', contrastHint: 'Easier to read outdoors or on a dim screen',
+    readable: 'Simpler font', readableHint: 'Plain letters with more spacing',
+    links: 'Underline links', linksHint: 'Makes every link easy to spot',
+    motion: 'Lite mode', motionHint: 'Stops animation and video, and saves mobile data',
+    read: 'Read this page aloud', stop: 'Stop reading', readHint: 'Uses your device’s own voice',
+    noVoice: 'Your device has no voice for this language',
+    reset: 'Reset', close: 'Close',
+  },
+
   home: {
     hero: {
-      eyebrow: 'One-to-one tutoring in Lahore',
-      titleStart: 'Great teachers,',
-      titleMark: 'fair fees',
-      lead: 'Every Tutorista tutor is tested in their subject and verified before they teach. You pay for their skill, not an agency’s cut.',
-      notes: ['Free to request', 'Pay per lesson', 'No contract'],
-      badge: 'Tested and verified',
-      card: { label: 'New request', subject: 'O Level Physics', detail: 'Online · Tue & Thu evenings' },
+      titleA: 'Every tutor tested.',
+      titleB: 'Every fee upfront.',
+      lead: 'Tutorista finds you a one-to-one tutor in Lahore for O and A Levels, Matric, FSc and entry tests. Online or at home, and you only pay for the lessons you take.',
+      picker: { need: 'I need help with', for: 'for', subject: 'Subject', level: 'Level', anySubject: 'any subject', anyLevel: 'any level', go: 'Find a tutor' },
+      secondary: 'How we choose tutors',
+      note: 'acha ustaad, munasib fees',
+      caption: 'Online, or at home anywhere in Lahore',
       videoAlt: 'A student studying on her laptop',
+      photoAlt: 'A teacher with students in a classroom',
     },
-    marquee: 'We prepare students for',
-    promise: {
-      eyebrow: 'Merit first',
-      title: 'Who teaches you should depend on how well they teach',
-      body: 'Not on who they know, and not on what an agency charges. That is the whole idea.',
-      points: [
-        { title: 'Tested, then trusted', desc: 'A subject test, an interview and a trial lesson come before any student.' },
-        { title: 'Fees you can see', desc: 'The tutor’s rate is shown before you book. Nothing is added for students.' },
-        { title: 'Good teaching rises', desc: 'Tutors are recommended for how well and how reliably they teach, never for paying more.' },
-      ],
+    statement: {
+      kicker: 'Merit before marketing',
+      before: 'We don’t take tutors on trust. Each one passes a subject test, an interview and a trial lesson before meeting a student. Then you see their fee before you book, with',
+      em: 'nothing added',
+      after: '.',
+    },
+    checks: {
+      kicker: 'How a tutor gets on Tutorista',
+      title: 'Five checks. No shortcuts, no',
+      titleEm: 'sifarish',
       videoAlt: 'A teacher taking a class in a Pakistani college',
-      link: 'How we check tutors',
-    },
-    finder: { title: 'What are you studying?', sub: 'Pick a subject and we’ll start your request with it filled in.', other: 'Something else' },
-    steps: {
-      eyebrow: 'How it works',
-      title: 'From request to first lesson',
-      items: [
-        { title: 'Tell us what you need', desc: 'Subject, level, goals and the times that suit you.' },
-        { title: 'Choose your tutor', desc: 'We send tested tutors who teach your syllabus, with their rates.' },
-        { title: 'Start learning', desc: 'Book one lesson or a weekly slot. You pay per lesson.' },
-      ],
-      link: 'See the full process',
+      link: 'Read the full process',
     },
     compare: {
-      eyebrow: 'Why a tutor',
-      title: 'Recorded lectures are a start. A teacher who knows you is better',
-      recorded: { title: 'Recorded course', points: ['The same video for every student', 'Questions wait for a forum reply', 'You keep yourself on track'] },
-      tutor: { title: 'Your Tutorista tutor', points: ['Lessons built around your syllabus and weak spots', 'Ask the moment you are stuck', 'Someone notices when you fall behind'] },
+      kicker: 'Why a tutor',
+      title: 'Recorded lectures help. A teacher who knows you helps more',
+      cols: { situation: 'Situation', recorded: 'Recorded course', tutor: 'Your Tutorista tutor' },
+      rows: [
+        ['When you get stuck', 'Post in a forum and wait', 'Ask right then'],
+        ['The pace', 'The same video for everyone', 'Set by you and your tutor'],
+        ['Your weak spots', 'You find them yourself', 'Your tutor finds them with you'],
+        ['Falling behind', 'Nobody notices', 'Someone notices, and says so'],
+      ],
       cta: 'Find your tutor',
     },
-    paths: {
-      eyebrow: 'Two ways in',
-      title: 'Looking for a tutor, or are you one?',
-      learn: { title: 'Students and parents', points: ['Tutors matched to your board and syllabus', 'See the rate before you book', 'Online, or at home in Lahore'], cta: 'Request a tutor' },
-      teach: { title: 'Tutors', points: ['Keep 85% of what you charge', 'Set your own rate and hours', 'Students come to you, no chasing'], cta: 'Apply to teach' },
+    marquee: 'Boards and entry tests our students prepare for',
+    marqueeNote: 'Tutorista is not affiliated with these institutions.',
+    fees: {
+      kicker: 'Fees',
+      title: 'Fair for families, fair for tutors',
+      items: [
+        { num: 'Rs 0', label: 'to send a request or book a tutor' },
+        { num: '1 lesson', label: 'is the most you ever commit to' },
+        { num: '85%', label: 'of every fee goes to the tutor' },
+      ],
+      link: 'See how fees work',
     },
-    cta: { title: 'Tell us what you’re studying', body: 'It takes two minutes. We reply by email with tutors who fit.', button: 'Start a request' },
+    paths: {
+      learn: { kicker: 'For parents and students', title: 'Tell us the subject, the board and the exam date', body: 'We send tutors who teach exactly that, with their rates. You pick one, book a lesson, and carry on only if it works.', cta: 'Request a tutor', alt: 'A young student writing in his notebook' },
+      teach: { kicker: 'For tutors', title: 'Good at explaining? Get paid fairly for it', body: 'Set your own rate and hours, keep 85%, and get students who need your subject. You will pass our checks first.', cta: 'Apply to teach', alt: 'A tutor writing notes' },
+    },
+    cta: { aside: 'Chalein, shuru karein?', title: 'Tell us what you’re studying', body: 'Two minutes now. We reply by email with tutors who fit.', button: 'Start a request' },
   },
 
   how: {
     hero: {
-      eyebrow: 'How it works',
-      titleStart: 'Simple to start,',
-      titleMark: 'easy to stop',
+      kicker: 'How it works',
+      titleA: 'Simple to start,',
+      titleB: 'easy to stop',
       lead: 'No sign-up fee, no package, no contract. Tell us what you need, we find tutors who fit, and you pay only for the lessons you take.',
-      toc: { process: 'Process', checks: 'Tutor checks', subjects: 'Subjects', pricing: 'Fees', faq: 'FAQs' },
+      toc: { process: 'Process', checks: 'Tutor checks', subjects: 'Subjects', pricing: 'Fees', faq: 'Questions' },
       tocLabel: 'On this page',
     },
     process: {
@@ -95,18 +115,18 @@ export default {
         { title: 'Send a request', desc: 'Subject, level, board, goals and when you are free. Parents can request for a child, students for themselves.' },
         { title: 'Get a shortlist', desc: 'We reply with tested tutors who teach that syllabus and have time for you, each with their rate.' },
         { title: 'Book a first lesson', desc: 'Pick one and book a single lesson. If it clicks, set up a regular slot. If not, we suggest someone else.' },
-        { title: 'Keep going at your pace', desc: 'Single lessons before an exam or a weekly slot all year. You pay for the lessons you take.' },
+        { title: 'Keep going at your pace', desc: 'A few lessons before an exam or a weekly slot all year. You pay for the lessons you take.' },
       ],
     },
     formats: {
-      title: 'Two ways to learn',
-      online: { title: 'Online', desc: 'Live video lessons from home or a hostel room. Good for late evenings, and when the best tutor lives across town.' },
+      title: 'Online, or at your kitchen table',
+      online: { title: 'Online', desc: 'Live video lessons from home or a hostel room. Good for late evenings, and when the right tutor lives across town.' },
       home: { title: 'At home', desc: 'The tutor comes to you, anywhere in Lahore our tutors cover. Good for younger students and parents who like to be close.' },
-      onlineAlt: 'A student in a video lesson on his laptop',
+      onlineAlt: 'A student taking notes during an online lesson',
       homeAlt: 'A young student writing in his notebook',
     },
     checks: {
-      eyebrow: 'Tutor checks',
+      kicker: 'Tutor checks',
       title: 'Five checks before anyone teaches',
       lead: 'The same steps for every tutor, whatever their degree or who they know.',
       items: [
@@ -127,7 +147,7 @@ export default {
     },
     faq: {
       title: 'Questions parents ask',
-      lead: 'Something else on your mind?',
+      lead: 'Koi aur sawal?',
       link: 'Ask us directly',
       items: [
         { q: 'How much does a tutor cost?', a: 'Tutors set their own rates based on experience, subject and level. You see the rate before you book and nothing is added on top. Tutors pay a 15% service fee from their earnings.' },
@@ -142,16 +162,16 @@ export default {
 
   about: {
     hero: {
-      eyebrow: 'About Tutorista',
-      titleStart: 'A good teacher shouldn’t depend on',
-      titleMark: 'who you know',
+      kicker: 'About Tutorista',
+      titleA: 'A good teacher shouldn’t depend on',
+      titleB: 'who you know',
       p1: 'Most families find tutors through a cousin, a neighbour or an agency. Word of mouth is hit and miss, and agencies often take a large cut while telling parents little about who is teaching.',
-      p2: 'Tutorista puts merit first. Every tutor is tested and verified, fees are shown up front, and a tutor’s reputation is built on how well they teach.',
+      p2: 'Tutorista puts merit first. Every tutor is tested and verified, fees are shown upfront, and a tutor’s reputation is built on how well they teach.',
     },
     story: {
-      eyebrow: 'What we want',
+      kicker: 'What we want',
       title: 'Quality teaching at a price families can manage',
-      body: 'Good teaching in Lahore is often priced for a few. We think a student in Johar Town deserves the same quality of teacher as one in DHA, without paying for an agency in between.',
+      body: 'Good teaching in Lahore is often priced for a few. A student in Johar Town deserves the same quality of teacher as one in DHA, without paying for an agency in between.',
       alt: 'Students listening in a classroom',
     },
     principles: {
@@ -164,7 +184,7 @@ export default {
       ],
     },
     team: {
-      eyebrow: 'The team',
+      kicker: 'The team',
       title: 'The people building Tutorista',
       members: {
         eshaal: { role: 'Chief Executive Officer', focus: 'Keeps the focus on families and tutors.' },
@@ -177,7 +197,7 @@ export default {
   },
 
   contact: {
-    eyebrow: { learner: 'Request a tutor', tutor: 'Apply to teach', other: 'Contact us' },
+    kicker: { learner: 'Request a tutor', tutor: 'Apply to teach', other: 'Contact us' },
     title: { learner: 'Tell us what you need', tutor: 'Tell us what you teach', other: 'Write to us' },
     lead: { learner: 'A few details now saves a lot of back and forth later.', tutor: 'We will reply with the next step in our checks.', other: 'We read every message and reply by email.' },
     roles: { parent: 'I’m a parent', student: 'I’m a student', tutor: 'I want to teach', other: 'Something else' },
@@ -198,7 +218,8 @@ export default {
     },
     preferEmail: 'Prefer plain email?',
     privacy: 'How we use your details',
-    sent: { title: 'Your email is ready to send', body: 'Your email app should have opened with everything filled in. Press send there and we’ll take it from here.', fallback: 'If nothing opened, copy this and email it to', edit: 'Edit my details' },
+    follow: 'Follow us',
+    sent: { title: 'Shukriya! Your email is ready to send', body: 'Your email app should have opened with everything filled in. Press send there and we’ll take it from here.', fallback: 'If nothing opened, copy this and email it to', edit: 'Edit my details' },
   },
 
   privacy: {
@@ -209,9 +230,23 @@ export default {
       { h: 'Why we use it', p: 'Only to reply to you, find suitable tutors and arrange lessons. We never sell your details. We share them only with the tutor you choose, and only what they need to teach you.' },
       { h: 'How long we keep it', p: 'We keep your emails while we are helping you, and delete them when you ask.' },
       { h: 'Your choices', p: 'You can ask to see, correct or delete your details at any time. Email us at the address below.' },
-      { h: 'Your language setting', p: 'If you change the site language, we remember it in your own browser. It is never sent to us.' },
+      { h: 'Settings on this device', p: 'Your language and reading preferences are saved in your own browser. They are never sent to us.' },
     ],
     contact: 'Questions about privacy:',
+  },
+
+  terms: {
+    title: 'Terms of service',
+    updated: 'Last updated 30 October 2026',
+    sections: [
+      { h: 'What Tutorista does', p: 'Tutorista introduces students and parents to independent tutors who have passed our checks. Lessons are given by the tutor, not by Tutorista.' },
+      { h: 'Requests and bookings', p: 'Sending a request is free and does not commit you to anything. A booking is made only when you confirm a lesson with a tutor.' },
+      { h: 'Fees', p: 'Students pay the tutor’s listed rate per lesson, with nothing added by Tutorista. Tutors pay Tutorista a 15% service fee on each lesson.' },
+      { h: 'Cancelling', p: 'You can stop at any time. There is no contract and no minimum number of lessons.' },
+      { h: 'Tutor conduct', p: 'Tutors agree to teach honestly, arrive on time and treat students with respect. Tell us about any problem and we will act on it.' },
+      { h: 'Changes', p: 'We may update these terms. The date at the top shows the latest version.' },
+    ],
+    contact: 'Questions about these terms:',
   },
 
   footer: {
@@ -219,11 +254,10 @@ export default {
     menu: 'Menu',
     contact: 'Contact us',
     social: 'Follow us',
-    links: { home: 'Home', how: 'How it works', subjects: 'Subjects', pricing: 'Fees', faq: 'FAQs', about: 'About us', request: 'Request a tutor', teach: 'Apply to teach', privacy: 'Privacy policy' },
-    email: 'Email',
+    links: { home: 'Home', how: 'How it works', subjects: 'Subjects', pricing: 'Fees', faq: 'Questions', about: 'About us', request: 'Request a tutor', teach: 'Apply to teach', privacy: 'Privacy policy', terms: 'Terms of service' },
     place: 'Lahore, Pakistan',
-    rights: 'All rights reserved. Exam board names and logos belong to their owners.',
+    rights: 'All rights reserved. Exam board and university names and logos belong to their owners.',
   },
 
-  notFound: { title: 'We couldn’t find that page', body: 'It may have moved. Try the home page or start a tutor request.', home: 'Go home' },
+  notFound: { title: 'Oho, we couldn’t find that page', body: 'It may have moved. Try the home page or start a tutor request.', home: 'Go home' },
 }

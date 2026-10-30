@@ -3,22 +3,20 @@
 .about-hero__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 48px; margin-top: clamp(32px, 4vw, 48px); padding-top: 28px; border-top: 1.5px solid var(--ink); }
 
 .story__grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
-.story__media { position: relative; max-width: 440px; }
-.story__media .shape { aspect-ratio: 4 / 5; }
-.story__star { position: absolute; color: var(--gold); inset-inline-end: -24px; bottom: 12%; }
+.story__media { max-width: 440px; aspect-ratio: 4 / 5; }
 .story__body { margin-top: 16px; }
 
 .principles__grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 32px 80px; }
 .principles__title { position: sticky; top: calc(var(--nav-h) + 32px); align-self: start; }
 .principles__list li { display: grid; grid-template-columns: 56px 1fr; column-gap: 16px; padding: 28px 0; border-top: 1px solid var(--line); }
 .principles__list li:first-child { border-top: 0; padding-top: 0; }
-.principles__list span { grid-row: span 2; font-family: 'Young Serif', Georgia, serif; font-size: 1.35rem; color: var(--emerald); }
+.principles__list span { grid-row: span 2; font-family: 'Zodiak', Georgia, serif; font-style: italic; font-size: 1.4rem; color: var(--emerald); }
 .principles__list p { margin-top: 8px; max-width: 52ch; color: var(--muted); }
 
 .team__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; }
-.team__card .shape { aspect-ratio: 1; margin-bottom: 18px; background: var(--paper); }
+.team__card .frame { aspect-ratio: 1; margin-bottom: 18px; background: var(--paper); }
 .team__card h3 { font-size: var(--step-1); text-align: start; }
-.team__role { color: var(--cobalt); font-weight: 700; font-size: var(--step--1); margin-top: 2px; }
+.team__role { color: var(--cobalt); font-weight: 600; font-size: var(--step--1); margin-top: 2px; }
 .team__focus { margin-top: 8px; font-size: 0.9375rem; color: var(--muted); }
 
 .about-cta__inner { display: grid; gap: 16px; justify-items: start; max-width: 720px; }
@@ -31,7 +29,6 @@
 }
 @media (max-width: 640px) {
   .about-hero__cols { grid-template-columns: 1fr; }
-  .story__star { inset-inline-end: 8px; }
 }
 @media (max-width: 400px) {
   .team__grid { gap: 24px 14px; }

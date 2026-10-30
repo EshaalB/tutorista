@@ -26,6 +26,7 @@ function useIndex() {
       ['request', '/contact', 'request contact email rabta'],
       ['teach', requestLink({ role: 'tutor' }), 'teach apply job tutor parhana'],
       ['privacy', '/privacy', 'privacy data'],
+      ['terms', '/terms', 'terms conditions rules shara'],
     ]
     const pages = pageDefs.map(([key, to, kw]) => ({
       id: `p-${key}`,

@@ -7,8 +7,11 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import About from './pages/About'
 import Contact from './pages/Contact'
-import Privacy from './pages/Privacy'
+import Legal from './pages/Legal'
+import AccessibilityPanel from './components/AccessibilityPanel'
 import LanguageProvider from './i18n/LanguageProvider'
+import PreferencesProvider from './a11y/PreferencesProvider'
+import { usePreferences } from './a11y'
 import { useLang } from './i18n'
 import { usePageMeta } from './hooks/usePageMeta'
 
@@ -33,18 +36,20 @@ function NotFound() {
   )
 }
 
-// Pages remount on a language switch: GSAP SplitText rewrites heading DOM,
-// so React must render fresh nodes rather than patch the split ones.
+// Pages remount when the language or Lite mode changes: GSAP SplitText rewrites
+// heading DOM, so React must render fresh nodes rather than patch the split ones.
 function Pages() {
   const { lang } = useLang()
+  const { prefs } = usePreferences()
   return (
-    <main id="main" tabIndex={-1} key={lang}>
+    <main id="main" tabIndex={-1} key={`${lang}-${prefs.motion}`}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/privacy" element={<Legal key="privacy" doc="privacy" />} />
+        <Route path="/terms" element={<Legal key="terms" doc="terms" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
@@ -53,20 +58,23 @@ function Pages() {
 
 function SkipLink() {
   const { lang } = useLang()
-  return <a href="#main" className="skip-link">{lang === 'ur' ? 'مواد پر جائیں' : lang === 'roman' ? 'Content par jayein' : 'Skip to content'}</a>
+  return <a href="#main" className="skip-link">{lang === 'ur' ? 'مواد پر جائیں' : 'Skip to content'}</a>
 }
 
 export default function App() {
   return (
     <LanguageProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <SkipLink />
-        <Navbar />
-        <Pages />
-        <Footer />
-        <FloatingDock />
-      </BrowserRouter>
+      <PreferencesProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <SkipLink />
+          <Navbar />
+          <Pages />
+          <Footer />
+          <FloatingDock />
+          <AccessibilityPanel />
+        </BrowserRouter>
+      </PreferencesProvider>
     </LanguageProvider>
   )
 }

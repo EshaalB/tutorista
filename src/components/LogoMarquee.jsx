@@ -18,7 +18,10 @@ export default function LogoMarquee() {
   return (
     <section className="marquee" aria-label={t.home.marquee}>
       <div className="container marquee__inner">
-        <p className="marquee__label">{t.home.marquee}</p>
+        <p className="marquee__label">
+          {t.home.marquee}
+          <small>{t.home.marqueeNote}</small>
+        </p>
         <div className="marquee__viewport">
           <div className="marquee__track">
             {row(false)}

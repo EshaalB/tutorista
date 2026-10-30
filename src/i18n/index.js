@@ -1,11 +1,9 @@
 import { createContext, useContext } from 'react'
 import en from './en'
-import roman from './roman'
 import ur from './ur'
 
 export const languages = [
   { id: 'en', label: 'EN', name: 'English', htmlLang: 'en', dir: 'ltr' },
-  { id: 'roman', label: 'Roman', name: 'Roman Urdu', htmlLang: 'ur-Latn', dir: 'ltr' },
   { id: 'ur', label: 'اردو', name: 'اردو', htmlLang: 'ur', dir: 'rtl' },
 ]
 
@@ -17,7 +15,7 @@ function withFallback(base, override) {
   return out
 }
 
-export const dictionaries = { en, roman: withFallback(en, roman), ur: withFallback(en, ur) }
+export const dictionaries = { en, ur: withFallback(en, ur) }
 
 export const LanguageContext = createContext({ lang: 'en', setLang: () => {}, t: en })
 

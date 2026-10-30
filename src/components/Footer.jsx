@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
-import { RiInstagramLine, RiFacebookFill, RiLinkedinFill, RiWhatsappLine, RiPhoneLine, RiMailLine, RiMapPinLine } from 'react-icons/ri'
+import { RiInstagramLine, RiFacebookFill, RiLinkedinFill, RiWhatsappLine, RiPhoneLine, RiMailLine } from 'react-icons/ri'
 import { site, requestLink } from '../content/site'
 import { useLang } from '../i18n'
-import { Star } from './Motifs'
 import './Footer.css'
 
 const socialIcons = { instagram: RiInstagramLine, facebook: RiFacebookFill, linkedin: RiLinkedinFill }
+const socialNames = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn' }
 
 export default function Footer() {
   const { t } = useLang()
@@ -13,19 +13,19 @@ export default function Footer() {
   const socials = Object.entries(site.social).filter(([, url]) => url)
   const menu = [
     ['home', '/'], ['how', '/services'], ['subjects', '/services#subjects'], ['pricing', '/services#pricing'],
-    ['faq', '/services#faq'], ['about', '/about'], ['request', '/contact'], ['teach', requestLink({ role: 'tutor' })], ['privacy', '/privacy'],
+    ['faq', '/services#faq'], ['about', '/about'], ['request', '/contact'], ['teach', requestLink({ role: 'tutor' })],
+    ['privacy', '/privacy'], ['terms', '/terms'],
   ]
 
   return (
     <footer className="footer">
       <div className="container">
-        <div className="footer__word" data-word="tutorista" aria-hidden="true" />
+        <p className="footer__word" aria-hidden="true">
+          {'tutorista'.split('').map((ch, i) => <span key={i} style={{ '--i': i }}>{ch}</span>)}
+        </p>
 
         <div className="footer__grid">
-          <div className="footer__brand">
-            <Star size={28} className="footer__star" />
-            <p>{f.tagline}</p>
-          </div>
+          <p className="footer__tagline">{f.tagline}</p>
 
           <nav aria-labelledby="footer-menu">
             <h2 id="footer-menu" className="footer__heading">{f.menu}</h2>
@@ -40,17 +40,17 @@ export default function Footer() {
               <li><a href={`mailto:${site.email}`}><RiMailLine aria-hidden="true" /> <span dir="ltr">{site.email}</span></a></li>
               {site.whatsapp && <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer"><RiWhatsappLine aria-hidden="true" /> WhatsApp</a></li>}
               {site.phone && <li><a href={`tel:${site.phone}`}><RiPhoneLine aria-hidden="true" /> <span dir="ltr">{site.phone}</span></a></li>}
-              <li className="footer__place"><RiMapPinLine aria-hidden="true" /> {f.place}</li>
+              <li className="footer__place">{f.place}</li>
             </ul>
             {socials.length > 0 && (
               <>
                 <h2 className="footer__heading footer__heading--gap">{f.social}</h2>
-                <div className="footer__social">
+                <ul className="footer__social">
                   {socials.map(([name, url]) => {
                     const Icon = socialIcons[name]
-                    return <a key={name} href={url} aria-label={name} target="_blank" rel="noreferrer"><Icon aria-hidden="true" /></a>
+                    return <li key={name}><a href={url} target="_blank" rel="noreferrer"><Icon aria-hidden="true" /> {socialNames[name]}</a></li>
                   })}
-                </div>
+                </ul>
               </>
             )}
           </div>

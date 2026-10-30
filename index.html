@@ -12,8 +12,9 @@
     <meta property="og:title" content="Tutorista | Tested tutors, fair fees" />
     <meta property="og:description" content="Every tutor tested and verified. O and A Levels, Matric, FSc and entry tests in Lahore, online or at home." />
     <meta property="og:image" content="https://tutorista.vercel.app/img/study-group.webp" />
-    <link rel="preload" href="/fonts/young-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/atkinson-next-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/zodiak-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/zodiak-variable-italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <script>
       try {
         var l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('tutorista-lang')
@@ -22,7 +23,9 @@
           var f = document.createElement('link'); f.rel = 'preload'; f.as = 'font'; f.type = 'font/woff2'; f.crossOrigin = ''; f.href = '/fonts/gulzar-arabic.woff2'
           document.head.appendChild(f)
         }
-        else if (l === 'roman') document.documentElement.lang = 'ur-Latn'
+        var p = JSON.parse(localStorage.getItem('tutorista-reading') || '{}')
+        var d = { text: 'base', contrast: 'off', readable: 'off', links: 'off', motion: 'on' }
+        for (var k in d) if (p[k] && p[k] !== d[k]) document.documentElement.dataset[k] = p[k]
       } catch (e) {}
     </script>
   </head>

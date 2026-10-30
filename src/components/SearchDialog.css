@@ -1,6 +1,6 @@
 .search {
   margin: min(12vh, 120px) auto auto; width: min(640px, calc(100% - 24px)); max-height: min(76vh, 620px);
-  border: 0; border-radius: var(--r-lg); padding: 0; background: var(--paper); color: var(--ink);
+  border: 0; border-radius: var(--r-box); padding: 0; background: var(--paper); color: var(--ink);
   box-shadow: var(--shadow-2); overflow: hidden;
 }
 .search::backdrop { background: rgb(22 45 87 / 45%); backdrop-filter: blur(3px); }
@@ -17,7 +17,7 @@
 .search__group { padding: 12px 12px 6px; font-size: var(--step--1); font-weight: 700; color: var(--emerald); list-style: none; }
 .search__option {
   display: flex; align-items: center; justify-content: space-between; gap: 12px; list-style: none;
-  padding: 10px 12px; border-radius: var(--r-sm); cursor: pointer;
+  padding: 10px 12px; border-radius: var(--r-btn); cursor: pointer;
 }
 .search__option strong { display: block; font-weight: 600; }
 .search__option small { display: block; color: var(--muted); font-size: var(--step--1); }

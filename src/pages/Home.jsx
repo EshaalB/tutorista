@@ -1,63 +1,55 @@
-import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { RiArrowRightLine, RiCheckLine, RiCloseLine } from 'react-icons/ri'
-import { catalog, requestLink, subjectName } from '../content/site'
+import { useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { RiArrowRightLine } from 'react-icons/ri'
+import { catalog, requestLink, subjectInfo, subjectName } from '../content/site'
 import { useLang } from '../i18n'
-import { PhotoTile, LoopVideo, Star, Wave } from '../components/Motifs'
+import { PhotoTile, LoopVideo, PageCurves } from '../components/Motifs'
 import LogoMarquee from '../components/LogoMarquee'
 import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './Home.css'
 
-function SubjectFinder() {
+// "I need help with [subject] for [level]" — the hero's one call to action.
+function SentencePicker() {
   const { t, lang } = useLang()
-  const [active, setActive] = useState(catalog[0].id)
-  const group = catalog.find(c => c.id === active)
+  const p = t.home.hero.picker
+  const navigate = useNavigate()
 
-  const onKeyDown = (e) => {
-    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key]
-    if (!step) return
-    const dir = document.documentElement.dir === 'rtl' ? -step : step
-    const i = (catalog.findIndex(c => c.id === active) + dir + catalog.length) % catalog.length
-    setActive(catalog[i].id)
-    document.getElementById(`tab-${catalog[i].id}`)?.focus()
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const form = new FormData(e.currentTarget)
+    navigate(requestLink({ subject: form.get('subject') || undefined, level: form.get('level') || undefined }))
   }
 
   return (
-    <section className="section section--blue finder" aria-labelledby="finder-title">
-      <div className="container">
-        <div className="finder__head">
-          <h2 id="finder-title" className="t-title" data-split="">{t.home.finder.title}</h2>
-          <p data-reveal>{t.home.finder.sub}</p>
-        </div>
-        <div className="finder__tabs" role="tablist" aria-label={t.nav.subjects} onKeyDown={onKeyDown}>
-          {catalog.map(c => (
-            <button
-              key={c.id}
-              role="tab"
-              id={`tab-${c.id}`}
-              aria-selected={c.id === active}
-              tabIndex={c.id === active ? 0 : -1}
-              aria-controls="finder-panel"
-              className="finder__tab"
-              onClick={() => setActive(c.id)}
-            >
-              {t.levels[c.id].label}
-            </button>
-          ))}
-        </div>
-        <div id="finder-panel" role="tabpanel" aria-labelledby={`tab-${active}`}>
-          <ul className="finder__chips" key={active}>
-            {group.subjects.map(s => (
-              <li key={s}>
-                <Link className="chip" to={requestLink({ level: group.id, subject: s })}>{subjectName(s, lang)}</Link>
-              </li>
-            ))}
-            <li><Link className="chip chip--other" to="/contact">{t.home.finder.other}</Link></li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    <form className="picker" onSubmit={onSubmit}>
+      <p className="picker__sentence">
+        <label htmlFor="pick-subject">{p.need}</label>{' '}
+        <span className="picker__select">
+          <select id="pick-subject" name="subject" defaultValue="">
+            <option value="">{p.anySubject}</option>
+            {Object.keys(subjectInfo).map(s => <option key={s} value={s}>{subjectName(s, lang)}</option>)}
+          </select>
+        </span>{' '}
+        <label htmlFor="pick-level">{p.for}</label>{' '}
+        <span className="picker__select">
+          <select id="pick-level" name="level" defaultValue="">
+            <option value="">{p.anyLevel}</option>
+            {catalog.map(c => <option key={c.id} value={c.id}>{t.levels[c.id].label}</option>)}
+          </select>
+        </span>
+      </p>
+      <button type="submit" className="btn btn--primary">{p.go} <RiArrowRightLine aria-hidden="true" /></button>
+    </form>
+  )
+}
+
+function CheckPath() {
+  return (
+    <svg className="checks__path" viewBox="0 0 60 600" preserveAspectRatio="none" fill="none" aria-hidden="true">
+      <path d="M30 0C58 70 2 130 30 200s-28 130 0 200 28 130 0 200" stroke="#e6dbba" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+      <path data-path d="M30 0C58 70 2 130 30 200s-28 130 0 200 28 130 0 200" stroke="#254d91" strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+    </svg>
   )
 }
 
@@ -73,157 +65,143 @@ export default function Home() {
       <section className="hero">
         <div className="container hero__grid">
           <div className="hero__copy">
-            <p className="eyebrow" data-reveal>{h.hero.eyebrow}</p>
             <h1 className="t-display" data-split="hero">
-              {h.hero.titleStart} <span className="mark">{h.hero.titleMark}</span>
+              {h.hero.titleA} <em>{h.hero.titleB}</em>
             </h1>
-            <p className="t-lead hero__lead" data-reveal>{h.hero.lead}</p>
-            <div className="hero__actions" data-reveal>
-              <Link to="/contact" className="btn btn--primary">{t.nav.find} <RiArrowRightLine aria-hidden="true" /></Link>
-              <Link to="/services" className="btn btn--ghost">{t.nav.how}</Link>
-            </div>
-            <ul className="hero__notes" data-reveal>
-              {h.hero.notes.map(n => <li key={n}><RiCheckLine aria-hidden="true" /> {n}</li>)}
-            </ul>
+            <p className="t-lead hero__lead">{h.hero.lead}</p>
+            <SentencePicker />
+            <Link to="/services#vetting" className="link-arrow hero__secondary">{h.hero.secondary} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
 
-          <div className="hero__art">
-            <span className="hero__sun" data-parallax="-18" aria-hidden="true" />
-            <span className="dot hero__dot hero__dot--a" aria-hidden="true" />
-            <span className="dot hero__dot hero__dot--b" aria-hidden="true" />
-            <div className="hero__media" data-hero-media>
-              <LoopVideo name="online-study" shape="arch" label={h.hero.videoAlt} className="hero__video" />
-              <PhotoTile src="/img/study-group-sq.webp" shape="circle" priority sizes="(max-width: 560px) 40vw, 240px" className="hero__photo" />
-              <PhotoTile src="/img/classroom-sq.webp" shape="quarter" sizes="(max-width: 560px) 40vw, 240px" className="hero__photo" />
-              <div className="hero__ticket" aria-hidden="true">
-                <div data-float>
-                  <span className="hero__ticket-label">{h.hero.card.label}</span>
-                  <strong>{h.hero.card.subject}</strong>
-                  <span>{h.hero.card.detail}</span>
-                </div>
-              </div>
-              <div className="hero__badge">
-                <span className="hero__badge-icon" aria-hidden="true">
-                  <Star size={44} data-spin />
-                  <RiCheckLine />
-                </span>
-                <span>{h.hero.badge}</span>
-              </div>
+          <figure className="hero__book">
+            <div className="book" data-pages>
+              <LoopVideo name="online-study" frame="page" label={h.hero.videoAlt} className="book__page book__page--left" />
+              <PhotoTile src="/img/classroom-sq.webp" frame="page" alt={h.hero.photoAlt} priority sizes="(max-width: 960px) 44vw, 260px" className="book__page book__page--right" />
             </div>
-          </div>
+            <PageCurves className="book__curves" />
+            <p className="hero__note aside-ur" lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{h.hero.note}</p>
+            <figcaption className="t-small hero__caption">{h.hero.caption}</figcaption>
+          </figure>
         </div>
       </section>
 
       <LogoMarquee />
 
-      <section className="section promise">
-        <div className="container promise__grid">
+      <section className="section statement">
+        <div className="container">
+          <p className="kicker">{h.statement.kicker}</p>
+          <p className="statement__text" data-reveal>
+            {h.statement.before} <span className="mark">{h.statement.em}</span>{h.statement.after}
+          </p>
+        </div>
+      </section>
+
+      <section className="section section--cream checks">
+        <div className="container checks__grid">
+          <div className="checks__media">
+            <LoopVideo name="classroom" frame="page" label={h.checks.videoAlt} className="checks__video" />
+          </div>
           <div>
-            <p className="eyebrow" data-reveal>{h.promise.eyebrow}</p>
-            <h2 className="t-title" data-split="">{h.promise.title}</h2>
-            <p className="t-lead promise__body" data-reveal>{h.promise.body}</p>
-            <ul className="promise__points">
-              {h.promise.points.map(p => (
-                <li key={p.title} data-reveal>
-                  <Star size={22} className="promise__star" />
-                  <div>
-                    <h3>{p.title}</h3>
-                    <p>{p.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <Link to="/services#vetting" className="link-arrow" data-reveal>{h.promise.link} <RiArrowRightLine aria-hidden="true" /></Link>
-          </div>
-          <div className="promise__media" data-reveal>
-            <LoopVideo name="classroom" shape="soft" label={h.promise.videoAlt} className="promise__video" />
-            <span className="promise__frame" aria-hidden="true" />
+            <p className="kicker">{h.checks.kicker}</p>
+            <h2 className="t-title" data-split="">
+              {h.checks.title} <em lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{h.checks.titleEm}</em>
+            </h2>
+            <div className="checks__track">
+              <CheckPath />
+              <ol className="checks__list">
+                {t.how.checks.items.map((c, i) => (
+                  <li key={c.title}>
+                    <span className="checks__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3>{c.title}</h3>
+                      <p>{c.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <Link to="/services#process" className="link-arrow">{h.checks.link} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
         </div>
       </section>
 
-      <SubjectFinder />
-
-      <section className="section steps">
+      <section className="section compare">
         <div className="container">
           <div className="section-head">
-            <p className="eyebrow" data-reveal>{h.steps.eyebrow}</p>
-            <h2 className="t-title" data-split="">{h.steps.title}</h2>
-          </div>
-          <ol className="steps__list">
-            {h.steps.items.map((s, i) => (
-              <li key={s.title} className="steps__item" data-reveal>
-                <span className={`steps__num steps__num--${i + 1}`} aria-hidden="true">{i + 1}</span>
-                <h3 className="t-sub">{s.title}</h3>
-                <p>{s.desc}</p>
-              </li>
-            ))}
-          </ol>
-          <Link to="/services" className="link-arrow" data-reveal>{h.steps.link} <RiArrowRightLine aria-hidden="true" /></Link>
-        </div>
-      </section>
-
-      <section className="section section--cream compare">
-        <div className="container">
-          <div className="section-head">
-            <p className="eyebrow" data-reveal>{h.compare.eyebrow}</p>
+            <p className="kicker">{h.compare.kicker}</p>
             <h2 className="t-title" data-split="">{h.compare.title}</h2>
           </div>
-          <div className="compare__grid">
-            <div className="compare__card compare__card--plain" data-reveal>
-              <h3 className="t-sub">{h.compare.recorded.title}</h3>
-              <ul>
-                {h.compare.recorded.points.map(p => <li key={p}><RiCloseLine aria-hidden="true" /> {p}</li>)}
-              </ul>
-            </div>
-            <div className="compare__card compare__card--ours" data-reveal>
-              <Star size={30} className="compare__star" />
-              <h3 className="t-sub">{h.compare.tutor.title}</h3>
-              <ul>
-                {h.compare.tutor.points.map(p => <li key={p}><RiCheckLine aria-hidden="true" /> {p}</li>)}
-              </ul>
-              <Link to="/contact" className="btn btn--gold">{h.compare.cta} <RiArrowRightLine aria-hidden="true" /></Link>
-            </div>
+          <table className="compare__table" data-reveal>
+            <thead>
+              <tr>
+                <th scope="col"><span className="sr-only">{h.compare.cols.situation}</span></th>
+                <th scope="col">{h.compare.cols.recorded}</th>
+                <th scope="col" className="compare__ours">{h.compare.cols.tutor}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {h.compare.rows.map(([situation, recorded, tutor]) => (
+                <tr key={situation}>
+                  <th scope="row">{situation}</th>
+                  <td data-label={h.compare.cols.recorded}>{recorded}</td>
+                  <td data-label={h.compare.cols.tutor} className="compare__ours">{tutor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Link to="/contact" className="btn btn--primary compare__cta">{h.compare.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+        </div>
+      </section>
+
+      <section className="section section--cream fees">
+        <div className="container fees__grid">
+          <div>
+            <p className="kicker">{h.fees.kicker}</p>
+            <h2 className="t-title" data-split="">{h.fees.title}</h2>
+            <Link to="/services#pricing" className="link-arrow fees__link">{h.fees.link} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
+          <dl className="fees__list">
+            {h.fees.items.map(f => (
+              <div key={f.num} data-reveal>
+                <dt>{f.num}</dt>
+                <dd>{f.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
       <section className="section paths">
-        <div className="container">
-          <div className="section-head">
-            <p className="eyebrow" data-reveal>{h.paths.eyebrow}</p>
-            <h2 className="t-title" data-split="">{h.paths.title}</h2>
-          </div>
-          <div className="paths__grid">
-            {[
-              ['learn', '/img/young-learner.webp', 'leaf', '/contact', 'btn--primary'],
-              ['teach', '/img/focused-writing.webp', 'arch', requestLink({ role: 'tutor' }), 'btn--gold'],
-            ].map(([key, img, shape, to, btn]) => (
-              <article key={key} className={`path path--${key}`} data-reveal>
-                <PhotoTile src={img} shape={shape} size={800} small={480} sizes="(max-width: 960px) 90vw, 540px" className="zoom" />
-                <div className="path__body">
-                  <h3 className="t-sub">{h.paths[key].title}</h3>
-                  <ul className="list-check">
-                    {h.paths[key].points.map(p => <li key={p}><RiCheckLine aria-hidden="true" />{p}</li>)}
-                  </ul>
-                  <Link to={to} className={`btn ${btn}`}>{h.paths[key].cta} <RiArrowRightLine aria-hidden="true" /></Link>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div className="container paths__grid">
+          <article className="path path--learn">
+            <PhotoTile src="/img/young-learner.webp" frame="page" alt={h.paths.learn.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 640px" className="path__image zoom" data-mask />
+            <div className="path__body">
+              <p className="kicker">{h.paths.learn.kicker}</p>
+              <h2 className="t-sub">{h.paths.learn.title}</h2>
+              <p>{h.paths.learn.body}</p>
+              <Link to="/contact" className="btn btn--primary">{h.paths.learn.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+            </div>
+          </article>
+          <article className="path path--teach" data-reveal>
+            <PhotoTile src="/img/focused-writing.webp" frame="card" alt={h.paths.teach.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 420px" className="path__image" />
+            <div className="path__body">
+              <p className="kicker">{h.paths.teach.kicker}</p>
+              <h2 className="t-sub">{h.paths.teach.title}</h2>
+              <p>{h.paths.teach.body}</p>
+              <Link to={requestLink({ role: 'tutor' })} className="btn btn--gold">{h.paths.teach.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section className="cta">
-        <div className="container">
-          <div className="cta__panel" data-reveal>
-            <div>
-              <h2 className="t-title">{h.cta.title}</h2>
-              <p>{h.cta.body}</p>
-            </div>
+      <section className="closing">
+        <PageCurves edge className="closing__curves" />
+        <div className="closing__body">
+          <div className="container closing__inner">
+            <p className="closing__aside aside-ur" lang={lang === 'ur' ? 'ur' : 'ur-Latn'}>{h.cta.aside}</p>
+            <h2 className="t-title" data-split="">{h.cta.title}</h2>
+            <p className="closing__text">{h.cta.body}</p>
             <Link to="/contact" className="btn btn--gold">{h.cta.button} <RiArrowRightLine aria-hidden="true" /></Link>
-            <Star size={160} className="cta__star" data-spin />
-            <Wave className="cta__wave" />
           </div>
         </div>
       </section>
