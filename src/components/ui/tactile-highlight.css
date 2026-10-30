@@ -27,3 +27,6 @@
   .tactile__text { mix-blend-mode: normal; color: CanvasText; }
   .tactile__block { display: none; }
 }
+
+/* long phrases may wrap on narrow screens rather than overflow the page */
+@media (max-width: 560px) { .tactile { white-space: normal; } }

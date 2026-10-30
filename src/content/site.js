@@ -61,7 +61,7 @@ export const examLogos = [
   { src: '/logos/fbise.webp', alt: 'Federal Board of Intermediate and Secondary Education', w: 96 },
   { src: '/logos/lums.webp', alt: 'LUMS', w: 117 },
   { src: '/logos/fast.webp', alt: 'FAST-NUCES', w: 96 },
-  { src: '/logos/giki.webp', alt: 'GIK Institute', w: 312 },
+  { src: '/logos/giki.webp', alt: 'GIK Institute', w: 379 },
   { src: '/logos/nust.webp', alt: 'NUST (NET)', w: 142 },
   { src: '/logos/uet.webp', alt: 'UET Lahore (ECAT)', w: 95 },
   { src: '/logos/sat.webp', alt: 'SAT', w: 139 },

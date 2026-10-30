@@ -12,7 +12,7 @@
 .auth__note { font-size: var(--step-2); }
 
 .check { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
-.check input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--cobalt); flex: none; }
+.check input { width: 24px; height: 24px; margin-top: 3px; accent-color: var(--cobalt); flex: none; }
 
 .password { position: relative; }
 .password input { padding-inline-end: 72px; }

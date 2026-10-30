@@ -176,6 +176,9 @@ export default function Navbar() {
       {open && (
         <div className="nav__mobile" id="mobile-menu">
           <nav aria-label={t.nav.main} onClick={(e) => e.target.closest('a') && setOpen(false)}>
+            <button type="button" className="nav__mobile-search" onClick={openSearch}>
+              <RiSearchLine aria-hidden="true" /> {t.nav.search}
+            </button>
             <LangSwitch className="nav__mobile-lang" />
             <p className="nav__mobile-label">{t.nav.subjects}</p>
             {catalog.map(c => (

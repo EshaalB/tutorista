@@ -111,7 +111,7 @@ ul, ol { list-style: none; }
 img, svg, video { display: block; max-width: 100%; }
 input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 6px; }
-.section--blue :focus-visible, .footer :focus-visible { outline-color: var(--gold); }
+.section--blue :focus-visible, .footer :focus-visible, .vhero :focus-visible, .nav--overlay :focus-visible, .journey-map :focus-visible { outline-color: var(--gold); }
 ::selection { background: var(--gold); color: var(--ink); }
 
 .skip-link {
@@ -129,6 +129,8 @@ input, select, textarea { font: inherit; color: inherit; }
 .section--blue :is(h1, h2, h3) { color: var(--on-primary); }
 
 /* type */
+h1, h2, h3, h4, .accordion__q, blockquote { text-wrap: balance; }
+p, li, dd { text-wrap: pretty; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: var(--head-weight); color: var(--ink); line-height: var(--lh-head); letter-spacing: var(--tracking-head); }
 h1 em, h2 em { font-style: normal; color: var(--cobalt); }
 :lang(ur) h1 em, :lang(ur) h2 em { font-style: normal; }

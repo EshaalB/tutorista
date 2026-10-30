@@ -23,7 +23,9 @@ export default function Login() {
     if (!isPassword(String(f.get('password')))) next.password = a.errors.password
     setErrors(next)
     if (Object.keys(next).length) {
-      e.currentTarget.querySelector('[aria-invalid="true"]')?.focus()
+      // wait for React to mark the fields invalid, then move focus to the first one
+      const form = e.currentTarget
+      setTimeout(() => form.querySelector('[aria-invalid="true"]')?.focus())
       return
     }
     setDone(true)

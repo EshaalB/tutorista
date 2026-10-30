@@ -121,6 +121,8 @@ function Why({ data }) {
   )
 }
 
+// Questions families raise before starting, each answered plainly. Real, consented
+// testimonials can replace these later using the same cards.
 function Testimonials({ data }) {
   return (
     <section className="section testimonials" aria-labelledby="tm-title">
@@ -130,21 +132,20 @@ function Testimonials({ data }) {
       <div className="testimonials__rail">
         <DragScroller label={data.label} dragLabel={data.drag} className="testimonials__track">
           {data.items.map((item, i) => (
-            <figure key={item.name} className={`tcard tcard--${i % 5}`}>
+            <figure key={item.quote} className={`tcard tcard--${i % 5}`}>
               <div className="tcard__top">
                 <span>{String(i + 1).padStart(2, '0')}</span>
                 <RiDoubleQuotesL aria-hidden="true" />
               </div>
               <blockquote>“{item.quote}”</blockquote>
               <figcaption>
-                <strong>{item.name}</strong>
-                <span>{item.role}</span>
+                <span className="tcard__tag">{item.tag}</span>
+                <p>{item.answer}</p>
               </figcaption>
             </figure>
           ))}
         </DragScroller>
       </div>
-      <p className="container t-small testimonials__note">{data.note}</p>
     </section>
   )
 }

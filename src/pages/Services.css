@@ -1,7 +1,7 @@
 .how-hero { padding: clamp(48px, 7vw, 104px) 0 clamp(40px, 5vw, 64px); border-bottom: 1px solid var(--line); }
 .how-hero__grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px 64px; align-items: end; }
 .how-hero__toc { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 24px; }
-.how-hero__toc a { min-height: 40px; display: inline-flex; align-items: center; font-weight: 500; color: var(--cobalt); border-bottom: 1.5px solid transparent; transition: border-color .2s var(--ease); }
+.how-hero__toc a { min-height: 40px; min-width: 44px; justify-content: center; display: inline-flex; align-items: center; font-weight: 500; color: var(--cobalt); border-bottom: 1.5px solid transparent; transition: border-color .2s var(--ease); }
 .how-hero__toc a:hover { border-color: var(--gold); }
 
 /* process: sticky intro beside a line that draws as you scroll */

@@ -29,7 +29,9 @@ export default function Signup() {
     if (!f.get('terms')) next.terms = a.errors.terms
     setErrors(next)
     if (Object.keys(next).length) {
-      e.currentTarget.querySelector('[aria-invalid="true"]')?.focus()
+      // wait for React to mark the fields invalid, then move focus to the first one
+      const form = e.currentTarget
+      setTimeout(() => form.querySelector('[aria-invalid="true"]')?.focus())
       return
     }
     setDone(true)

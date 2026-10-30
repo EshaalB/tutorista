@@ -21,7 +21,7 @@
 .accordion__panel p { padding: 0 48px 22px 0; color: var(--muted); max-width: 68ch; }
 :dir(rtl) .accordion__panel p { padding: 0 0 22px 48px; }
 
-.accordion__num { flex: none; align-self: flex-start; padding-top: .35em; font-family: var(--font-body); font-size: 0.75rem; color: var(--muted); }
+.accordion__num { flex: none; min-width: 2ch; font-family: var(--font-body); font-size: 0.75rem; color: var(--muted); }
 .accordion__q { flex: 1; }
 .accordion__icon { background: var(--cobalt); }
 .accordion__icon::before, .accordion__icon::after { background: var(--on-primary); }
