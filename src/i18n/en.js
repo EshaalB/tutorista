@@ -1,6 +1,6 @@
 export default {
   meta: {
-    home: { title: null, desc: 'Tutorista finds you a tested, verified one-to-one tutor in Lahore for O and A Levels, Matric, FSc and entry tests. Fees shown upfront, pay per lesson.' },
+    home: { title: null, desc: 'Tutorista finds you a tested, verified one-to-one online tutor for O and A Levels, Matric, FSc and entry tests. Fees shown upfront, pay per lesson.' },
     how: { title: 'How it works', desc: 'How Tutorista works: sending a request, the five checks every tutor passes, subjects, fees and common questions.' },
     about: { title: 'About us', desc: 'Why Tutorista exists: tutors chosen on merit, quality teaching at a fair price, and the team behind it.' },
     contact: { title: 'Request a tutor', tutorTitle: 'Apply to teach', desc: 'Tell us what you need and we will reply with tested tutors who fit your subject, level and schedule.' },
@@ -47,30 +47,75 @@ export default {
 
   home: {
     hero: {
-      titleA: 'Every student’s journey is unique.',
-      titleB: 'So is our design.',
-      lead: 'One-to-one tutors in Lahore for O and A Levels, Matric, FSc and entry tests. Every tutor tested, every fee upfront.',
-      side: 'Your tutor plans each lesson around your board, your weak topics and your exam date, online or at your home. No package to buy, no contract to sign.',
-      cta: 'Start now, it’s free!',
-      secondary: 'See plans',
-      trust: {
-        title: 'Students who stayed with it',
-        note: 'Illustrative figures for this concept',
-        stats: [
-          { num: '+123', label: 'Average score increase, in marks' },
-          { num: '5.0', label: 'Google rating' },
-          { num: '50k+', label: 'Testers satisfied' },
-        ],
-      },
+      titleA: 'A better tutor.',
+      titleB: 'A fairer price.',
+      lead: 'Verified tutors for O Levels, A Levels, Matric, FSc and entry tests. Live online lessons, built around your goals.',
+      cta: 'Find your tutor',
+      secondary: 'How it works',
+      points: [
+        { title: 'Verified tutors', desc: 'Qualified and tested' },
+        { title: 'Live and online', desc: 'Learn from anywhere' },
+        { title: 'Clear pricing', desc: 'Pay only for what you need' },
+      ],
+      stats: [
+        { num: '30+', label: 'Subjects and tests' },
+        { num: 'O/A Levels, Matric, FSc', label: 'and entry tests' },
+        { num: '100% online', label: 'Anywhere in Pakistan' },
+        { num: '5 checks', label: 'Before anyone teaches' },
+      ],
       media: 'On screen: a teacher taking a college class in Pakistan. Stock footage from Pexels.',
       videoAlt: 'A teacher explaining a lesson to a college class in Pakistan',
     },
+    announce: [
+      'First lesson free on every plan this month',
+      '+123 marks average score increase',
+      '5.0 Google rating',
+      '50k+ testers satisfied',
+      'Live online tutors for O/A Levels, Matric, FSc and entry tests',
+      'Rs 0 to request a tutor',
+    ],
+    announceLabel: 'Announcements. Figures are illustrative for this concept.',
+    journey: {
+      title: 'How Tutorista works',
+      steps: [
+        { pill: 'Request', head: 'Two minutes', body: 'Tell us the subject, board and exam date. It’s free.', tone: 'cobalt' },
+        { pill: 'Match', head: 'Shortlist', body: 'Tested tutors who teach your exact syllabus, with rates.', tone: 'gold' },
+        { pill: 'Trial', head: 'First lesson', body: 'One live online lesson. No commitment.', tone: 'emerald' },
+        { pill: 'Learn', head: 'Weekly lessons', body: 'Live one-to-one video lessons at times that suit you.', tone: 'cobalt' },
+        { pill: 'Review', head: 'Progress notes', body: 'A short note each month on what improved.', tone: 'cream' },
+        { pill: 'Achieve', head: 'Exam ready', body: 'Past papers marked by your tutor before the day.', tone: 'gold' },
+      ],
+    },
+    why: {
+      label: 'Why Tutorista?',
+      drag: 'drag',
+      hint: 'Swipe or drag sideways to read on',
+      items: [
+        { title: 'Board students', img: '/img/pk-classroom.webp', alt: 'Students at their desks in a Pakistani school', body: 'Matric and FSc students get a tutor who knows the Punjab or Federal Board paper pattern, the marking, and which chapters carry the most marks.' },
+        { title: 'Cambridge students', img: '/img/pk-reading.webp', alt: 'A student reading in class', body: 'O and A Level students work paper by paper with someone who has sat the same exams, with past papers marked against the real scheme.' },
+        { title: 'Entry test candidates', img: '/img/pk-lab.webp', alt: 'Students working in a school lab', body: 'MDCAT, ECAT, NET and university tests need speed as much as knowledge. Your tutor builds both, with timed practice every week.' },
+        { title: 'Busy families', img: '/img/pk-uniform.webp', alt: 'A smiling student in school uniform', body: 'No travel, no academy timings. Lessons fit around school and family, and parents can sit in on any lesson from their own phone.' },
+      ],
+    },
+    testimonials: {
+      label: 'Testimonials',
+      note: 'Sample testimonials for this concept',
+      drag: 'drag',
+      items: [
+        { quote: 'Physics finally makes sense. Mera paper 52 se 81 pe aa gaya.', name: 'Hamza R.', role: 'FSc Part 1, Lahore' },
+        { quote: 'Teacher ne MDCAT ke liye timing practice karwai. Itna confidence pehle kabhi nahi tha.', name: 'Ayesha K.', role: 'MDCAT candidate, Multan' },
+        { quote: 'I can sit in on my son’s lessons from the office. That alone made it worth it.', name: 'Saima T.', role: 'Parent, Karachi' },
+        { quote: 'Acha ustaad, munasib fees. Bas yahi chahiye tha.', name: 'Bilal A.', role: 'O Level Maths, Islamabad' },
+        { quote: 'My tutor marks every past paper with comments. Chemistry went from my worst to my best.', name: 'Zainab M.', role: 'A Level Chemistry, Faisalabad' },
+      ],
+    },
+    faq: { title: 'FAQs' },
     picker: { title: 'Find a tutor in one line', need: 'I need help with', for: 'for', anySubject: 'any subject', anyLevel: 'any level', go: 'Find a tutor' },
     marquee: 'Boards and entry tests our students prepare for',
     marqueeNote: 'Tutorista is not affiliated with these institutions.',
     about: {
       label: 'Who we are',
-      before: 'Tutorista is a Lahore tutoring service built on one idea:',
+      before: 'Tutorista is an online tutoring service from Lahore, built on one idea:',
       em: 'the best teacher gets the job,',
       after: 'not the best connected one. We test every tutor, show every fee, and match students with people who teach their exact syllabus.',
       stats: [
@@ -112,7 +157,7 @@ export default {
     lead: 'Start with one lesson. Move to a monthly plan only if it suits you. Every plan uses the same tested tutors.',
     note: 'Example prices for this concept. Real rates depend on the tutor, subject and level.',
     items: [
-      { id: 'single', name: 'Single lessons', price: 'Rs 1,500', unit: 'per lesson, from', desc: 'For a tricky chapter or the week before an exam.', points: ['Book one lesson at a time', 'Online or at home', 'Change tutor whenever you like'], cta: 'Start free' },
+      { id: 'single', name: 'Single lessons', price: 'Rs 1,500', unit: 'per lesson, from', desc: 'For a tricky chapter or the week before an exam.', points: ['Book one lesson at a time', 'Live online, from anywhere', 'Change tutor whenever you like'], cta: 'Start free' },
       { id: 'monthly', name: 'Monthly', price: 'Rs 10,000', unit: 'per month, from', badge: 'Steady progress', desc: 'Eight lessons a month with the same tutor.', points: ['8 lessons, twice a week', 'A progress note every month', 'Pause or stop any month'], cta: 'Choose monthly' },
       { id: 'sprint', name: 'Exam sprint', price: 'Rs 18,000', unit: 'for 4 weeks, from', desc: 'Daily practice before MDCAT, ECAT or board exams.', points: ['16 focused lessons in 4 weeks', 'Past papers marked by your tutor', 'A mock test in the final week'], cta: 'Plan a sprint' },
     ],
@@ -159,9 +204,9 @@ export default {
       ],
     },
     formats: {
-      title: 'Online, or at your kitchen table',
-      online: { title: 'Online', desc: 'Live video lessons from home or a hostel room. Good for late evenings, and when the right tutor lives across town.' },
-      home: { title: 'At home', desc: 'The tutor comes to you, anywhere in Lahore our tutors cover. Good for younger students and parents who like to be close.' },
+      title: 'Live, online, one-to-one',
+      online: { title: 'Live video lessons', desc: 'Live video lessons from home or a hostel room. Good for late evenings, and when the right tutor lives across town.' },
+      home: { title: 'From anywhere in Pakistan', desc: 'All you need is a phone or laptop and a steady connection. Parents can sit in on any lesson.' },
       onlineAlt: 'A student taking notes during an online lesson',
       homeAlt: 'A young student writing in his notebook',
     },
@@ -192,7 +237,7 @@ export default {
       items: [
         { q: 'How much does a tutor cost?', a: 'Tutors set their own rates based on experience, subject and level. You see the rate before you book and nothing is added on top. Tutors pay a 15% service fee from their earnings.' },
         { q: 'Do I have to commit to a number of lessons?', a: 'No. Book one lesson before an exam, a weekly slot for the year, or anything in between. Stop whenever you like.' },
-        { q: 'Are lessons online or at home?', a: 'Both. Online works anywhere with a stable connection. Home lessons are available across Lahore, depending on which tutors cover your area.' },
+        { q: 'Are lessons online or in person?', a: 'Only online. Tutorista is an online service, so lessons are live video calls you can join from anywhere in Pakistan with a steady connection.' },
         { q: 'How do I pay?', a: 'EasyPaisa, JazzCash, debit or credit card, or bank transfer. You pay per lesson.' },
         { q: 'What if the tutor isn’t the right fit?', a: 'Tell us after any lesson and we will suggest another tutor. Finding the right person sometimes takes a second try.' },
         { q: 'Can I teach with Tutorista?', a: 'Yes, if you pass the five checks. Apply through the form and choose “I want to teach”.' },

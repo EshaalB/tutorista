@@ -1,9 +1,19 @@
-.nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); }
+.nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); transition: border-color .3s var(--ease); }
 /* blur lives on a pseudo-element: backdrop-filter on .nav itself would trap the fixed mobile drawer */
 .nav::before {
   content: ''; position: absolute; inset: 0; z-index: -1;
-  background: rgb(251 247 236 / 90%); backdrop-filter: saturate(1.4) blur(12px);
+  background: rgb(251 247 236 / 92%); backdrop-filter: saturate(1.4) blur(12px);
+  transition: opacity .35s var(--ease);
 }
+/* over the hero video: no background, light text, until the page scrolls */
+.nav--overlay { border-bottom-color: transparent; }
+.nav--overlay::before { opacity: 0; }
+.nav--overlay :is(.nav__brand, .nav__link, .nav__burger) { color: var(--on-primary); }
+.nav--overlay .nav__search { background: rgb(254 249 232 / 12%); border-color: rgb(254 249 232 / 35%); color: var(--on-primary); }
+.nav--overlay .nav__search svg { color: var(--on-primary); }
+.nav--overlay .lang { background: rgb(254 249 232 / 14%); }
+.nav--overlay .lang__btn { color: var(--on-primary-muted); }
+.nav--overlay .nav__brand img { filter: brightness(0) invert(1); }
 .nav__inner { display: flex; align-items: center; gap: 24px; min-height: var(--nav-h); }
 .nav__brand { display: flex; align-items: center; gap: 10px; font-family: 'Zodiak', Georgia, serif; font-weight: 600; font-size: 1.45rem; color: var(--cobalt); flex: none; }
 .nav__brand img { width: 27px; height: 40px; transition: transform .4s var(--ease); }
@@ -34,7 +44,8 @@
 }
 .nav__search:hover { border-color: var(--cobalt); color: var(--ink); }
 .nav__search svg { width: 18px; height: 18px; color: var(--cobalt); }
-.nav__search-text { font-size: 0.9375rem; min-width: 7.5em; text-align: start; }
+.nav__search-text, .nav__search kbd { display: none; }
+.nav__search { width: 44px; padding: 0; justify-content: center; }
 .nav__search kbd { font: inherit; font-size: 0.75rem; padding: 1px 7px; border-radius: 6px; background: var(--cream); color: var(--muted); }
 .nav__cta { min-height: 44px; padding: 10px 18px; }
 .nav__burger { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: var(--r-btn); color: var(--ink); }
@@ -72,7 +83,7 @@
 
 /* mobile drawer */
 .nav__mobile {
-  position: fixed; inset: var(--nav-h) 0 0; z-index: 49; overflow-y: auto;
+  position: fixed; inset: var(--header-h) 0 0; z-index: 49; overflow-y: auto;
   background: var(--ivory); padding: 16px var(--gutter) 32px; border-top: 1px solid var(--line);
   animation: drawer-in .25s var(--ease);
 }

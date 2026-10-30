@@ -12,6 +12,8 @@ import Plans from './pages/Plans'
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup'
 import AccessibilityPanel from './components/AccessibilityPanel'
+import Preloader from './components/Preloader'
+import SmoothScroll from './motion/SmoothScroll'
 import LanguageProvider from './i18n/LanguageProvider'
 import PreferencesProvider from './a11y/PreferencesProvider'
 import { usePreferences } from './a11y'
@@ -72,6 +74,8 @@ export default function App() {
     <LanguageProvider>
       <PreferencesProvider>
         <BrowserRouter>
+          <Preloader />
+          <SmoothScroll />
           <ScrollToTop />
           <SkipLink />
           <Navbar />

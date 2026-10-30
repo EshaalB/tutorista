@@ -18,8 +18,7 @@ function buildEmail(role, d) {
     ['I am', en.contact.roles[role]],
     ['Name', d.name], ['Email', d.email], ['Phone', d.phone],
     ['Level', d.level && (en.levels[d.level]?.label ?? en.levels[d.level])], ['Subject', d.subject],
-    ['Format', d.format && en.contact.labels.formats[d.format]], ['Area', d.area],
-    ['Subjects taught', d.teaches], ['Qualifications', d.qualifications],
+        ['Subjects taught', d.teaches], ['Qualifications', d.qualifications],
     ['Message', d.message],
   ].filter(([, v]) => v)
   const subject = role === 'tutor' ? `Tutor application: ${d.name}`
@@ -128,25 +127,7 @@ function Contact({ params }) {
                     </div>
                   </div>
 
-                  <fieldset className="field">
-                    <legend className="form__label">{c.labels.format}</legend>
-                    <div className="form__seg form__seg--sm">
-                      {['online', 'home', 'either'].map(v => (
-                        <label key={v}>
-                          <input type="radio" name="format" value={v} defaultChecked={v === 'either'} />
-                          <span>{c.labels.formats[v]}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-
-                  <div className="form__row">
-                    <div className="field">
-                      <label htmlFor="area" className="form__label">{c.labels.area} <span>{c.labels.optional}</span></label>
-                      <input id="area" name="area" placeholder={c.labels.areaPh} />
-                    </div>
-                    {phoneField}
-                  </div>
+                  {phoneField}
                 </>
               )}
 

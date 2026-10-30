@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { RiArrowUpLine, RiArrowRightLine } from 'react-icons/ri'
+import { RiArrowUpLine } from 'react-icons/ri'
 import { useLang } from '../i18n'
 import './FloatingDock.css'
 
-// Appears once the hero is out of view: a quiet "find a tutor" shortcut plus back to top.
+// Back-to-top button that appears once the hero is out of view.
 export default function FloatingDock() {
   const { t } = useLang()
-  const { pathname } = useLocation()
   const [shown, setShown] = useState(false)
 
   useEffect(() => {
@@ -26,11 +24,6 @@ export default function FloatingDock() {
 
   return (
     <div className={`dock ${shown ? 'is-shown' : ''}`} inert={!shown}>
-      {pathname !== '/contact' && (
-        <Link to="/contact" className="dock__find">
-          {t.dock.find} <RiArrowRightLine aria-hidden="true" />
-        </Link>
-      )}
       <button type="button" className="dock__top" onClick={toTop} aria-label={t.dock.top} title={t.dock.top}>
         <RiArrowUpLine aria-hidden="true" />
       </button>

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { RiArrowRightLine, RiPauseFill, RiPlayFill } from 'react-icons/ri'
-import { catalog, requestLink, subjectInfo, subjectName } from '../content/site'
+import { Link } from 'react-router-dom'
+import { RiArrowRightLine, RiPauseFill, RiPlayFill, RiPlayCircleLine, RiDoubleQuotesL } from 'react-icons/ri'
 import { useLang } from '../i18n'
 import { useMotionAllowed } from '../a11y'
-import { PhotoTile, LoopVideo } from '../components/Motifs'
 import TactileHighlight from '../components/ui/tactile-highlight'
 import LogoMarquee from '../components/LogoMarquee'
+import DragScroller from '../components/DragScroller'
+import Accordion from '../components/Accordion'
 import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './Home.css'
@@ -49,7 +49,7 @@ function HeroVideo({ label, caption }) {
         <source src="/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 640px)" />
         <source src="/video/hero.mp4" type="video/mp4" />
       </video>
-      <div className="container vhero__meta">
+      <div className="vhero__media">
         <button type="button" className="vhero__toggle" onClick={toggle} aria-label={playing ? t.video.pause : t.video.play}>
           {playing ? <RiPauseFill aria-hidden="true" /> : <RiPlayFill aria-hidden="true" />}
         </button>
@@ -59,47 +59,93 @@ function HeroVideo({ label, caption }) {
   )
 }
 
-// "I need help with [subject] for [level]": one line to a pre-filled request.
-function SentencePicker() {
-  const { t, lang } = useLang()
-  const p = t.home.picker
-  const navigate = useNavigate()
-
-  const onSubmit = (e) => {
-    e.preventDefault()
-    const form = new FormData(e.currentTarget)
-    navigate(requestLink({ subject: form.get('subject') || undefined, level: form.get('level') || undefined }))
-  }
-
+function Journey({ data }) {
   return (
-    <form className="picker" onSubmit={onSubmit}>
-      <p className="picker__sentence">
-        <label htmlFor="pick-subject">{p.need}</label>{' '}
-        <span className="picker__select">
-          <select id="pick-subject" name="subject" defaultValue="">
-            <option value="">{p.anySubject}</option>
-            {Object.keys(subjectInfo).map(s => <option key={s} value={s}>{subjectName(s, lang)}</option>)}
-          </select>
-        </span>{' '}
-        <label htmlFor="pick-level">{p.for}</label>{' '}
-        <span className="picker__select">
-          <select id="pick-level" name="level" defaultValue="">
-            <option value="">{p.anyLevel}</option>
-            {catalog.map(c => <option key={c.id} value={c.id}>{t.levels[c.id].label}</option>)}
-          </select>
-        </span>
-      </p>
-      <button type="submit" className="btn btn--primary">{p.go} <RiArrowRightLine aria-hidden="true" /></button>
-    </form>
+    <section className="journey-map" aria-labelledby="journey-title">
+      <div className="container">
+        <h2 id="journey-title" className="t-title">{data.title}</h2>
+        <ol className="journey-map__list">
+          {data.steps.map((s, i) => (
+            <li key={s.pill} className={`jstep jstep--${i % 2 ? 'up' : 'down'}`} data-reveal>
+              <span className="jstep__pill">{s.pill}</span>
+              <span className="jstep__line" aria-hidden="true" />
+              <div className={`jstep__card jstep__card--${s.tone}`}>
+                <p className="jstep__head">{s.head}</p>
+                <p className="jstep__body">{s.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
   )
 }
 
-function CheckPath() {
+function Why({ data }) {
+  const [active, setActive] = useState(0)
   return (
-    <svg className="checks__path" viewBox="0 0 60 600" preserveAspectRatio="none" fill="none" aria-hidden="true">
-      <path d="M30 0C58 70 2 130 30 200s-28 130 0 200 28 130 0 200" stroke="#e6dbba" strokeWidth="3" vectorEffect="non-scaling-stroke" />
-      <path data-path d="M30 0C58 70 2 130 30 200s-28 130 0 200 28 130 0 200" stroke="#254d91" strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-    </svg>
+    <section className="section why" aria-labelledby="why-title">
+      <div className="container why__grid">
+        <div className="why__deck" aria-hidden="true">
+          {data.items.map((item, i) => {
+            const offset = (i - active + data.items.length) % data.items.length
+            return (
+              <img
+                key={item.img}
+                src={item.img}
+                alt=""
+                width="800"
+                height="600"
+                loading="lazy"
+                className="why__card"
+                style={{ '--o': offset, zIndex: data.items.length - offset }}
+              />
+            )
+          })}
+        </div>
+        <div className="why__text">
+          <h2 id="why-title" className="why__label">{data.label}</h2>
+          <DragScroller label={data.hint} dragLabel={data.drag} onActiveChange={setActive} className="why__track">
+            {data.items.map((item, i) => (
+              <article key={item.title} className={`why__col ${i === active ? 'is-active' : ''}`}>
+                <p className="why__letter">{String.fromCharCode(65 + i)}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </DragScroller>
+          <p className="t-small why__hint">{data.hint}</p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Testimonials({ data }) {
+  return (
+    <section className="section testimonials" aria-labelledby="tm-title">
+      <div className="container">
+        <h2 id="tm-title" className="testimonials__label">{data.label}</h2>
+      </div>
+      <div className="testimonials__rail">
+        <DragScroller label={data.label} dragLabel={data.drag} className="testimonials__track">
+          {data.items.map((item, i) => (
+            <figure key={item.name} className={`tcard tcard--${i % 5}`}>
+              <div className="tcard__top">
+                <span>{String(i + 1).padStart(2, '0')}</span>
+                <RiDoubleQuotesL aria-hidden="true" />
+              </div>
+              <blockquote>“{item.quote}”</blockquote>
+              <figcaption>
+                <strong>{item.name}</strong>
+                <span>{item.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </DragScroller>
+      </div>
+      <p className="container t-small testimonials__note">{data.note}</p>
+    </section>
   )
 }
 
@@ -109,47 +155,43 @@ export default function Home() {
   const scope = useRef(null)
   usePageMeta(t.meta.home)
   usePageMotion(scope, lang)
-  const roman = lang === 'ur' ? 'ur' : 'ur-Latn'
 
   return (
     <div ref={scope}>
       <section className="vhero">
         <HeroVideo label={h.hero.videoAlt} caption={h.hero.media} />
         <div className="vhero__shade" aria-hidden="true" />
-        <div className="container vhero__grid">
-          <div className="vhero__main">
-            <h1 className="t-display vhero__title">
-              {h.hero.titleA}{' '}
-              <TactileHighlight trigger="auto" delay={0.6}>{h.hero.titleB}</TactileHighlight>
-            </h1>
-            <p className="vhero__lead">{h.hero.lead}</p>
-            <div className="vhero__actions">
-              <Link to="/signup" className="btn btn--gold">{h.hero.cta} <RiArrowRightLine aria-hidden="true" /></Link>
-              <Link to="/plans" className="btn vhero__ghost">{h.hero.secondary}</Link>
+        <div className="container vhero__inner">
+          <div className="vhero__grid">
+            <div className="vhero__main">
+              <h1 className="vhero__title">
+                <span>{h.hero.titleA}</span>
+                <span className="vhero__title-gold">{h.hero.titleB}</span>
+              </h1>
+              <p className="vhero__lead">{h.hero.lead}</p>
+              <div className="vhero__actions">
+                <Link to="/contact" className="btn btn--gold">{h.hero.cta} <RiArrowRightLine aria-hidden="true" /></Link>
+                <Link to="/services" className="btn vhero__ghost"><RiPlayCircleLine aria-hidden="true" /> {h.hero.secondary}</Link>
+              </div>
             </div>
+            <ol className="vhero__points">
+              {h.hero.points.map((p, i) => (
+                <li key={p.title}>
+                  <span>{String(i + 1).padStart(2, '0')}</span>
+                  <strong>{p.title}</strong>
+                  <small>{p.desc}</small>
+                </li>
+              ))}
+            </ol>
           </div>
-          <div className="vhero__side">
-            <p>{h.hero.side}</p>
-            <aside className="trust" aria-labelledby="trust-title">
-              <h2 id="trust-title" className="trust__title">{h.hero.trust.title}</h2>
-              <dl className="trust__stats">
-                {h.hero.trust.stats.map(s => (
-                  <div key={s.label}>
-                    <dt>{s.num}</dt>
-                    <dd>{s.label}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="trust__note">{h.hero.trust.note}</p>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section className="pickband" aria-labelledby="pick-title">
-        <div className="container pickband__inner">
-          <h2 id="pick-title" className="kicker pickband__title">{h.picker.title}</h2>
-          <SentencePicker />
+          <dl className="vhero__stats">
+            {h.hero.stats.map(s => (
+              <div key={s.label}>
+                <dt>{s.num}</dt>
+                <dd>{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
@@ -161,94 +203,18 @@ export default function Home() {
           <p className="who__text" data-reveal>
             {h.about.before} <TactileHighlight direction="left" delay={0.2}>{h.about.em}</TactileHighlight> {h.about.after}
           </p>
-          <dl className="who__stats">
-            {h.about.stats.map(s => (
-              <div key={s.label} data-reveal>
-                <dt>{s.num}</dt>
-                <dd>{s.label}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </section>
 
-      <section className="section section--cream checks">
-        <div className="container checks__grid">
-          <div className="checks__media">
-            <LoopVideo name="online-study" frame="page" label={h.checks.videoAlt} className="checks__video" />
-          </div>
-          <div>
-            <p className="kicker">{h.checks.kicker}</p>
-            <h2 className="t-title">
-              {h.checks.title} <em lang={roman}>{h.checks.titleEm}</em>
-            </h2>
-            <div className="checks__track">
-              <CheckPath />
-              <ol className="checks__list">
-                {t.how.checks.items.map((c, i) => (
-                  <li key={c.title}>
-                    <span className="checks__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3>{c.title}</h3>
-                      <p>{c.desc}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <Link to="/services#process" className="link-arrow">{h.checks.link} <RiArrowRightLine aria-hidden="true" /></Link>
-          </div>
-        </div>
-      </section>
+      <Journey data={h.journey} />
+      <Why data={h.why} />
+      <Testimonials data={h.testimonials} />
 
-      <section className="section compare">
-        <div className="container">
-          <div className="section-head">
-            <p className="kicker">{h.compare.kicker}</p>
-            <h2 className="t-title">{h.compare.title}</h2>
-          </div>
-          <table className="compare__table" data-reveal>
-            <thead>
-              <tr>
-                <th scope="col"><span className="sr-only">{h.compare.cols.situation}</span></th>
-                <th scope="col">{h.compare.cols.recorded}</th>
-                <th scope="col" className="compare__ours">{h.compare.cols.tutor}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {h.compare.rows.map(([situation, recorded, tutor]) => (
-                <tr key={situation}>
-                  <th scope="row">{situation}</th>
-                  <td data-label={h.compare.cols.recorded}>{recorded}</td>
-                  <td data-label={h.compare.cols.tutor} className="compare__ours">{tutor}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Link to="/contact" className="btn btn--primary compare__cta">{h.compare.cta} <RiArrowRightLine aria-hidden="true" /></Link>
-        </div>
-      </section>
-
-      <section className="section section--cream paths">
-        <div className="container paths__grid">
-          <article className="path path--learn">
-            <PhotoTile src="/img/pk-uniform.webp" frame="page" alt={h.paths.learn.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 640px" className="path__image zoom" data-mask />
-            <div className="path__body">
-              <p className="kicker">{h.paths.learn.kicker}</p>
-              <h2 className="t-sub">{h.paths.learn.title}</h2>
-              <p>{h.paths.learn.body}</p>
-              <Link to="/contact" className="btn btn--primary">{h.paths.learn.cta} <RiArrowRightLine aria-hidden="true" /></Link>
-            </div>
-          </article>
-          <article className="path path--teach">
-            <PhotoTile src="/img/pk-notes.webp" frame="card" alt={h.paths.teach.alt} size={800} small={480} sizes="(max-width: 960px) 92vw, 420px" className="path__image" />
-            <div className="path__body">
-              <p className="kicker">{h.paths.teach.kicker}</p>
-              <h2 className="t-sub">{h.paths.teach.title}</h2>
-              <p>{h.paths.teach.body}</p>
-              <Link to={requestLink({ role: 'tutor' })} className="btn btn--gold">{h.paths.teach.cta} <RiArrowRightLine aria-hidden="true" /></Link>
-            </div>
-          </article>
+      <section className="section faqs" aria-labelledby="faq-title">
+        <div className="container faqs__inner">
+          <h2 id="faq-title" className="t-title">{h.faq.title}</h2>
+          <Accordion items={t.how.faq.items} numbered />
+          <Link to="/contact" className="link-arrow faqs__more">{t.how.faq.link} <RiArrowRightLine aria-hidden="true" /></Link>
         </div>
       </section>
     </div>

@@ -109,3 +109,15 @@ Faded-in content stays in the accessibility tree (fades use opacity, never `visi
 6. That the five checks, the 15% fee, the payment methods and the home-tutoring areas are accurate.
 7. Founder photo approval, and a vector logo.
 8. Real photos or video of Tutorista sessions, and consented reviews, to replace stock media and add honest social proof.
+
+## Round five (latest)
+
+- Online-only: in-person/home lessons removed from copy, FAQ and the request form.
+- Header: announcement ticker on top; transparent over the hero video, solid once you scroll. Floating "Find a tutor" removed (back-to-top stays).
+- Buttons: no hover lift. Primary actions get a fill sweep; every button presses down on click.
+- First-visit preloader (~1.5s, once per session, skipped under reduced motion/Lite mode).
+- Hero rebuilt with less crowding: title, lead, two CTAs, three numbered points, one stats row.
+- Logo band: white marks on a deep cobalt band, no label text (label kept for screen readers).
+- New homepage sections: journey map, "Why Tutorista?" stacked photos with a draggable column strip, draggable testimonial cards, numbered FAQs.
+- Lenis smooth scroll (off under reduced motion/Lite mode).
+- **Concept placeholders to replace before launch:** announcement figures (+123 marks, 5.0 rating, 50k+, "first lesson free"), all testimonials (names and quotes are samples), plan prices.

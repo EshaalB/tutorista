@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { RiMenuLine, RiCloseLine, RiArrowDownSLine, RiArrowRightSLine, RiSearchLine } from 'react-icons/ri'
 import { catalog, requestLink, subjectName } from '../content/site'
 import { useLang, languages } from '../i18n'
 import SearchDialog from './SearchDialog'
+import AnnouncementBar from './AnnouncementBar'
 import './Navbar.css'
 
 function LangSwitch({ className = '' }) {
@@ -90,10 +91,24 @@ function SubjectsMenu() {
   )
 }
 
+// On the homepage the header sits over the hero video and fills in once you scroll.
+function useOverlay() {
+  const { pathname } = useLocation()
+  const [top, setTop] = useState(true)
+  useEffect(() => {
+    const onScroll = () => setTop(window.scrollY < 40)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return pathname === '/' && top
+}
+
 export default function Navbar() {
   const { t, lang } = useLang()
   const [open, setOpen] = useState(false)
   const [searching, setSearching] = useState(false)
+  const overlay = useOverlay() && !open
 
   useEffect(() => {
     const onKey = (e) => {
@@ -122,7 +137,8 @@ export default function Navbar() {
   const openSearch = () => { setOpen(false); setSearching(true) }
 
   return (
-    <header className="nav">
+    <header className={`nav ${overlay ? 'nav--overlay' : ''}`}>
+      <AnnouncementBar />
       <div className="container nav__inner">
         <Link to="/" className="nav__brand" aria-label="Tutorista" onClick={() => setOpen(false)}>
           <img src="/brand/mark.webp" alt="" width="27" height="40" />

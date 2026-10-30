@@ -7,7 +7,7 @@
 .auth__link { color: var(--cobalt); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .auth__switch { margin-top: 20px; color: var(--muted); }
 
-.auth__aside { position: sticky; top: calc(var(--nav-h) + 32px); margin: 0; display: grid; gap: 12px; }
+.auth__aside { position: sticky; top: calc(var(--header-h) + 24px); margin: 0; display: grid; gap: 12px; }
 .auth__aside .frame { aspect-ratio: 4 / 5; }
 .auth__note { font-size: var(--step-2); }
 

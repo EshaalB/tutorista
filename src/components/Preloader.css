@@ -1,0 +1,19 @@
+.preloader {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-content: center; justify-items: center; gap: 14px;
+  background: var(--ivory); transition: transform .55s cubic-bezier(.7, 0, .2, 1);
+}
+.preloader img { width: 53px; height: 80px; animation: pre-mark .5s var(--ease) both; }
+@keyframes pre-mark { from { opacity: 0; transform: translateY(8px) scale(.94); } }
+
+/* the wordmark is drawn in outline, then a cobalt fill sweeps across it */
+.preloader__word {
+  position: relative; font-family: 'Zodiak', Georgia, serif; font-weight: 600; font-size: clamp(2rem, 7vw, 3rem);
+  color: transparent; -webkit-text-stroke: 1px var(--line); line-height: 1;
+}
+.preloader__word::after {
+  content: attr(data-word); position: absolute; inset: 0; color: var(--cobalt); -webkit-text-stroke: 0;
+  clip-path: inset(0 100% 0 0); animation: pre-fill .7s .15s cubic-bezier(.6, 0, .2, 1) forwards;
+}
+@keyframes pre-fill { to { clip-path: inset(0 0 0 0); } }
+
+.preloader--lift { transform: translateY(-100%); }

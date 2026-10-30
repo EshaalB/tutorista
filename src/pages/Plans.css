@@ -9,7 +9,7 @@
   padding: clamp(24px, 3vw, 32px); border-radius: var(--r-card); background: var(--paper); border: 1.5px solid var(--line);
   transition: border-color .25s var(--ease), transform .25s var(--ease);
 }
-.plan:hover { border-color: var(--cobalt); transform: translateY(-3px); }
+.plan:hover { border-color: var(--cobalt); }
 .plan--monthly { background: var(--cobalt); color: var(--on-primary); border-color: var(--cobalt); border-radius: var(--r-feature); }
 .plan--monthly:hover { border-color: var(--gold); }
 .plan--monthly .plan__name, .plan--monthly .plan__price strong { color: var(--on-primary); }

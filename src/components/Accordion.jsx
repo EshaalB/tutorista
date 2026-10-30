@@ -1,7 +1,7 @@
 import { useState, useId } from 'react'
 import './Accordion.css'
 
-export default function Accordion({ items }) {
+export default function Accordion({ items, numbered = false }) {
   const [openIndex, setOpenIndex] = useState(0)
   const baseId = useId()
 
@@ -20,7 +20,8 @@ export default function Accordion({ items }) {
                 aria-controls={`${id}-panel`}
                 onClick={() => setOpenIndex(isOpen ? null : index)}
               >
-                {item.q}
+                {numbered && <span className="accordion__num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>}
+                <span className="accordion__q">{item.q}</span>
                 <span className="accordion__icon" aria-hidden="true" />
               </button>
             </h3>

@@ -1,0 +1,17 @@
+.dragger { position: relative; }
+.dragger__track {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  overscroll-behavior-x: contain; cursor: grab; outline-offset: 6px;
+}
+.dragger__track::-webkit-scrollbar { display: none; }
+.dragger__track > * { scroll-snap-align: start; flex: none; }
+.dragger__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.dragger__track.is-dragging * { pointer-events: none; }
+
+.dragger__cursor {
+  position: absolute; left: -44px; top: -44px; z-index: 3; pointer-events: none;
+  width: 88px; height: 88px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--cobalt-900); color: var(--on-primary); font-weight: 600; font-size: 0.875rem;
+  transition: transform .08s linear;
+}
+@media (hover: none) { .dragger__cursor { display: none; } }
