@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-10-30T12:22:06.487Z",
+        "reason": "User explicitly requested the Zodiak + Geist pairing"
+      }
+    ]
+  }
+}
