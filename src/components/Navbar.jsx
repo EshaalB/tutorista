@@ -1,15 +1,34 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink, Link } from 'react-router-dom'
-import { RiMenuLine, RiCloseLine, RiArrowDownSLine, RiArrowRightSLine } from 'react-icons/ri'
-import { catalog, requestLink } from '../content/site'
+import { RiMenuLine, RiCloseLine, RiArrowDownSLine, RiArrowRightSLine, RiSearchLine } from 'react-icons/ri'
+import { catalog, requestLink, subjectName } from '../content/site'
+import { useLang, languages } from '../i18n'
+import SearchDialog from './SearchDialog'
 import './Navbar.css'
 
-const links = [
-  { to: '/services', label: 'How it works' },
-  { to: '/about', label: 'About' },
-]
+function LangSwitch({ className = '' }) {
+  const { lang, setLang, t } = useLang()
+  return (
+    <div className={`lang ${className}`} role="group" aria-label={t.nav.language}>
+      {languages.map(l => (
+        <button
+          key={l.id}
+          type="button"
+          lang={l.htmlLang}
+          title={l.name}
+          aria-pressed={lang === l.id}
+          className="lang__btn"
+          onClick={() => setLang(l.id)}
+        >
+          {l.label}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 function SubjectsMenu() {
+  const { t, lang } = useLang()
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(catalog[0].id)
   const ref = useRef(null)
@@ -30,13 +49,8 @@ function SubjectsMenu() {
 
   return (
     <div className="mega" ref={ref}>
-      <button
-        className="nav__link mega__trigger"
-        aria-expanded={open}
-        aria-controls="mega-panel"
-        onClick={() => setOpen(o => !o)}
-      >
-        Subjects <RiArrowDownSLine aria-hidden="true" />
+      <button className="nav__link mega__trigger" aria-expanded={open} aria-controls="mega-panel" onClick={() => setOpen(o => !o)}>
+        {t.nav.subjects} <RiArrowDownSLine aria-hidden="true" />
       </button>
       {open && (
         <div className="mega__panel" id="mega-panel" onClick={(e) => e.target.closest('a') && setOpen(false)}>
@@ -51,8 +65,8 @@ function SubjectsMenu() {
                   onClick={() => setActive(c.id)}
                 >
                   <span>
-                    <strong>{c.label}</strong>
-                    <small>{c.blurb}</small>
+                    <strong>{t.levels[c.id].label}</strong>
+                    <small>{t.levels[c.id].blurb}</small>
                   </span>
                   <RiArrowRightSLine aria-hidden="true" />
                 </button>
@@ -60,16 +74,14 @@ function SubjectsMenu() {
             ))}
           </ul>
           <div className="mega__subjects">
-            <p className="mega__heading">{group.label}</p>
-            <ul>
+            <p className="mega__heading">{t.levels[group.id].label}</p>
+            <ul key={group.id}>
               {group.subjects.map(s => (
-                <li key={s}>
-                  <Link to={requestLink({ level: group.label, subject: s })}>{s}</Link>
-                </li>
+                <li key={s}><Link to={requestLink({ level: group.id, subject: s })}>{subjectName(s, lang)}</Link></li>
               ))}
             </ul>
             <Link to="/services#subjects" className="link-arrow mega__all">
-              See every subject <RiArrowRightSLine aria-hidden="true" />
+              {t.nav.seeAll} <RiArrowRightSLine aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -79,7 +91,23 @@ function SubjectsMenu() {
 }
 
 export default function Navbar() {
+  const { t, lang } = useLang()
   const [open, setOpen] = useState(false)
+  const [searching, setSearching] = useState(false)
+
+  useEffect(() => {
+    const onKey = (e) => {
+      const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)
+      if ((e.key === '/' && !typing) || (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey))) {
+        e.preventDefault()
+        setOpen(false)
+        setSearching(true)
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [])
+
   useEffect(() => {
     if (!open) return
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false) }
@@ -91,29 +119,36 @@ export default function Navbar() {
     }
   }, [open])
 
+  const openSearch = () => { setOpen(false); setSearching(true) }
+
   return (
     <header className="nav">
       <div className="container nav__inner">
-        <Link to="/" className="nav__brand" aria-label="Tutorista home" onClick={() => setOpen(false)}>
+        <Link to="/" className="nav__brand" aria-label="Tutorista" onClick={() => setOpen(false)}>
           <img src="/brand/mark.webp" alt="" width="27" height="40" />
           <span>Tutorista</span>
         </Link>
 
-        <nav className="nav__desktop" aria-label="Main">
+        <nav className="nav__desktop" aria-label={t.nav.main}>
           <SubjectsMenu />
-          {links.map(l => (
-            <NavLink key={l.to} to={l.to} className="nav__link">{l.label}</NavLink>
-          ))}
+          <NavLink to="/services" className="nav__link">{t.nav.how}</NavLink>
+          <NavLink to="/about" className="nav__link">{t.nav.about}</NavLink>
         </nav>
 
         <div className="nav__actions">
-          <Link to={requestLink({ role: 'tutor' })} className="nav__link nav__teach">Teach with us</Link>
-          <Link to="/contact" className="btn btn--dark nav__cta">Find a tutor</Link>
+          <button type="button" className="nav__search" onClick={openSearch} aria-label={t.nav.searchLabel}>
+            <RiSearchLine aria-hidden="true" />
+            <span className="nav__search-text">{t.nav.search}</span>
+            <kbd aria-hidden="true">/</kbd>
+          </button>
+          <LangSwitch className="nav__lang" />
+          <Link to={requestLink({ role: 'tutor' })} className="nav__link nav__teach">{t.nav.teach}</Link>
+          <Link to="/contact" className="btn btn--primary nav__cta">{t.nav.find}</Link>
           <button
             className="nav__burger"
             aria-expanded={open}
             aria-controls="mobile-menu"
-            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             onClick={() => setOpen(o => !o)}
           >
             {open ? <RiCloseLine size={26} /> : <RiMenuLine size={26} />}
@@ -123,26 +158,30 @@ export default function Navbar() {
 
       {open && (
         <div className="nav__mobile" id="mobile-menu">
-          <nav aria-label="Mobile" onClick={(e) => e.target.closest('a') && setOpen(false)}>
-            <p className="nav__mobile-label">Subjects</p>
+          <nav aria-label={t.nav.main} onClick={(e) => e.target.closest('a') && setOpen(false)}>
+            <LangSwitch className="nav__mobile-lang" />
+            <p className="nav__mobile-label">{t.nav.subjects}</p>
             {catalog.map(c => (
               <details key={c.id} className="nav__mobile-group">
-                <summary>{c.label}</summary>
+                <summary>{t.levels[c.id].label}</summary>
                 <ul>
                   {c.subjects.map(s => (
-                    <li key={s}><Link to={requestLink({ level: c.label, subject: s })}>{s}</Link></li>
+                    <li key={s}><Link to={requestLink({ level: c.id, subject: s })}>{subjectName(s, lang)}</Link></li>
                   ))}
                 </ul>
               </details>
             ))}
             <ul className="nav__mobile-links">
-              {links.map(l => <li key={l.to}><NavLink to={l.to}>{l.label}</NavLink></li>)}
-              <li><Link to={requestLink({ role: 'tutor' })}>Teach with us</Link></li>
+              <li><NavLink to="/services">{t.nav.how}</NavLink></li>
+              <li><NavLink to="/about">{t.nav.about}</NavLink></li>
+              <li><Link to={requestLink({ role: 'tutor' })}>{t.nav.teach}</Link></li>
             </ul>
-            <Link to="/contact" className="btn btn--primary btn--block">Find a tutor</Link>
+            <Link to="/contact" className="btn btn--primary btn--block">{t.nav.find}</Link>
           </nav>
         </div>
       )}
+
+      {searching && <SearchDialog onClose={() => setSearching(false)} />}
     </header>
   )
 }

@@ -3,18 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tutorista | One-to-one tutors in Lahore</title>
-    <meta name="description" content="Tutorista matches students in Lahore with vetted one-to-one tutors for O and A Levels, Matric, FSc and entry tests, online or at home." />
-    <meta name="theme-color" content="#08303d" />
+    <title>Tutorista | Tested tutors, fair fees, Lahore</title>
+    <meta name="description" content="Tutorista matches students in Lahore with tested, verified one-to-one tutors for O and A Levels, Matric, FSc and entry tests, at fair fees." />
+    <meta name="theme-color" content="#254d91" />
     <link rel="icon" type="image/png" href="/brand/favicon.png" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tutorista" />
-    <meta property="og:title" content="Tutorista | One-to-one tutors in Lahore" />
-    <meta property="og:description" content="Vetted tutors for O and A Levels, Matric, FSc and entry tests, online or at home." />
+    <meta property="og:title" content="Tutorista | Tested tutors, fair fees" />
+    <meta property="og:description" content="Every tutor tested and verified. O and A Levels, Matric, FSc and entry tests in Lahore, online or at home." />
     <meta property="og:image" content="https://tutorista.vercel.app/img/study-group.webp" />
-    <link rel="preload" href="/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <script>document.documentElement.classList.add('js')</script>
+    <link rel="preload" href="/fonts/young-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/atkinson-next-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <script>
+      try {
+        var l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('tutorista-lang')
+        if (l === 'ur') {
+          document.documentElement.lang = 'ur'; document.documentElement.dir = 'rtl'
+          var f = document.createElement('link'); f.rel = 'preload'; f.as = 'font'; f.type = 'font/woff2'; f.crossOrigin = ''; f.href = '/fonts/gulzar-arabic.woff2'
+          document.head.appendChild(f)
+        }
+        else if (l === 'roman') document.documentElement.lang = 'ur-Latn'
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -24,8 +24,8 @@ export default function Accordion({ items }) {
                 <span className="accordion__icon" aria-hidden="true" />
               </button>
             </h3>
-            <div id={`${id}-panel`} role="region" aria-labelledby={`${id}-btn`} className="accordion__panel" hidden={!isOpen}>
-              <p>{item.a}</p>
+            <div id={`${id}-panel`} role="region" aria-labelledby={`${id}-btn`} className="accordion__panel" inert={!isOpen}>
+              <div><p>{item.a}</p></div>
             </div>
           </div>
         )

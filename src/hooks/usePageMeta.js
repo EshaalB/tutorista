@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
-export function usePageMeta(title, description) {
+export function usePageMeta({ title, desc } = {}) {
   useEffect(() => {
-    document.title = title ? `${title} | Tutorista` : 'Tutorista | One-to-one tutors in Lahore'
-    if (description) document.querySelector('meta[name="description"]')?.setAttribute('content', description)
-  }, [title, description])
+    document.title = title ? `${title} | Tutorista` : 'Tutorista | Tested tutors, fair fees, Lahore'
+    if (desc) document.querySelector('meta[name="description"]')?.setAttribute('content', desc)
+  }, [title, desc])
 }

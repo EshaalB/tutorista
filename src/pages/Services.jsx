@@ -1,58 +1,35 @@
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { RiArrowRightLine, RiCheckLine, RiComputerLine, RiHome4Line } from 'react-icons/ri'
 import Accordion from '../components/Accordion'
-import { catalog, requestLink } from '../content/site'
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import { PhotoTile, LoopVideo, Star } from '../components/Motifs'
+import { catalog, requestLink, subjectName } from '../content/site'
+import { useLang } from '../i18n'
+import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './Services.css'
 
-const journey = [
-  { title: 'Send a request', desc: 'Tell us the subject, level, board, goals and when you are free. Parents can request for their child, students can request for themselves.' },
-  { title: 'Get a shortlist', desc: 'We reply with tutors who teach that syllabus and have time in your schedule, with each tutor’s rate shown up front.' },
-  { title: 'Book a first lesson', desc: 'Pick a tutor and book one session. If it clicks, set up a regular slot. If not, tell us and we suggest someone else.' },
-  { title: 'Keep going at your pace', desc: 'Book single sessions before an exam or a weekly slot for the whole year. You pay for the sessions you take.' },
-]
-
-const checks = [
-  { title: 'Identity', desc: 'CNIC checked against the person who turns up to teach.' },
-  { title: 'Qualifications', desc: 'Degrees and certificates verified, not taken on trust.' },
-  { title: 'Subject test', desc: 'A written test in every subject and level they want to teach.' },
-  { title: 'Interview', desc: 'We look at how clearly they explain, not only what they know.' },
-  { title: 'Trial lesson', desc: 'A supervised lesson with a real student before they go live.' },
-]
-
-const faqs = [
-  { q: 'How much does a tutor cost?', a: 'Tutors set their own rates based on their experience, the subject and the level. You see the rate before you book and nothing is added on top for students. Tutors pay a 15% service fee out of their earnings.' },
-  { q: 'Do I have to commit to a number of sessions?', a: 'No. Book one session before an exam, a weekly slot for the year, or anything in between. There is no contract and you can stop at any time.' },
-  { q: 'Are lessons online or at home?', a: 'Both. Online lessons work from anywhere with a stable connection. Home lessons are available across Lahore, depending on which tutors cover your area.' },
-  { q: 'How do I pay?', a: 'EasyPaisa, JazzCash, debit or credit card, or bank transfer. You pay per session.' },
-  { q: 'What if the tutor is not the right fit?', a: 'Tell us after any lesson and we will suggest another tutor. Finding the right person sometimes takes a second try, and that is fine.' },
-  { q: 'Can I teach with Tutorista?', a: 'Yes, if you can pass the five checks above. Send an application through the contact form and choose “I want to teach”.' },
-]
-
 export default function Services() {
-  useScrollReveal()
-  usePageMeta('How it works', 'How Tutorista matches students in Lahore with vetted one-to-one tutors: the process, how tutors are checked, subjects, pricing and FAQs.')
+  const { t, lang } = useLang()
+  const s = t.how
+  const scope = useRef(null)
+  usePageMeta(t.meta.how)
+  usePageMotion(scope, lang)
 
   return (
-    <>
+    <div ref={scope}>
       <section className="how-hero">
         <div className="container how-hero__grid">
           <div>
-            <p className="eyebrow">How it works</p>
-            <h1 className="t-display">Simple to start, <span className="mark">easy to stop</span></h1>
+            <p className="eyebrow" data-reveal>{s.hero.eyebrow}</p>
+            <h1 className="t-display" data-split="hero">{s.hero.titleStart} <span className="mark">{s.hero.titleMark}</span></h1>
           </div>
           <div className="how-hero__side">
-            <p className="t-lead">
-              No sign-up fee, no package to buy, no contract. You tell us what you need, we find tutors who fit,
-              and you only pay for the lessons you take.
-            </p>
-            <nav className="how-hero__toc" aria-label="On this page">
-              <a href="#process">Process</a>
-              <a href="#vetting">Tutor checks</a>
-              <a href="#subjects">Subjects</a>
-              <a href="#pricing">Pricing</a>
-              <a href="#faq">FAQs</a>
+            <p className="t-lead" data-reveal>{s.hero.lead}</p>
+            <nav className="how-hero__toc" aria-label={s.hero.tocLabel} data-reveal>
+              {Object.entries({ process: 'process', checks: 'vetting', subjects: 'subjects', pricing: 'pricing', faq: 'faq' }).map(([key, id]) => (
+                <a key={key} href={`#${id}`}>{s.hero.toc[key]}</a>
+              ))}
             </nav>
           </div>
         </div>
@@ -61,53 +38,68 @@ export default function Services() {
       <section id="process" className="section journey">
         <div className="container journey__grid">
           <div className="journey__aside">
-            <h2 className="t-title">The process</h2>
-            <p className="t-lead">Most of it happens over email. You will never be asked to pay before you have chosen a tutor.</p>
-            <Link to="/contact" className="btn btn--primary">Start a request <RiArrowRightLine aria-hidden="true" /></Link>
+            <h2 className="t-title" data-split="">{s.process.title}</h2>
+            <p className="t-lead" data-reveal>{s.process.lead}</p>
+            <Link to="/contact" className="btn btn--primary" data-reveal>{s.process.cta} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
-          <ol className="journey__list">
-            {journey.map((j, i) => (
-              <li key={j.title} className="journey__step reveal">
-                <span className="journey__num" aria-hidden="true">{i + 1}</span>
-                <div>
-                  <h3 className="t-sub">{j.title}</h3>
-                  <p>{j.desc}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <div className="journey__track">
+            <span className="journey__line" data-draw aria-hidden="true" />
+            <ol className="journey__list">
+              {s.process.steps.map((j, i) => (
+                <li key={j.title} className="journey__step" data-reveal>
+                  <span className="journey__num" aria-hidden="true">{i + 1}</span>
+                  <div>
+                    <h3 className="t-sub">{j.title}</h3>
+                    <p>{j.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
-      <section className="section section--tint formats">
+      <section className="section section--cream formats">
         <div className="container">
-          <h2 className="t-title formats__title reveal">Two ways to learn</h2>
+          <h2 className="t-title formats__title" data-split="">{s.formats.title}</h2>
           <div className="formats__grid">
-            <div className="format reveal">
-              <RiComputerLine className="format__icon" aria-hidden="true" />
-              <h3 className="t-sub">Online</h3>
-              <p>Live video lessons from home, school or a hostel room. Useful for late evenings and for subjects where the best tutor lives across town.</p>
-            </div>
-            <div className="format reveal">
-              <RiHome4Line className="format__icon" aria-hidden="true" />
-              <h3 className="t-sub">At home</h3>
-              <p>The tutor comes to you, anywhere in Lahore that our tutors cover. Good for younger students and for parents who want to be close by.</p>
-            </div>
+            <article className="format" data-reveal>
+              <LoopVideo name="notes" shape="leaf" label={s.formats.onlineAlt} className="format__media" />
+              <div className="format__body">
+                <RiComputerLine className="format__icon" aria-hidden="true" />
+                <h3 className="t-sub">{s.formats.online.title}</h3>
+                <p>{s.formats.online.desc}</p>
+              </div>
+            </article>
+            <article className="format" data-reveal>
+              <PhotoTile src="/img/young-learner.webp" shape="arch" alt={s.formats.homeAlt} size={800} small={480} sizes="(max-width: 640px) 90vw, 540px" className="format__media zoom" />
+              <div className="format__body">
+                <RiHome4Line className="format__icon" aria-hidden="true" />
+                <h3 className="t-sub">{s.formats.home.title}</h3>
+                <p>{s.formats.home.desc}</p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
-      <section id="vetting" className="section section--ink checks">
+      <section id="vetting" className="section section--blue checks">
         <div className="container">
-          <div className="section-head reveal">
-            <p className="eyebrow">Tutor checks</p>
-            <h2 className="t-title">Five checks before anyone teaches</h2>
-            <p className="t-lead checks__lead">Every tutor goes through the same steps, whatever their degree or experience.</p>
+          <div className="checks__head">
+            <div className="section-head">
+              <p className="eyebrow" data-reveal>{s.checks.eyebrow}</p>
+              <h2 className="t-title" data-split="">{s.checks.title}</h2>
+              <p className="t-lead" data-reveal>{s.checks.lead}</p>
+            </div>
+            <Link to={requestLink({ role: 'tutor' })} className="link-arrow" data-reveal>{s.checks.cta} <RiArrowRightLine aria-hidden="true" /></Link>
           </div>
           <ol className="checks__row">
-            {checks.map((c, i) => (
-              <li key={c.title} className="reveal" style={{ transitionDelay: `${i * 60}ms` }}>
-                <span aria-hidden="true">{i + 1}</span>
+            {s.checks.items.map((c, i) => (
+              <li key={c.title} data-reveal>
+                <span className="checks__badge" aria-hidden="true">
+                  <Star size={44} />
+                  <b>{i + 1}</b>
+                </span>
                 <h3>{c.title}</h3>
                 <p>{c.desc}</p>
               </li>
@@ -118,18 +110,22 @@ export default function Services() {
 
       <section id="subjects" className="section subjects">
         <div className="container">
-          <div className="section-head reveal">
-            <h2 className="t-title">Subjects</h2>
-            <p className="t-lead">Pick one to start a request. Don’t see yours? Ask anyway, we may have a tutor for it.</p>
+          <div className="section-head">
+            <h2 className="t-title" data-split="">{s.subjects.title}</h2>
+            <p className="t-lead" data-reveal>{s.subjects.lead}</p>
           </div>
           <div className="subjects__grid">
             {catalog.map(c => (
-              <div key={c.id} className="subjects__group reveal">
-                <h3>{c.label}</h3>
-                <p className="t-small">{c.blurb}</p>
+              <div key={c.id} className="subjects__group" data-reveal>
+                <h3>{t.levels[c.id].label}</h3>
+                <p className="t-small">{t.levels[c.id].blurb}</p>
                 <ul>
-                  {c.subjects.map(s => (
-                    <li key={s}><Link to={requestLink({ level: c.label, subject: s })}>{s}</Link></li>
+                  {c.subjects.map(sub => (
+                    <li key={sub}>
+                      <Link to={requestLink({ level: c.id, subject: sub })}>
+                        {subjectName(sub, lang)} <RiArrowRightLine aria-hidden="true" />
+                      </Link>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -138,33 +134,26 @@ export default function Services() {
         </div>
       </section>
 
-      <section id="pricing" className="section section--tint pricing">
+      <section id="pricing" className="section section--cream pricing">
         <div className="container">
-          <div className="section-head reveal">
-            <h2 className="t-title">What it costs</h2>
-            <p className="t-lead">One rule: the rate you see is the rate you pay.</p>
+          <div className="section-head">
+            <h2 className="t-title" data-split="">{s.pricing.title}</h2>
+            <p className="t-lead" data-reveal>{s.pricing.lead}</p>
           </div>
           <div className="pricing__grid">
-            <div className="price reveal">
-              <p className="price__who">Students and parents</p>
-              <p className="price__amount">Free <span>to request and to book</span></p>
-              <ul className="list-check">
-                <li><RiCheckLine aria-hidden="true" />Pay the tutor’s listed session rate</li>
-                <li><RiCheckLine aria-hidden="true" />No booking fee, no markup</li>
-                <li><RiCheckLine aria-hidden="true" />EasyPaisa, JazzCash, card or bank transfer</li>
-              </ul>
-              <Link to="/contact" className="btn btn--dark">Request a tutor</Link>
-            </div>
-            <div className="price price--tutor reveal">
-              <p className="price__who">Tutors</p>
-              <p className="price__amount">15% <span>service fee per session</span></p>
-              <ul className="list-check">
-                <li><RiCheckLine aria-hidden="true" />Keep 85% of your rate</li>
-                <li><RiCheckLine aria-hidden="true" />Set your own rate and hours</li>
-                <li><RiCheckLine aria-hidden="true" />No fee to apply</li>
-              </ul>
-              <Link to={requestLink({ role: 'tutor' })} className="btn btn--primary">Apply to teach</Link>
-            </div>
+            {[
+              ['students', '/contact', 'btn--primary'],
+              ['tutors', requestLink({ role: 'tutor' }), 'btn--gold'],
+            ].map(([key, to, btn]) => (
+              <div key={key} className={`price price--${key}`} data-reveal>
+                <p className="price__who">{s.pricing[key].who}</p>
+                <p className="price__amount">{s.pricing[key].amount} <span>{s.pricing[key].unit}</span></p>
+                <ul className="list-check">
+                  {s.pricing[key].points.map(p => <li key={p}><RiCheckLine aria-hidden="true" />{p}</li>)}
+                </ul>
+                <Link to={to} className={`btn ${btn}`}>{s.pricing[key].cta} <RiArrowRightLine aria-hidden="true" /></Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -172,12 +161,12 @@ export default function Services() {
       <section id="faq" className="section faq">
         <div className="container faq__grid">
           <div>
-            <h2 className="t-title">Questions parents ask</h2>
-            <p className="t-lead faq__lead">Something else on your mind? <Link to="/contact" className="faq__link">Ask us directly</Link>.</p>
+            <h2 className="t-title" data-split="">{s.faq.title}</h2>
+            <p className="t-lead faq__lead" data-reveal>{s.faq.lead} <Link to="/contact" className="faq__link">{s.faq.link}</Link></p>
           </div>
-          <Accordion items={faqs} />
+          <div data-reveal><Accordion items={s.faq.items} /></div>
         </div>
       </section>
-    </>
+    </div>
   )
 }

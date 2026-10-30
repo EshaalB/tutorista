@@ -1,56 +1,62 @@
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { RiArrowRightLine } from 'react-icons/ri'
-import { PhotoTile } from '../components/Motifs'
+import { PhotoTile, Star } from '../components/Motifs'
 import { requestLink } from '../content/site'
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useLang } from '../i18n'
+import { usePageMotion } from '../motion/usePageMotion'
 import { usePageMeta } from '../hooks/usePageMeta'
 import './About.css'
 
 const team = [
-  { img: '/founders/eshaal.webp', name: 'Eshaal Rehmatullah', role: 'Chief Executive Officer', focus: 'Sets direction and keeps the focus on families and tutors.', shape: 'circle' },
-  { img: '/founders/asad.webp', name: 'Asad Usman', role: 'Chief Technology Officer', focus: 'Builds the tools behind matching, booking and payments.', shape: 'leaf' },
-  { img: '/founders/ali.webp', name: 'Ali Mahoon', role: 'Head of Growth', focus: 'Works with schools and communities across Punjab.', shape: 'arch' },
-  { img: '/founders/eesha.webp', name: 'Eesha Irfan', role: 'Head of Operations', focus: 'Runs the tutor checks and keeps them consistent.', shape: 'quarter' },
-]
-
-const principles = [
-  { title: 'Merit decides who rises', desc: 'Tutors are recommended for how well they teach and how reliably they show up, not for what they pay us.' },
-  { title: 'Checked, every time', desc: 'The same five checks for every tutor, whoever they are and whoever they know.' },
-  { title: 'Made for Pakistani syllabuses', desc: 'Cambridge, Punjab and Federal Board, and the entry tests that come after them.' },
-  { title: 'Prices in the open', desc: 'Families see the tutor’s rate. Tutors know exactly what we keep. No one is surprised later.' },
+  { id: 'eshaal', name: 'Eshaal Rehmatullah', shape: 'circle' },
+  { id: 'asad', name: 'Asad Usman', shape: 'leaf' },
+  { id: 'ali', name: 'Ali Mahoon', shape: 'arch' },
+  { id: 'eesha', name: 'Eesha Irfan', shape: 'quarter' },
 ]
 
 export default function About() {
-  useScrollReveal()
-  usePageMeta('About us', 'Why Tutorista exists, what we believe about tutoring in Lahore, and the team building it.')
+  const { t, lang } = useLang()
+  const a = t.about
+  const scope = useRef(null)
+  usePageMeta(t.meta.about)
+  usePageMotion(scope, lang)
 
   return (
-    <>
+    <div ref={scope}>
       <section className="about-hero">
         <div className="container">
-          <p className="eyebrow">About Tutorista</p>
-          <h1 className="t-display about-hero__title">
-            Finding a good tutor in Lahore shouldn’t depend on <span className="mark">who you know</span>
+          <p className="eyebrow" data-reveal>{a.hero.eyebrow}</p>
+          <h1 className="t-display about-hero__title" data-split="hero">
+            {a.hero.titleStart} <span className="mark">{a.hero.titleMark}</span>
           </h1>
           <div className="about-hero__cols">
-            <p className="t-lead">
-              Most families find tutors through a cousin, a neighbour or an agency. Word of mouth is hit and miss,
-              and agencies often take a large cut while telling parents very little about who is actually teaching.
-            </p>
-            <p className="t-lead">
-              Tutorista is our answer: tutors who have been properly checked, rates that are shown up front,
-              and a tutor’s reputation built on how well they teach.
-            </p>
+            <p className="t-lead" data-reveal>{a.hero.p1}</p>
+            <p className="t-lead" data-reveal>{a.hero.p2}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--cream story">
+        <div className="container story__grid">
+          <div className="story__media" data-reveal>
+            <PhotoTile src="/img/classroom.webp" shape="arch" alt={a.story.alt} size={800} small={480} sizes="(max-width: 960px) 90vw, 480px" />
+            <Star size={72} className="story__star" data-spin />
+          </div>
+          <div>
+            <p className="eyebrow" data-reveal>{a.story.eyebrow}</p>
+            <h2 className="t-title" data-split="">{a.story.title}</h2>
+            <p className="t-lead story__body" data-reveal>{a.story.body}</p>
           </div>
         </div>
       </section>
 
       <section className="section principles">
         <div className="container principles__grid">
-          <h2 className="t-title principles__title">What we hold ourselves to</h2>
+          <h2 className="t-title principles__title" data-split="">{a.principles.title}</h2>
           <ol className="principles__list">
-            {principles.map((p, i) => (
-              <li key={p.title} className="reveal">
+            {a.principles.items.map((p, i) => (
+              <li key={p.title} data-reveal>
                 <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="t-sub">{p.title}</h3>
                 <p>{p.desc}</p>
@@ -60,19 +66,19 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section section--tint team">
+      <section className="section section--cream team">
         <div className="container">
-          <div className="section-head reveal">
-            <p className="eyebrow">The team</p>
-            <h2 className="t-title">The people building Tutorista</h2>
+          <div className="section-head">
+            <p className="eyebrow" data-reveal>{a.team.eyebrow}</p>
+            <h2 className="t-title" data-split="">{a.team.title}</h2>
           </div>
           <ul className="team__grid">
             {team.map(m => (
-              <li key={m.name} className="team__card reveal">
-                <PhotoTile src={m.img} shape={m.shape} alt={`Portrait of ${m.name}`} size={520} sizes="(max-width: 960px) 45vw, 270px" />
-                <h3>{m.name}</h3>
-                <p className="team__role">{m.role}</p>
-                <p className="team__focus">{m.focus}</p>
+              <li key={m.id} className="team__card" data-reveal>
+                <PhotoTile src={`/founders/${m.id}.webp`} shape={m.shape} alt={m.name} size={520} sizes="(max-width: 960px) 45vw, 270px" className="zoom" />
+                <h3 dir="ltr">{m.name}</h3>
+                <p className="team__role">{a.team.members[m.id].role}</p>
+                <p className="team__focus">{a.team.members[m.id].focus}</p>
               </li>
             ))}
           </ul>
@@ -80,15 +86,15 @@ export default function About() {
       </section>
 
       <section className="section about-cta">
-        <div className="container about-cta__inner reveal">
-          <h2 className="t-title">Teach with us, or work with us</h2>
-          <p className="t-lead">Tutors can apply through our request form. For partnerships or anything else, write to us and a founder will reply.</p>
-          <div className="about-cta__actions">
-            <Link to={requestLink({ role: 'tutor' })} className="btn btn--primary">Apply to teach <RiArrowRightLine aria-hidden="true" /></Link>
-            <Link to={requestLink({ role: 'other' })} className="btn btn--ghost">Get in touch</Link>
+        <div className="container about-cta__inner">
+          <h2 className="t-title" data-split="">{a.cta.title}</h2>
+          <p className="t-lead" data-reveal>{a.cta.lead}</p>
+          <div className="about-cta__actions" data-reveal>
+            <Link to={requestLink({ role: 'tutor' })} className="btn btn--primary">{a.cta.teach} <RiArrowRightLine aria-hidden="true" /></Link>
+            <Link to={requestLink({ role: 'other' })} className="btn btn--ghost">{a.cta.touch}</Link>
           </div>
         </div>
       </section>
-    </>
+    </div>
   )
 }
