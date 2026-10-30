@@ -173,6 +173,7 @@ export default {
     demo: 'This is a demo. Accounts aren’t live yet, so nothing was sent or saved.',
     show: 'Show', hide: 'Hide',
     email: 'Email', password: 'Password',
+    google: 'Continue with Google', apple: 'Continue with Apple', or: 'or use your email',
     errors: { email: 'Enter a valid email address.', password: 'Use at least 8 characters, including a number.', name: 'Please enter your name.', terms: 'Please accept the terms to continue.' },
     aside: { note: 'acha ustaad, munasib fees', caption: 'A student reading in class in Pakistan' },
     login: { title: 'Welcome back', lead: 'Log in to see your lessons and messages.', remember: 'Keep me logged in', forgot: 'Forgot password?', forgotNote: 'On the live site this sends a reset link to your email.', submit: 'Log in', switchText: 'New to Tutorista?', switchLink: 'Create an account', done: 'You’re logged in (demo)' },

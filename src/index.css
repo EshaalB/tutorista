@@ -1,10 +1,15 @@
 /* Tutorista design system: tokens, type, shared primitives.
-   Signature motif is the "flowing page" from the logo: asymmetric page frames,
-   layered cobalt and gold page curves, and a gold underline. See docs/REDESIGN.md. */
+   Signature motif is the "flowing page" from the logo: layered cobalt and gold
+   page curves and a gold highlight. See docs/REDESIGN.md. */
 
+/* Bricolage Grotesque for headings (optical size follows the font size), Hanken Grotesk for text */
 @font-face {
-  font-family: 'Ranade'; font-style: normal; font-weight: 100 700; font-display: swap;
-  src: url('/fonts/ranade-variable.woff2') format('woff2');
+  font-family: 'Bricolage'; font-style: normal; font-weight: 200 800; font-display: swap;
+  src: url('/fonts/bricolage-variable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Hanken'; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url('/fonts/hanken-variable.woff2') format('woff2');
 }
 /* only requested when the Urdu font stack below is active */
 @font-face {
@@ -32,11 +37,11 @@
   --line: #e6dbba;
   --focus: #254d91;
 
-  --font-display: 'Ranade', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'Ranade', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Bricolage', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Hanken', 'Segoe UI', system-ui, sans-serif;
   --lh-body: 1.6;
   --lh-head: 1.1;
-  --tracking-head: -0.025em;
+  --tracking-head: -0.01em;
   --head-weight: 500;
 
   --step--1: 0.875rem;
@@ -59,14 +64,13 @@
   --r-card: 16px;
   --r-quote: 24px;
   --r-box: 28px;
-  --r-page: 48px 12px 48px 12px;
-  --r-feature: 40px 12px 40px 12px;
+  --r-page: 24px;
+  --r-feature: var(--r-box);
 
   --shadow-1: 0 1px 2px rgb(35 54 83 / 6%), 0 10px 28px -14px rgb(35 54 83 / 28%);
   --shadow-2: 0 2px 4px rgb(35 54 83 / 6%), 0 24px 48px -20px rgb(35 54 83 / 35%);
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
-:dir(rtl) { --r-page: 12px 48px 12px 48px; --r-feature: 12px 40px 12px 40px; }
 
 /* Urdu: Nastaliq needs room and must never be letter-spaced */
 :root:lang(ur) {
@@ -96,7 +100,7 @@
 :root[data-links='on'] main a, :root[data-links='on'] footer a { text-decoration: underline; text-underline-offset: 3px; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 16px); }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--nav-h) + 16px); }
 body {
   font-family: var(--font-body);
   font-size: var(--step-0);
@@ -136,7 +140,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: var(--head-weigh
 h1 em, h2 em { font-style: normal; color: var(--cobalt); }
 :lang(ur) h1 em, :lang(ur) h2 em { font-style: normal; }
 .section--blue h2 em { color: var(--gold); }
-.t-display { font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.03em; }
+.t-display { font-size: var(--step-4); line-height: 1.04; letter-spacing: -0.015em; }
 :lang(ur) .t-display { line-height: 1.6; letter-spacing: 0; }
 .t-title { font-size: var(--step-3); }
 .t-sub { font-size: var(--step-2); }

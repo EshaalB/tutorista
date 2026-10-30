@@ -15,7 +15,7 @@
 .vhero__inner { display: flex; flex-direction: column; justify-content: space-between; gap: clamp(40px, 7vh, 72px); padding-bottom: 64px; }
 .vhero__grid { max-width: 620px; }
 
-.vhero__title { display: grid; font-size: clamp(2.4rem, 1.3rem + 4.2vw, 4.6rem); font-weight: 500; line-height: 1.02; letter-spacing: -0.03em; color: var(--on-primary); }
+.vhero__title { display: grid; font-size: clamp(2.4rem, 1.3rem + 4.2vw, 4.6rem); font-weight: 500; line-height: 1.04; letter-spacing: -0.015em; color: var(--on-primary); }
 :lang(ur) .vhero__title { line-height: 1.5; letter-spacing: 0; }
 .vhero__title-gold { color: var(--gold); }
 .vhero__lead { margin-top: 24px; max-width: 46ch; font-size: var(--step-1); line-height: 1.55; color: var(--on-primary-muted); }
@@ -45,14 +45,14 @@
 
 /* why we exist: label and a single large statement */
 .who__grid { display: grid; grid-template-columns: 0.35fr 1fr; gap: 16px 48px; align-items: baseline; }
-.who__text { font-family: var(--font-display); font-size: clamp(1.6rem, 1.1rem + 2.1vw, 2.75rem); line-height: 1.28; letter-spacing: -0.01em; }
+.who__text { font-family: var(--font-display); font-size: clamp(1.6rem, 1.1rem + 2.1vw, 2.75rem); line-height: 1.3; letter-spacing: 0; }
 :lang(ur) .who__text { line-height: 2; letter-spacing: 0; }
 
 /* journey map: verb pills on a dashed line, detail cards alternating above and below */
 .journey-map { padding-block: var(--section-y); background: var(--cobalt-900); color: var(--on-primary); }
 .journey-map .intro { margin-bottom: clamp(40px, 5vw, 64px); }
 .journey-map__list { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: auto auto auto; column-gap: 12px; }
-.journey-map { min-height: 100svh; display: flex; align-items: center; }
+.journey-map { min-height: min(100svh, 860px); display: flex; align-items: center; }
 .journey-map > .container { width: 100%; }
 .journey-map__track { position: relative; }
 .journey-map__track::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed rgb(254 249 232 / 22%); }
@@ -78,17 +78,19 @@
 
 /* why tutorista: stacked photo deck, text columns you drag through */
 .why__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px clamp(32px, 6vw, 88px); align-items: start; }
-.why__deck { position: relative; height: clamp(320px, 34vw, 460px); overflow: hidden; border-radius: var(--r-card); }
+.why__deck { --dir: 1; position: relative; height: clamp(320px, 34vw, 460px); }
+:dir(rtl) .why__deck { --dir: -1; }
+/* photos stacked like prints on a desk: the next one peeks out, tilted, from behind */
 .why__card {
-  position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: calc(100% - 44px);
-  object-fit: cover; border-radius: var(--r-card); transform-origin: center top;
-  transform: translateY(calc(var(--o) * -14px)) scale(calc(1 - var(--o) * .05));
-  opacity: calc(1 - var(--o) * .15);
+  position: absolute; inset-block-start: 14px; inset-inline-start: 0; width: calc(100% - 36px); height: calc(100% - 28px);
+  object-fit: cover; border-radius: var(--r-card); box-shadow: var(--shadow-1); transform-origin: center bottom;
+  transform: translateX(calc(min(var(--o), 1) * var(--dir) * 14px)) rotate(calc(min(var(--o), 1) * var(--dir) * 3deg));
+  opacity: clamp(0, 2 - var(--o), 1);
   transition: transform .6s var(--ease), opacity .6s var(--ease);
 }
-.why__track { gap: 40px; }
-.why__col { width: min(300px, 78vw); opacity: .35; transition: opacity .4s var(--ease); }
-.why__col.is-active { opacity: 1; }
+.why__track { gap: 40px; mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent); }
+:dir(rtl) .why__track { mask-image: linear-gradient(to left, #000 calc(100% - 64px), transparent); }
+.why__col { width: min(300px, 78vw); }
 .why__col h3 { font-size: var(--step-2); font-weight: 500; margin: 14px 0 12px; }
 .why__col p:last-child { color: var(--muted); line-height: 1.7; }
 .why__hint { margin-top: 20px; }
@@ -96,7 +98,8 @@
 /* testimonials: tall colour cards on a rail */
 .testimonials { background: var(--cream); }
 .testimonials__rail { padding-inline-start: max(var(--gutter), calc((100vw - var(--max-w)) / 2 + var(--gutter))); }
-.tcard { display: flex; flex-direction: column; width: min(340px, 82vw); min-height: 420px; margin: 0; padding: 28px; background: var(--cobalt); color: var(--on-primary); }
+.testimonials__track { gap: 16px; }
+.tcard { display: flex; flex-direction: column; width: min(340px, 82vw); min-height: 420px; margin: 0; padding: 28px; border-radius: var(--r-quote); background: var(--cobalt); color: var(--on-primary); }
 .tcard--1 { background: var(--gold); color: var(--ink); }
 .tcard--2 { background: var(--emerald); }
 .tcard--3 { background: var(--cobalt-900); }
@@ -127,7 +130,7 @@
     .vhero__stats { grid-template-columns: 1fr 1fr; row-gap: 20px; }
   .vhero__stats > div:nth-child(3) { padding-inline-start: 0; border: 0; }
   .vhero__media { bottom: auto; top: calc(var(--header-h) + 16px); }
-  .why__deck { max-width: 520px; height: clamp(220px, 60vw, 340px); }
+  .why__deck { max-width: 520px; height: clamp(240px, 62vw, 360px); }
 }
 @media (max-width: 640px) {
   .vhero__actions .btn { flex: 1 1 auto; }

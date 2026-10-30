@@ -1,4 +1,6 @@
-.nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); transition: border-color .3s var(--ease); }
+/* sticky with the ticker's height above the top edge: the ticker shows at the top of the page
+   and scrolls away, then the nav alone stays pinned */
+.nav { position: sticky; top: calc(-1 * var(--bar-h)); z-index: 50; border-bottom: 1px solid var(--line); transition: border-color .3s var(--ease); }
 /* blur lives on a pseudo-element: backdrop-filter on .nav itself would trap the fixed mobile drawer */
 .nav::before {
   content: ''; position: absolute; inset: 0; z-index: -1;
@@ -83,7 +85,7 @@
 
 /* mobile drawer */
 .nav__mobile {
-  position: fixed; inset: var(--header-h) 0 0; z-index: 49; overflow-y: auto;
+  position: fixed; inset: var(--drawer-top, var(--header-h)) 0 0; z-index: 49; overflow-y: auto;
   background: var(--ivory); padding: 16px var(--gutter) 32px; border-top: 1px solid var(--line);
   animation: drawer-in .25s var(--ease);
 }

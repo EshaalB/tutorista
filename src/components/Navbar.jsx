@@ -102,6 +102,13 @@ export default function Navbar() {
   const [searching, setSearching] = useState(false)
   const overlay = useOverlay() && !open
   const auth = useAuthModal()
+  const header = useRef(null)
+
+  // the ticker scrolls away under the sticky nav, so the drawer opens from wherever the nav ends
+  const toggleMenu = () => {
+    header.current?.style.setProperty('--drawer-top', `${header.current.getBoundingClientRect().bottom}px`)
+    setOpen(o => !o)
+  }
 
   useEffect(() => {
     const onKey = (e) => {
@@ -130,7 +137,7 @@ export default function Navbar() {
   const openSearch = () => { setOpen(false); setSearching(true) }
 
   return (
-    <header className={`nav ${overlay ? 'nav--overlay' : ''}`}>
+    <header ref={header} className={`nav ${overlay ? 'nav--overlay' : ''}`}>
       <AnnouncementBar />
       <div className="container nav__inner">
         <Link to="/" className="nav__brand" aria-label="Tutorista" onClick={() => setOpen(false)}>
@@ -159,7 +166,7 @@ export default function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            onClick={() => setOpen(o => !o)}
+            onClick={toggleMenu}
           >
             {open ? <RiCloseLine size={26} /> : <RiMenuLine size={26} />}
           </button>

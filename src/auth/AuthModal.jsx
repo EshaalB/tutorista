@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { RiCloseLine, RiCheckboxCircleLine } from 'react-icons/ri'
+import { RiCloseLine, RiCheckboxCircleLine, RiAppleFill } from 'react-icons/ri'
+import { FcGoogle } from 'react-icons/fc'
 import { useLang } from '../i18n'
 import { AuthContext } from '.'
 import { isEmail, isPassword } from './validate'
@@ -88,6 +89,13 @@ function AuthDialog({ mode, setMode, plan, onClose }) {
             <div><strong>{copy.done}</strong><p>{a.demo}</p></div>
           </div>
         ) : (
+          <>
+          {/* in the demo a provider button ends the same way as the form */}
+          <div className="am__providers">
+            <button type="button" className="am-provider" onClick={() => setDone(true)}><FcGoogle aria-hidden="true" />{a.google}</button>
+            <button type="button" className="am-provider" onClick={() => setDone(true)}><RiAppleFill aria-hidden="true" />{a.apple}</button>
+          </div>
+          <p className="am__or"><span>{a.or}</span></p>
           <form className="am__form" onSubmit={onSubmit} noValidate key={mode}>
             {mode === 'signup' && (
               <>
@@ -116,6 +124,7 @@ function AuthDialog({ mode, setMode, plan, onClose }) {
             {plan && <input type="hidden" name="plan" value={plan} />}
             <button type="submit" className="btn btn--primary btn--block">{copy.submit}</button>
           </form>
+          </>
         )}
         <p className="am__switch">
           {copy.switchText}{' '}

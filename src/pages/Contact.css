@@ -18,8 +18,8 @@
 .quick__item--primary small { color: var(--on-primary-muted); }
 
 .request__body { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr); gap: 32px clamp(32px, 5vw, 72px); align-items: start; margin-top: clamp(40px, 5vw, 64px); }
-.request__card { background: var(--paper); border-radius: var(--r-quote); padding: clamp(20px, 3vw, 32px); box-shadow: var(--shadow-1); scroll-margin-top: calc(var(--header-h) + 16px); }
-.request__aside { display: grid; gap: 14px; position: sticky; top: calc(var(--header-h) + 24px); }
+.request__card { background: var(--paper); border-radius: var(--r-quote); padding: clamp(20px, 3vw, 32px); box-shadow: var(--shadow-1); scroll-margin-top: calc(var(--nav-h) + 16px); }
+.request__aside { display: grid; gap: 14px; position: sticky; top: calc(var(--nav-h) + 24px); }
 .request__aside-title { font-size: var(--step-1); font-weight: 500; }
 .request__next { counter-reset: next; display: grid; gap: 14px; margin-bottom: 6px; }
 .request__next li { counter-increment: next; display: grid; grid-template-columns: 32px 1fr; gap: 12px; color: var(--muted); }
