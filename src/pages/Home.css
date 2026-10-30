@@ -75,9 +75,10 @@
 .why__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px clamp(32px, 6vw, 88px); align-items: start; }
 .why__deck { position: relative; aspect-ratio: 4 / 3.6; margin-top: 40px; }
 .why__card {
-  position: absolute; inset-inline-start: calc(var(--o) * 3%); bottom: 0; width: calc(100% - var(--o) * 6%); height: 86%;
-  object-fit: cover; border-radius: var(--r-card); transform: translateY(calc(var(--o) * -5%));
-  transition: transform .5s var(--ease), inset .5s var(--ease), width .5s var(--ease);
+  position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: 86%;
+  object-fit: cover; border-radius: var(--r-card); transform-origin: center bottom;
+  transform: translateY(calc(var(--o) * -5%)) scale(calc(1 - var(--o) * .06));
+  transition: transform .5s var(--ease);
 }
 .why__label { font-family: var(--font-body); font-size: var(--step-0); font-weight: 500; letter-spacing: 0; margin-bottom: 24px; }
 .why__track { gap: 40px; }
