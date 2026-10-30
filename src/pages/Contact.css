@@ -5,7 +5,7 @@
 }
 .request__intro { grid-area: intro; display: grid; gap: 18px; }
 .request__aside { grid-area: aside; display: grid; gap: 14px; }
-.request__card { grid-area: card; background: var(--paper); border-radius: var(--r-lg); padding: clamp(20px, 4vw, 40px); box-shadow: var(--shadow-1); border-top: 4px solid var(--gold); }
+.request__card { grid-area: card; background: var(--paper); border-radius: var(--r-lg); padding: clamp(20px, 4vw, 40px); box-shadow: var(--shadow-1); }
 .request__next { counter-reset: next; display: grid; gap: 14px; margin-bottom: 6px; }
 .request__next li { counter-increment: next; display: grid; grid-template-columns: 32px 1fr; gap: 12px; color: var(--muted); }
 .request__next li::before {
