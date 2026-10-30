@@ -1,204 +1,207 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import {
-  RiMailLine, RiPhoneLine, RiMapPinLine, RiArrowRightLine,
-  RiInstagramLine, RiFacebookFill, RiLinkedinFill,
-  RiCheckLine, RiErrorWarningLine, RiTimeLine, RiWhatsappLine,
-  RiCustomerServiceLine,
-} from 'react-icons/ri'
-import { useScrollReveal } from '../hooks/useScrollReveal'
-import Accordion from '../components/Accordion'
+import { useSearchParams } from 'react-router-dom'
+import { RiArrowRightLine, RiMailSendLine } from 'react-icons/ri'
+import { site, catalog } from '../content/site'
+import { usePageMeta } from '../hooks/usePageMeta'
 import './Contact.css'
 
-const faqs = [
-  {
-    q: 'How does the 5-step vetting process verify tutors?',
-    a: 'Every educator undergoes a comprehensive funnel: (1) CNIC and identity verification, (2) academic credential audit with HEC attestation check, (3) a dynamic interview assessing communication skills and teaching methodology, (4) a curriculum-specific subject assessment with a minimum pass threshold of 85%, and (5) a supervised trial session with a real student. Only 8% of applicants are ultimately onboarded to the Tutorista platform.'
-  },
-  {
-    q: 'How are session rates determined and displayed?',
-    a: 'Rates are set by educators based on their experience level, subject complexity, and market benchmarks for their area. Tutorista ensures full price transparency. The rate displayed on a tutor\'s profile is the exact amount you pay per session. There are zero hidden agency markups, booking fees, or platform charges for students. Tutors pay a flat 15% service fee from their earnings.'
-  },
-  {
-    q: 'Is there a minimum booking commitment or contract?',
-    a: 'Absolutely not. Tutorista is built for maximum flexibility. You can book a single session for exam preparation, schedule weekly recurring sessions for long-term improvement, or book intensive daily slots for MDCAT/ECAT prep. You are only charged for the sessions you actually attend. Cancel any time with no penalties or lock-in periods.'
-  },
-  {
-    q: 'What payment methods are supported in Pakistan?',
-    a: 'We support EasyPaisa, JazzCash, all major Debit and Credit cards (Visa, Mastercard, UnionPay), and direct bank transfer. All transactions are escrow-protected, meaning the payment is held securely and only released to the tutor after the session is successfully completed and you confirm satisfaction. Refund requests are processed within 48 hours.'
-  },
-  {
-    q: 'What subjects and curricula does Tutorista cover?',
-    a: 'We cover all major Pakistani curricula including Cambridge O-Levels and A-Levels, Federal Board (FSc/FA), Punjab Board, Aga Khan Board, and university-level courses. Subjects range from STEM (Mathematics, Physics, Chemistry, Biology, Computer Science) to Humanities (English, Urdu, Islamiyat, Pakistan Studies) to test preparation (MDCAT, ECAT, GAT, SAT, IELTS).'
-  },
-  {
-    q: 'How quickly can I get matched with a tutor?',
-    a: 'Our AI matching engine processes your requirements (curriculum, subject, budget, location, and schedule preference) and presents verified tutor matches within an average of 15 minutes. You can review profiles, check reviews, compare rates, and book your first session all within the same hour. Most students complete their first session within 24 hours of signing up.'
-  },
+const roles = [
+  { id: 'parent', label: 'I’m a parent' },
+  { id: 'student', label: 'I’m a student' },
+  { id: 'tutor', label: 'I want to teach' },
+  { id: 'other', label: 'Something else' },
 ]
 
-const contactInfo = [
-  { icon: <RiMapPinLine />, label: 'Head Office', value: 'Floor 4, Arfa Software Technology Park, Ferozepur Road, Lahore 54600, Pakistan' },
-  { icon: <RiMailLine />, label: 'Email', value: 'hello@tutorista.pk' },
-  { icon: <RiPhoneLine />, label: 'Phone', value: '+92 (300) 123-4567' },
-  { icon: <RiWhatsappLine />, label: 'WhatsApp Support', value: '+92 (300) 123-4567' },
-  { icon: <RiTimeLine />, label: 'Response Time', value: 'Average 12 minutes during 9 AM - 9 PM PKT' },
-]
+const subjectOptions = [...new Set(catalog.flatMap(c => c.subjects))]
 
-export default function Contact() {
-  useScrollReveal()
-  const [formState, setFormState] = useState('idle')
+function buildEmail(role, data) {
+  const lines = Object.entries(data).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`)
+  const subject = role === 'tutor'
+    ? `Tutor application: ${data.Name}`
+    : role === 'other'
+      ? `Message from ${data.Name}`
+      : `Tutor request: ${[data.Level, data.Subject].filter(Boolean).join(' ')}`
+  return { subject, body: lines.join('\n') }
+}
+
+// Remount when the query changes so menu links can re-prefill an open form.
+export default function ContactRoute() {
+  const [params] = useSearchParams()
+  return <Contact key={params.toString()} params={params} />
+}
+
+function Contact({ params }) {
+  const initialRole = roles.some(r => r.id === params.get('role')) ? params.get('role') : 'parent'
+  const [role, setRole] = useState(initialRole)
+  const [sent, setSent] = useState(null)
+  const isLearner = role === 'parent' || role === 'student'
+
+  usePageMeta(
+    role === 'tutor' ? 'Apply to teach' : 'Request a tutor',
+    'Tell Tutorista what you need and we will reply with vetted tutors in Lahore who fit your subject, level and schedule.'
+  )
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setFormState('sending')
-    setTimeout(() => setFormState('success'), 1500)
+    const f = new FormData(e.currentTarget)
+    const get = (k) => (f.get(k) || '').toString().trim()
+    const data = {
+      'I am': roles.find(r => r.id === role).label.replace('I’m ', '').replace('I want to ', 'Wants to '),
+      Name: get('name'),
+      Email: get('email'),
+      Phone: get('phone'),
+      ...(isLearner && { Level: get('level'), Subject: get('subject'), Format: get('format'), Area: get('area') }),
+      ...(role === 'tutor' && { 'Subjects taught': get('teaches'), Qualifications: get('qualifications') }),
+      Message: get('message'),
+    }
+    const { subject, body } = buildEmail(role, data)
+    setSent({ subject, body })
+    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
-    <div className="contact">
-
-      {/* HERO */}
-      <section className="contact-hero">
-        <div className="contact-hero__bg" />
-        <div className="glow-orb" style={{ top: '10%', left: '-5%' }} />
-        <div className="container reveal">
-          <div className="contact-hero__content">
-            <div className="chip chip--on-dark mb-6"><RiCustomerServiceLine /> Talk to Our Team</div>
-            <h1 className="display-hero text-white">Let's start a<br />conversation.</h1>
-            <p className="body-lg text-white opacity-70 mt-6 max-w-600">
-              Whether you are a parent looking for the right tutor, an educator wanting to 
-              join our platform, or an institution exploring partnerships, we would love to 
-              hear from you. Our Lahore-based team typically responds within 4 hours.
-            </p>
-          </div>
+    <section className="request">
+      <div className="container request__grid">
+        <div className="request__intro">
+          <p className="eyebrow">{role === 'tutor' ? 'Apply to teach' : 'Request a tutor'}</p>
+          <h1 className="t-title">
+            {role === 'tutor' ? 'Tell us what you teach' : role === 'other' ? 'Write to us' : 'Tell us what you need'}
+          </h1>
+          <p className="t-lead">
+            {role === 'tutor'
+              ? 'We will reply with the next step in our checks.'
+              : 'A few details now saves a lot of back and forth later.'}
+          </p>
         </div>
-      </section>
 
-      {/* ─── CONTACT GRID ─── */}
-      <section className="section bg-dots">
-        <div className="container contact-grid">
-
-          {/* Info Side */}
-          <div className="contact-info reveal">
-            <h2 className="heading-md mb-8">Get in Touch</h2>
-            <div className="info-list">
-              {contactInfo.map((item, i) => (
-                <div key={i} className="info-item">
-                  <div className="info-icon">{item.icon}</div>
-                  <div>
-                    <strong className="info-label">{item.label}</strong>
-                    <p className="info-value">{item.value}</p>
-                  </div>
-                </div>
-              ))}
+        <div className="request__card">
+          {sent ? (
+            <div className="request__sent" role="status">
+              <RiMailSendLine className="request__sent-icon" aria-hidden="true" />
+              <h2 className="t-sub">Your email is ready to send</h2>
+              <p>Your email app should have opened with everything filled in. Press send there and we will take it from here.</p>
+              <p>If nothing opened, copy the text below and email it to <a className="request__mail" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+              <pre className="request__summary">{`Subject: ${sent.subject}\n\n${sent.body}`}</pre>
+              <button className="btn btn--ghost" onClick={() => setSent(null)}>Edit my details</button>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="form">
+              <fieldset className="form__roles">
+                <legend className="form__label">Who is this for?</legend>
+                <div className="form__seg">
+                  {roles.map(r => (
+                    <label key={r.id}>
+                      <input type="radio" name="role" value={r.id} checked={role === r.id} onChange={() => setRole(r.id)} />
+                      <span>{r.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
 
-            <div className="social-block">
-              <h3 className="info-label mb-4">Follow Our Journey</h3>
-              <div className="social-links">
-                <a href="#" className="social-btn" aria-label="LinkedIn"><RiLinkedinFill /></a>
-                <a href="#" className="social-btn" aria-label="Instagram"><RiInstagramLine /></a>
-                <a href="#" className="social-btn" aria-label="Facebook"><RiFacebookFill /></a>
+              <div className="form__row">
+                <div className="field">
+                  <label htmlFor="name" className="form__label">{role === 'parent' ? 'Your name' : 'Name'}</label>
+                  <input id="name" name="name" autoComplete="name" required />
+                </div>
+                <div className="field">
+                  <label htmlFor="email" className="form__label">Email</label>
+                  <input id="email" name="email" type="email" autoComplete="email" required />
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Form Side */}
-          <div className="contact-form-wrap reveal reveal-d2">
-            {formState === 'success' ? (
-              <div className="form-success card">
-                <RiCheckLine className="success-icon" />
-                <h3 className="display-lg mb-4">Message Received.</h3>
-                <p className="body-lg opacity-70 mb-8">
-                  Thank you for reaching out. A member of our team will get back 
-                  to you within 4 business hours. Check your email for a confirmation.
-                </p>
-                <button onClick={() => setFormState('idle')} className="btn btn--outline">Send Another Message</button>
+              {isLearner && (
+                <>
+                  <div className="form__row">
+                    <div className="field">
+                      <label htmlFor="level" className="form__label">Level</label>
+                      <select id="level" name="level" defaultValue={params.get('level') || ''} required>
+                        <option value="" disabled>Choose a level</option>
+                        {catalog.map(c => <option key={c.id}>{c.label}</option>)}
+                        <option>University</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                    <div className="field">
+                      <label htmlFor="subject" className="form__label">Subject</label>
+                      <input id="subject" name="subject" list="subject-list" defaultValue={params.get('subject') || ''} required />
+                      <datalist id="subject-list">
+                        {subjectOptions.map(s => <option key={s} value={s} />)}
+                      </datalist>
+                    </div>
+                  </div>
+
+                  <fieldset className="field">
+                    <legend className="form__label">Where should lessons happen?</legend>
+                    <div className="form__seg form__seg--sm">
+                      {['Online', 'At home', 'Either'].map((v, i) => (
+                        <label key={v}>
+                          <input type="radio" name="format" value={v} defaultChecked={i === 2} />
+                          <span>{v}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+
+                  <div className="form__row">
+                    <div className="field">
+                      <label htmlFor="area" className="form__label">Area in Lahore <span>optional</span></label>
+                      <input id="area" name="area" placeholder="e.g. Johar Town" />
+                    </div>
+                    <div className="field">
+                      <label htmlFor="phone" className="form__label">Phone or WhatsApp <span>optional</span></label>
+                      <input id="phone" name="phone" type="tel" autoComplete="tel" inputMode="tel" />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {role === 'tutor' && (
+                <>
+                  <div className="field">
+                    <label htmlFor="teaches" className="form__label">Subjects and levels you teach</label>
+                    <input id="teaches" name="teaches" placeholder="e.g. A Level Chemistry, FSc Biology" required />
+                  </div>
+                  <div className="form__row">
+                    <div className="field">
+                      <label htmlFor="qualifications" className="form__label">Highest qualification</label>
+                      <input id="qualifications" name="qualifications" required />
+                    </div>
+                    <div className="field">
+                      <label htmlFor="phone" className="form__label">Phone or WhatsApp <span>optional</span></label>
+                      <input id="phone" name="phone" type="tel" autoComplete="tel" inputMode="tel" />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div className="field">
+                <label htmlFor="message" className="form__label">
+                  {role === 'other' ? 'Message' : <>Anything else? <span>optional</span></>}
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  required={role === 'other'}
+                  placeholder={isLearner ? 'Exam date, topics you are stuck on, days and times that suit you' : ''}
+                />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="contact-form card">
-                <h3 className="heading-md mb-6">Send Us a Message</h3>
-                <div className="form-row form-row--half">
-                  <div className="input-group">
-                    <label>Inquiry Type</label>
-                    <select required>
-                      <option value="">Select category...</option>
-                      <option value="parent">Parent / Student Inquiry</option>
-                      <option value="tutor">Educator Onboarding</option>
-                      <option value="partner">Institutional Partnership</option>
-                      <option value="press">Press & Media</option>
-                      <option value="careers">Careers</option>
-                    </select>
-                  </div>
-                  <div className="input-group">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="e.g. Ali Ahmed" required />
-                  </div>
-                </div>
 
-                <div className="form-row">
-                  <div className="input-group">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="name@email.com" required />
-                  </div>
-                </div>
-
-                <div className="form-row form-row--half">
-                  <div className="input-group">
-                    <label>Phone (Optional)</label>
-                    <input type="tel" placeholder="+92 300 1234567" />
-                  </div>
-                  <div className="input-group">
-                    <label>Subject</label>
-                    <input type="text" placeholder="Brief subject line" required />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="input-group">
-                    <label>Message</label>
-                    <textarea rows="5" placeholder="Tell us about your requirements, questions, or how we can help..." required></textarea>
-                  </div>
-                </div>
-
-                <button type="submit" className="btn btn--primary btn--full btn--lg" disabled={formState === 'sending'}>
-                  {formState === 'sending' ? 'Sending...' : 'Send Message'} <RiArrowRightLine />
-                </button>
-
-                <p className="form-footer">
-                  <RiErrorWarningLine /> Your data is encrypted and transmitted securely.
-                  We never share your information with third parties.
-                </p>
-              </form>
-            )}
-          </div>
-
+              <button type="submit" className="btn btn--dark btn--block">
+                {role === 'tutor' ? 'Send application' : role === 'other' ? 'Send message' : 'Send request'} <RiArrowRightLine aria-hidden="true" />
+              </button>
+            </form>
+          )}
         </div>
-      </section>
-
-      {/* ─── FAQ ─── */}
-      <section className="section bg-grey bg-grid">
-        <div className="container">
-          <div className="faq-layout">
-            <div className="faq-sidebar reveal">
-              <div className="section-eyebrow">FAQ</div>
-              <h2 className="display-lg section-title">Common questions,<br />clear answers.</h2>
-              <p className="body-lg mb-8">
-                Can't find what you're looking for? Our support team is available 
-                on WhatsApp from 9 AM to 9 PM PKT, seven days a week.
-              </p>
-              <Link to="/contact" className="btn btn--primary">
-                Chat on WhatsApp <RiWhatsappLine />
-              </Link>
-            </div>
-            <div className="faq-content reveal reveal-d2">
-              <Accordion items={faqs} />
-            </div>
-          </div>
+        <div className="request__aside">
+          <ol className="request__next">
+            <li><span><strong>You send this form.</strong> It opens as an email from your own address.</span></li>
+            <li><span><strong>We reply by email</strong> {role === 'tutor' ? 'to arrange your subject test and interview.' : 'with tutors who fit, and their rates.'}</span></li>
+            <li><span><strong>You decide.</strong> Nothing is booked or charged until you say so.</span></li>
+          </ol>
+          <p className="t-small">Prefer plain email? <a className="request__mail" href={`mailto:${site.email}`}>{site.email}</a></p>
         </div>
-      </section>
-
-    </div>
+      </div>
+    </section>
   )
 }

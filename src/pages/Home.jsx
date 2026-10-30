@@ -1,303 +1,209 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  RiArrowRightLine, RiCheckLine, RiUserSearchLine,
-  RiPhoneCameraLine, RiWallet3Line, RiShieldCheckLine,
-  RiStarFill, RiGroupLine, RiTimeLine, RiAwardLine,
-  RiBookOpenLine, RiGlobalLine, RiFlashlightLine,
-  RiAlarmWarningLine,
-} from 'react-icons/ri'
-import Marquee from '../components/Marquee'
+import { RiArrowRightLine, RiCheckLine } from 'react-icons/ri'
+import { catalog, requestLink } from '../content/site'
+import { PhotoTile, Wave } from '../components/Motifs'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { usePageMeta } from '../hooks/usePageMeta'
 import './Home.css'
 
-const stats = [
-  { num: '2,500+', label: 'Verified Educators', icon: <RiGroupLine /> },
-  { num: '50+', label: 'Specialized Subjects', icon: <RiBookOpenLine /> },
-  { num: '4.9/5', label: 'Average Rating', icon: <RiStarFill /> },
-  { num: '15 min', label: 'Avg. Match Time', icon: <RiTimeLine /> },
+const steps = [
+  { title: 'Tell us what you need', desc: 'Subject, level, goals and the times that work. Online or at your home in Lahore.' },
+  { title: 'Choose your tutor', desc: 'We shortlist vetted tutors who teach your exact syllabus. You see their rate before you book.' },
+  { title: 'Learn one-to-one', desc: 'Book single sessions or a weekly slot. You pay per session, with no contract to sign.' },
 ]
 
-const institutions = [
-  { name: 'LUMS', full: 'Lahore University of Management Sciences' },
-  { name: 'UET', full: 'University of Engineering and Technology' },
-  { name: 'FAST-NUCES', full: 'National University of Computer and Emerging Sciences' },
-  { name: 'GCU', full: 'Government College University' },
-  { name: 'Punjab University', full: 'University of the Punjab' },
-  { name: 'Kinnaird', full: 'Kinnaird College for Women' },
-  { name: 'Aitchison', full: 'Aitchison College' },
-  { name: 'LGS', full: 'Lahore Grammar School' },
-  { name: 'Beaconhouse', full: 'Beaconhouse School System' },
-  { name: 'FC College', full: 'Forman Christian College University' },
+const vetting = [
+  'Identity checked against CNIC',
+  'Degrees and certificates verified',
+  'Subject test for every subject they teach',
+  'Interview on how they explain, not just what they know',
+  'A supervised trial lesson before going live',
 ]
 
-const process = [
-  {
-    step: '01',
-    icon: <RiUserSearchLine />,
-    title: 'Intelligent Matching',
-    desc: 'Our proprietary algorithm analyzes your curriculum requirements, preferred schedule, budget range, and learning style to match you with the most suitable educator from our verified network of 2,500+ tutors across Lahore.',
-  },
-  {
-    step: '02',
-    icon: <RiPhoneCameraLine />,
-    title: 'Hybrid Learning Sessions',
-    desc: 'Choose between in-person tutoring sessions at your home in Gulberg, DHA, or Bahria Town, or access our browser-based HD virtual classroom with built-in whiteboard, screen sharing, and automatic session recording.',
-  },
-  {
-    step: '03',
-    icon: <RiWallet3Line />,
-    title: 'Escrow-Protected Payments',
-    desc: 'All payments are processed through our secure escrow system via EasyPaisa, JazzCash, or bank transfer. Funds are only released to the tutor after you confirm session completion and satisfaction.',
-  },
-]
+function SubjectFinder() {
+  const [active, setActive] = useState(catalog[0].id)
+  const group = catalog.find(c => c.id === active)
 
-const trustPoints = [
-  { icon: <RiShieldCheckLine />, title: 'Background Verified', desc: 'Every educator passes a 5-step vetting: CNIC verification, degree attestation, subject testing, live interview, and trial session evaluation.' },
-  { icon: <RiAwardLine />, title: 'Merit-Based Ranking', desc: 'Tutors are ranked by student reviews, session attendance rates, and assessment outcomes, not commissions paid. Transparent, fair, and accountable.' },
-  { icon: <RiGlobalLine />, title: 'Built for Lahore', desc: 'Designed specifically for the Lahore education market, supporting O/A-Levels, FSc, MDCAT, ECAT, and university-level courses across all major boards.' },
-]
+  const onKeyDown = (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key]
+    if (!step) return
+    const i = (catalog.findIndex(c => c.id === active) + step + catalog.length) % catalog.length
+    setActive(catalog[i].id)
+    document.getElementById(`tab-${catalog[i].id}`)?.focus()
+  }
 
-const testimonials = [
-  { name: 'Fatima Ahmed', role: 'Parent, DHA Phase 6', text: 'My daughter\'s Chemistry grades improved from C to A* in just three months. The tutor matching was instant and the quality of educators is outstanding. We cancelled our coaching centre subscription.', rating: 5 },
-  { name: 'Hassan Raza', role: 'A-Level Student, Gulberg', text: 'The virtual classroom is incredibly smooth. I can review recorded sessions before exams which has been a game-changer. Way better than the coaching centres I was attending before.', rating: 5 },
-  { name: 'Dr. Ayesha Khan', role: 'Tutor, Mathematics', text: 'As a tutor, I now earn 85% of my rate versus the 60% agencies were giving me. The platform handles scheduling, payments, and even generates my tax receipts automatically.', rating: 5 },
-]
+  return (
+    <section className="section section--ink finder" aria-labelledby="finder-title">
+      <div className="container">
+        <div className="finder__head">
+          <h2 id="finder-title" className="t-title">What are you studying?</h2>
+          <p>Pick a subject and we will start your request with it filled in.</p>
+        </div>
+        <div className="finder__tabs" role="tablist" aria-label="Level" onKeyDown={onKeyDown}>
+          {catalog.map(c => (
+            <button
+              key={c.id}
+              role="tab"
+              id={`tab-${c.id}`}
+              aria-selected={c.id === active}
+              tabIndex={c.id === active ? 0 : -1}
+              aria-controls="finder-panel"
+              className="finder__tab"
+              onClick={() => setActive(c.id)}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+        <div id="finder-panel" role="tabpanel" aria-labelledby={`tab-${active}`}>
+          <ul className="finder__chips">
+            {group.subjects.map(s => (
+              <li key={s}>
+                <Link className="chip" to={requestLink({ level: group.label, subject: s })}>{s}</Link>
+              </li>
+            ))}
+            <li><Link className="chip chip--other" to="/contact">Something else</Link></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 export default function Home() {
   useScrollReveal()
+  usePageMeta(null)
 
   return (
-    <div className="home">
-
-      {/* HERO */}
+    <>
       <section className="hero">
-        <div className="hero__bg" />
-        <div className="glow-orb" style={{ top: '-10%', left: '-5%' }} />
-
-        <div className="container hero__inner reveal">
-          <div className="hero__content">
-            <div className="chip chip--on-dark mb-6">
-              <RiFlashlightLine /> Rated #1 Tutor Platform in Lahore
-            </div>
-            <h1 className="display-hero text-white">
-              Pakistan's Leading<br />
-              <span className="text-gold">EdTech Platform.</span>
+        <div className="container hero__grid">
+          <div className="hero__copy">
+            <p className="eyebrow">One-to-one tutoring in Lahore</p>
+            <h1 className="t-display">
+              Find a tutor who makes it <span className="mark"><strong>make sense</strong></span>
             </h1>
-            <p className="body-lg text-white opacity-70 hero__desc">
-              Tutorista connects students with the top 1% of verified, background-checked 
-              educators for O/A-Levels, FSc, MDCAT, ECAT and university courses. 
-              Zero agency fees. Zero hidden markups. Pure merit-driven learning.
+            <p className="t-lead hero__lead">
+              O and A Levels, Matric, FSc and entry tests. Tell us the subject and schedule and
+              we match you with a vetted tutor, online or at your home.
             </p>
             <div className="hero__actions">
-              <Link to="/services" className="btn btn--gold btn--lg">
-                Find Your Tutor <RiArrowRightLine />
-              </Link>
-              <Link to="/about" className="btn btn--outline-light btn--lg">
-                How It Works
-              </Link>
+              <Link to="/contact" className="btn btn--primary">Find a tutor <RiArrowRightLine aria-hidden="true" /></Link>
+              <Link to="/services" className="btn btn--ghost">How it works</Link>
             </div>
-
-            {/* Social Proof Strip */}
-            <div className="hero__proof">
-              <div className="proof-avatars">
-                <span className="proof-av">FA</span>
-                <span className="proof-av">HR</span>
-                <span className="proof-av">AK</span>
-                <span className="proof-av proof-av--more">+2K</span>
-              </div>
-              <div className="proof-text">
-                <div className="proof-stars">
-                  <RiStarFill /><RiStarFill /><RiStarFill /><RiStarFill /><RiStarFill />
-                  <span>4.9/5</span>
-                </div>
-                <span className="proof-sub">from 2,500+ verified parent reviews</span>
-              </div>
-            </div>
+            <ul className="hero__notes">
+              <li><RiCheckLine aria-hidden="true" /> Free to request</li>
+              <li><RiCheckLine aria-hidden="true" /> Pay per session</li>
+              <li><RiCheckLine aria-hidden="true" /> No contract</li>
+            </ul>
           </div>
-        </div>
-      </section>
 
-      <Marquee />
-
-      {/* TRUSTED BY INSTITUTIONS */}
-      <section className="institutions-section">
-        <div className="container">
-          <p className="institutions-label">
-            Trusted by students and educators from Lahore's top institutions
-          </p>
-          <div className="institutions-grid">
-            {institutions.map((inst, i) => (
-              <div key={i} className="institution-item" title={inst.full}>
-                <span className="institution-name">{inst.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section className="section stats-section bg-grey">
-        <div className="container">
-          <div className="stats-grid reveal">
-            {stats.map((s, i) => (
-              <div key={i} className={`stat-item reveal-d${i+1}`}>
-                <div className="stat-icon">{s.icon}</div>
-                <div className="stat-num">{s.num}</div>
-                <div className="stat-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* THE PROBLEM */}
-      <section className="section bg-grid">
-        <div className="container">
-          <div className="split-grid">
-            <div className="reveal">
-              <div className="section-eyebrow">The Problem</div>
-              <h2 className="display-lg section-title">Traditional agencies are<br />costing you <span className="text-gold">40% more.</span></h2>
-              <p className="body-lg section-subtitle mb-8">
-                In Lahore's tuition market, traditional agencies charge families between 
-                30-40% in hidden commissions to fund their overhead: expensive offices, 
-                sales teams, and marketing budgets. Tutors receive only 60% of what parents pay. 
-                Everyone loses except the middleman.
-              </p>
-              <ul className="check-list">
-                <li><RiCheckLine className="check-icon" /> Live PKR rate transparency, see exactly what you pay</li>
-                <li><RiCheckLine className="check-icon" /> Direct WhatsApp communication with your tutor</li>
-                <li><RiCheckLine className="check-icon" /> Real-time credential verification via blockchain</li>
-                <li><RiCheckLine className="check-icon" /> No lock-in contracts, cancel any time</li>
-              </ul>
-            </div>
-            <div className="reveal reveal-d2">
-              <div className="comparison-card card">
-                <div className="compare-row compare-row--old">
-                  <span className="compare-label">Traditional Agency</span>
-                  <span className="compare-price compare-price--strike">Rs. 5,000/hr</span>
-                </div>
-                <div className="compare-divider" />
-                <div className="compare-row compare-row--new">
-                  <span className="compare-label">Tutorista Direct</span>
-                  <span className="compare-price text-gold">Rs. 2,500/hr</span>
-                </div>
-                <div className="compare-savings">
-                  <RiCheckLine /> You save <strong>Rs. 2,500</strong> every session
-                </div>
-                <p className="compare-note">Same quality, verified educators. No hidden markups. Transparent pricing from day one.</p>
-              </div>
+          <div className="hero__art" aria-hidden="true">
+            <span className="dot hero__dot hero__dot--gold" />
+            <span className="dot hero__dot hero__dot--teal" />
+            <span className="dot hero__dot hero__dot--coral" />
+            <span className="hero__sun" />
+            <PhotoTile src="/img/study-group-sq.webp" shape="circle" priority sizes="(max-width: 560px) 31vw, (max-width: 960px) 210px, 250px" />
+            <PhotoTile src="/img/online-learner-sq.webp" shape="leaf" sizes="(max-width: 560px) 31vw, (max-width: 960px) 210px, 250px" />
+            <PhotoTile src="/img/classroom-sq.webp" shape="quarter" sizes="(max-width: 560px) 31vw, (max-width: 960px) 210px, 250px" />
+            <PhotoTile src="/img/young-learner-sq.webp" shape="arch" sizes="(max-width: 560px) 31vw, (max-width: 960px) 210px, 250px" />
+            <div className="hero__ticket">
+              <span className="hero__ticket-label">New request</span>
+              <strong>O Level Physics</strong>
+              <span>Online · Tue &amp; Thu evenings</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="section bg-dark">
-        <div className="glow-orb" style={{ top: '20%', right: '-10%' }} />
+      <SubjectFinder />
+
+      <section className="section steps">
         <div className="container">
-          <div className="section-header centered reveal">
-            <div className="section-eyebrow">How Tutorista Works</div>
-            <h2 className="display-lg section-title">Three steps to better<br />education outcomes.</h2>
-            <p className="body-lg section-subtitle mx-auto">
-              From your first search to your first lesson, our streamlined process
-              takes an average of just 15 minutes. Here is how it works.
-            </p>
+          <div className="section-head reveal">
+            <p className="eyebrow">How it works</p>
+            <h2 className="t-title">From request to first lesson in three steps</h2>
           </div>
-
-          <div className="process-grid">
-            {process.map((p, i) => (
-              <div key={i} className={`process-card card card--dark reveal reveal-d${i+1}`}>
-                <div className="process-step">{p.step}</div>
-                <div className="process-icon">{p.icon}</div>
-                <h3 className="heading-md text-white">{p.title}</h3>
-                <p className="body-md mt-4">{p.desc}</p>
-              </div>
+          <ol className="steps__list">
+            {steps.map((s, i) => (
+              <li key={s.title} className={`steps__item reveal`} style={{ transitionDelay: `${i * 80}ms` }}>
+                <span className={`steps__num steps__num--${i + 1}`} aria-hidden="true">{i + 1}</span>
+                <h3 className="t-sub">{s.title}</h3>
+                <p>{s.desc}</p>
+              </li>
             ))}
+          </ol>
+          <Link to="/services" className="link-arrow">Read the full process <RiArrowRightLine aria-hidden="true" /></Link>
+        </div>
+      </section>
+
+      <section className="section section--tint vet">
+        <div className="container vet__grid">
+          <div className="vet__art reveal">
+            <PhotoTile src="/img/classroom.webp" shape="arch" alt="A tutor helping students with their work in a classroom" size={800} small={480} sizes="(max-width: 960px) 90vw, 460px" />
+            <span className="dot vet__dot" />
+          </div>
+          <div className="reveal">
+            <p className="eyebrow">Who teaches</p>
+            <h2 className="t-title">Every tutor is checked before they teach a single lesson</h2>
+            <p className="t-lead vet__lead">You are letting someone into your home or your child's screen. We take that seriously.</p>
+            <ol className="vet__list">
+              {vetting.map((v, i) => (
+                <li key={v}><span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{v}</li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
 
-      {/* TRUST SECTION */}
-      <section className="section bg-grid">
+      <section className="section paths">
         <div className="container">
-          <div className="section-header centered reveal">
-            <div className="section-eyebrow">Why Families Trust Us</div>
-            <h2 className="display-lg section-title">Built on transparency,<br />powered by merit.</h2>
-            <p className="body-lg section-subtitle mx-auto">
-              Every decision we make is driven by one question: does this benefit the student?
-              Our vetting is rigorous, our pricing is transparent, and our platform is built locally for Lahore families.
-            </p>
+          <div className="section-head reveal">
+            <p className="eyebrow">Two ways in</p>
+            <h2 className="t-title">Are you looking for a tutor, or are you one?</h2>
           </div>
-
-          <div className="trust-grid">
-            {trustPoints.map((t, i) => (
-              <div key={i} className={`trust-card card reveal reveal-d${i+1}`}>
-                <div className="trust-icon">{t.icon}</div>
-                <h3 className="heading-sm">{t.title}</h3>
-                <p className="body-md mt-2">{t.desc}</p>
+          <div className="paths__grid">
+            <article className="path path--learn reveal">
+              <PhotoTile src="/img/young-learner.webp" shape="leaf" size={800} small={480} sizes="(max-width: 960px) 90vw, 540px" />
+              <div className="path__body">
+                <h3 className="t-sub">Students and parents</h3>
+                <ul className="list-check">
+                  <li><RiCheckLine aria-hidden="true" />Tutors matched to your board and syllabus</li>
+                  <li><RiCheckLine aria-hidden="true" />See the rate before you book, nothing added on top</li>
+                  <li><RiCheckLine aria-hidden="true" />Online, or at home in Lahore</li>
+                </ul>
+                <Link to="/contact" className="btn btn--dark">Request a tutor</Link>
               </div>
-            ))}
+            </article>
+            <article className="path path--teach reveal">
+              <PhotoTile src="/img/focused-writing.webp" shape="quarter" size={800} small={480} sizes="(max-width: 960px) 90vw, 540px" />
+              <div className="path__body">
+                <h3 className="t-sub">Tutors</h3>
+                <ul className="list-check">
+                  <li><RiCheckLine aria-hidden="true" />Keep 85% of what you charge</li>
+                  <li><RiCheckLine aria-hidden="true" />Set your own rate and hours</li>
+                  <li><RiCheckLine aria-hidden="true" />Students who want your subject, sent to you</li>
+                </ul>
+                <Link to={requestLink({ role: 'tutor' })} className="btn btn--primary">Apply to teach</Link>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="section bg-grey">
+      <section className="cta">
         <div className="container">
-          <div className="section-header centered reveal">
-            <div className="section-eyebrow">Success Stories</div>
-            <h2 className="display-lg section-title">Hear from our community.</h2>
-            <p className="body-lg section-subtitle mx-auto">
-              Real results from real families and educators across Lahore.
-              Over 95% of our students report measurable grade improvements within 8 weeks.
-            </p>
-          </div>
-
-          <div className="testimonials-grid">
-            {testimonials.map((t, i) => (
-              <div key={i} className={`testimonial-card card reveal reveal-d${i+1}`}>
-                <div className="testimonial-stars">
-                  {Array.from({ length: t.rating }).map((_, j) => (
-                    <RiStarFill key={j} />
-                  ))}
-                </div>
-                <p className="testimonial-text">"{t.text}"</p>
-                <div className="testimonial-author">
-                  <div className="testimonial-avatar">{t.name.charAt(0)}</div>
-                  <div>
-                    <strong className="testimonial-name">{t.name}</strong>
-                    <span className="testimonial-role">{t.role}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="cta__panel reveal">
+            <div>
+              <h2 className="t-title">Tell us what you're studying</h2>
+              <p>It takes two minutes. We reply by email with tutors who fit.</p>
+            </div>
+            <Link to="/contact" className="btn btn--primary">Start a request <RiArrowRightLine aria-hidden="true" /></Link>
+            <Wave className="cta__wave" />
           </div>
         </div>
       </section>
-
-      {/* URGENCY CTA */}
-      <section className="section cta-section bg-dark">
-        <div className="glow-orb" style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '800px' }} />
-        <div className="container text-center reveal">
-          <div className="urgency-badge mb-6">
-            <RiAlarmWarningLine /> Limited: Only 47 MDCAT tutor slots left for 2025
-          </div>
-          <h2 className="display-lg section-title">Ready to transform your<br />child's education?</h2>
-          <p className="body-lg section-subtitle mx-auto mb-8">
-            Join 10,000+ families across Lahore who have already switched to direct, 
-            merit-based education. Your first consultation is completely free.
-          </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/contact" className="btn btn--gold btn--lg">
-              Start Free Consultation <RiArrowRightLine />
-            </Link>
-            <Link to="/services" className="btn btn--outline-light btn--lg">
-              Explore Services
-            </Link>
-          </div>
-        </div>
-      </section>
-
-    </div>
+    </>
   )
 }

@@ -1,221 +1,183 @@
 import { Link } from 'react-router-dom'
-import {
-  RiArrowRightLine, RiUserSearchLine, RiVideoLine,
-  RiCheckboxCircleLine, RiCheckLine, RiSparklingLine,
-  RiShieldCheckLine, RiCustomerServiceLine, RiBarChartBoxLine,
-} from 'react-icons/ri'
-import Marquee from '../components/Marquee'
+import { RiArrowRightLine, RiCheckLine, RiComputerLine, RiHome4Line } from 'react-icons/ri'
+import Accordion from '../components/Accordion'
+import { catalog, requestLink } from '../content/site'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { usePageMeta } from '../hooks/usePageMeta'
 import './Services.css'
 
-const capabilities = [
-  {
-    icon: <RiUserSearchLine />,
-    title: 'AI-Powered Matching Engine',
-    desc: 'Our proprietary algorithm processes 15+ parameters, including curriculum type, subject specialization, budget range, location preference, and learning style, to find your ideal educator match in under 15 minutes. Unlike generic platforms, Tutorista is built specifically for the Pakistani education system.',
-    img: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800',
-    points: ['O/A-Level, FSc, MDCAT, ECAT curriculum filtering', 'Real-time rate comparison across 2,500+ tutors', 'Instant session booking with WhatsApp confirmation'],
-    tag: 'Core Platform',
-  },
-  {
-    icon: <RiVideoLine />,
-    title: 'Enterprise Virtual Classroom',
-    desc: 'Purpose-built learning infrastructure that runs entirely in-browser. No downloads, no plugins. Features HD video with adaptive bitrate for Pakistani internet conditions, a collaborative digital whiteboard with LaTeX support, and automatic session recording for revision before exams.',
-    img: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=800',
-    points: ['Ultra-low latency HD video (under 100ms)', 'Collaborative whiteboard with equation editor', 'Auto-archived sessions accessible for 90 days'],
-    tag: 'Infrastructure',
-  },
+const journey = [
+  { title: 'Send a request', desc: 'Tell us the subject, level, board, goals and when you are free. Parents can request for their child, students can request for themselves.' },
+  { title: 'Get a shortlist', desc: 'We reply with tutors who teach that syllabus and have time in your schedule, with each tutor’s rate shown up front.' },
+  { title: 'Book a first lesson', desc: 'Pick a tutor and book one session. If it clicks, set up a regular slot. If not, tell us and we suggest someone else.' },
+  { title: 'Keep going at your pace', desc: 'Book single sessions before an exam or a weekly slot for the whole year. You pay for the sessions you take.' },
 ]
 
-const addons = [
-  { icon: <RiSparklingLine />, title: 'Progress Analytics', desc: 'Parents receive weekly reports with attendance, assessment scores, and tutor feedback. Data-driven insights to track your child\'s academic trajectory.' },
-  { icon: <RiShieldCheckLine />, title: 'SafeGuard Protocol', desc: 'All sessions are monitored with AI-powered content moderation. Background checks are refreshed every 6 months. Your child\'s safety is non-negotiable.' },
-  { icon: <RiCustomerServiceLine />, title: 'Dedicated Support', desc: 'Every family gets a dedicated education consultant. Available on WhatsApp, phone, and email. Average response time: 12 minutes during business hours.' },
-  { icon: <RiBarChartBoxLine />, title: 'Performance Guarantee', desc: 'If your child does not show measurable improvement within 60 days, we will rematch you with a new tutor at no additional cost. Results or your money back.' },
+const checks = [
+  { title: 'Identity', desc: 'CNIC checked against the person who turns up to teach.' },
+  { title: 'Qualifications', desc: 'Degrees and certificates verified, not taken on trust.' },
+  { title: 'Subject test', desc: 'A written test in every subject and level they want to teach.' },
+  { title: 'Interview', desc: 'We look at how clearly they explain, not only what they know.' },
+  { title: 'Trial lesson', desc: 'A supervised lesson with a real student before they go live.' },
+]
+
+const faqs = [
+  { q: 'How much does a tutor cost?', a: 'Tutors set their own rates based on their experience, the subject and the level. You see the rate before you book and nothing is added on top for students. Tutors pay a 15% service fee out of their earnings.' },
+  { q: 'Do I have to commit to a number of sessions?', a: 'No. Book one session before an exam, a weekly slot for the year, or anything in between. There is no contract and you can stop at any time.' },
+  { q: 'Are lessons online or at home?', a: 'Both. Online lessons work from anywhere with a stable connection. Home lessons are available across Lahore, depending on which tutors cover your area.' },
+  { q: 'How do I pay?', a: 'EasyPaisa, JazzCash, debit or credit card, or bank transfer. You pay per session.' },
+  { q: 'What if the tutor is not the right fit?', a: 'Tell us after any lesson and we will suggest another tutor. Finding the right person sometimes takes a second try, and that is fine.' },
+  { q: 'Can I teach with Tutorista?', a: 'Yes, if you can pass the five checks above. Send an application through the contact form and choose “I want to teach”.' },
 ]
 
 export default function Services() {
   useScrollReveal()
+  usePageMeta('How it works', 'How Tutorista matches students in Lahore with vetted one-to-one tutors: the process, how tutors are checked, subjects, pricing and FAQs.')
 
   return (
-    <div className="services">
-
-      {/* HERO */}
-      <section className="services-hero">
-        <div className="services-hero__bg" />
-        <div className="glow-orb" style={{ top: '15%', left: '-5%' }} />
-        <div className="container services-hero__inner reveal">
-          <div className="hero-content">
-            <div className="chip chip--on-dark mb-6"><RiSparklingLine /> Platform Capabilities</div>
-            <h1 className="display-hero text-white">
-              The Complete Learning<br />
-              <span className="text-gold">Infrastructure.</span>
-            </h1>
-            <p className="body-lg text-white opacity-70 mt-6 max-w-600">
-              A unified suite of tools designed to remove every friction point from the 
-              education lifecycle, from finding a tutor, to attending sessions, 
-              to processing secure payments. Everything your family needs, in one platform.
+    <>
+      <section className="how-hero">
+        <div className="container how-hero__grid">
+          <div>
+            <p className="eyebrow">How it works</p>
+            <h1 className="t-display">Simple to start, <span className="mark">easy to stop</span></h1>
+          </div>
+          <div className="how-hero__side">
+            <p className="t-lead">
+              No sign-up fee, no package to buy, no contract. You tell us what you need, we find tutors who fit,
+              and you only pay for the lessons you take.
             </p>
-            <div className="mt-8" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <Link to="/contact" className="btn btn--gold btn--lg">
-                Get Started Free <RiArrowRightLine />
-              </Link>
-              <Link to="/about" className="btn btn--outline-light btn--lg">
-                Our Story
-              </Link>
+            <nav className="how-hero__toc" aria-label="On this page">
+              <a href="#process">Process</a>
+              <a href="#vetting">Tutor checks</a>
+              <a href="#subjects">Subjects</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#faq">FAQs</a>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <section id="process" className="section journey">
+        <div className="container journey__grid">
+          <div className="journey__aside">
+            <h2 className="t-title">The process</h2>
+            <p className="t-lead">Most of it happens over email. You will never be asked to pay before you have chosen a tutor.</p>
+            <Link to="/contact" className="btn btn--primary">Start a request <RiArrowRightLine aria-hidden="true" /></Link>
+          </div>
+          <ol className="journey__list">
+            {journey.map((j, i) => (
+              <li key={j.title} className="journey__step reveal">
+                <span className="journey__num" aria-hidden="true">{i + 1}</span>
+                <div>
+                  <h3 className="t-sub">{j.title}</h3>
+                  <p>{j.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="section section--tint formats">
+        <div className="container">
+          <h2 className="t-title formats__title reveal">Two ways to learn</h2>
+          <div className="formats__grid">
+            <div className="format reveal">
+              <RiComputerLine className="format__icon" aria-hidden="true" />
+              <h3 className="t-sub">Online</h3>
+              <p>Live video lessons from home, school or a hostel room. Useful for late evenings and for subjects where the best tutor lives across town.</p>
+            </div>
+            <div className="format reveal">
+              <RiHome4Line className="format__icon" aria-hidden="true" />
+              <h3 className="t-sub">At home</h3>
+              <p>The tutor comes to you, anywhere in Lahore that our tutors cover. Good for younger students and for parents who want to be close by.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <Marquee />
-
-      {/* CORE CAPABILITIES */}
-      <section className="section bg-dots">
+      <section id="vetting" className="section section--ink checks">
         <div className="container">
-          <div className="section-header centered reveal">
-            <div className="section-eyebrow">Core Services</div>
-            <h2 className="display-lg section-title">Engineered for educational<br />excellence.</h2>
-            <p className="body-lg section-subtitle mx-auto">
-              We do not just connect tutors with students. We have built the entire technology 
-              stack that powers modern private education in Lahore, from the matching algorithm 
-              to the virtual classroom infrastructure.
-            </p>
+          <div className="section-head reveal">
+            <p className="eyebrow">Tutor checks</p>
+            <h2 className="t-title">Five checks before anyone teaches</h2>
+            <p className="t-lead checks__lead">Every tutor goes through the same steps, whatever their degree or experience.</p>
           </div>
+          <ol className="checks__row">
+            {checks.map((c, i) => (
+              <li key={c.title} className="reveal" style={{ transitionDelay: `${i * 60}ms` }}>
+                <span aria-hidden="true">{i + 1}</span>
+                <h3>{c.title}</h3>
+                <p>{c.desc}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-          <div className="capabilities-list">
-            {capabilities.map((s, i) => (
-              <div key={i} className={`capability-row reveal ${i % 2 !== 0 ? 'capability-row--reverse' : ''}`}>
-                <div className="cap-text">
-                  <div className="chip chip--gold mb-4">{s.tag}</div>
-                  <h3 className="heading-md mb-4">{s.title}</h3>
-                  <p className="body-lg cap-desc">{s.desc}</p>
-                  <ul className="cap-points">
-                    {s.points.map((p, j) => (
-                      <li key={j}><RiCheckboxCircleLine className="cap-check" /> {p}</li>
-                    ))}
-                  </ul>
-                  <Link to="/contact" className="btn btn--outline">
-                    Learn More <RiArrowRightLine />
-                  </Link>
-                </div>
-                <div className="cap-visual">
-                  <img src={s.img} alt={s.title} className="cap-img" />
-                </div>
+      <section id="subjects" className="section subjects">
+        <div className="container">
+          <div className="section-head reveal">
+            <h2 className="t-title">Subjects</h2>
+            <p className="t-lead">Pick one to start a request. Don’t see yours? Ask anyway, we may have a tutor for it.</p>
+          </div>
+          <div className="subjects__grid">
+            {catalog.map(c => (
+              <div key={c.id} className="subjects__group reveal">
+                <h3>{c.label}</h3>
+                <p className="t-small">{c.blurb}</p>
+                <ul>
+                  {c.subjects.map(s => (
+                    <li key={s}><Link to={requestLink({ level: c.label, subject: s })}>{s}</Link></li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SUBJECTS WE COVER */}
-      <section className="section bg-grey">
+      <section id="pricing" className="section section--tint pricing">
         <div className="container">
-          <div className="section-header centered reveal">
-            <div className="section-eyebrow">Subject Coverage</div>
-            <h2 className="display-lg section-title">50+ subjects across<br />every major curriculum.</h2>
-            <p className="body-lg section-subtitle mx-auto">
-              From Cambridge O/A-Levels to Punjab Board FSc, from MDCAT prep to 
-              university-level engineering courses. Whatever your child needs, we 
-              have a verified specialist for it.
-            </p>
+          <div className="section-head reveal">
+            <h2 className="t-title">What it costs</h2>
+            <p className="t-lead">One rule: the rate you see is the rate you pay.</p>
           </div>
-          <div className="subjects-grid reveal">
-            <div className="subject-item"><span className="subject-cat">STEM</span><span className="subject-name">Mathematics</span></div>
-            <div className="subject-item"><span className="subject-cat">STEM</span><span className="subject-name">Physics</span></div>
-            <div className="subject-item"><span className="subject-cat">STEM</span><span className="subject-name">Chemistry</span></div>
-            <div className="subject-item"><span className="subject-cat">STEM</span><span className="subject-name">Biology</span></div>
-            <div className="subject-item"><span className="subject-cat">STEM</span><span className="subject-name">Computer Science</span></div>
-            <div className="subject-item"><span className="subject-cat">Humanities</span><span className="subject-name">English Literature</span></div>
-            <div className="subject-item"><span className="subject-cat">Humanities</span><span className="subject-name">Urdu</span></div>
-            <div className="subject-item"><span className="subject-cat">Humanities</span><span className="subject-name">Pakistan Studies</span></div>
-            <div className="subject-item"><span className="subject-cat">Humanities</span><span className="subject-name">Islamiyat</span></div>
-            <div className="subject-item"><span className="subject-cat">Test Prep</span><span className="subject-name">MDCAT</span></div>
-            <div className="subject-item"><span className="subject-cat">Test Prep</span><span className="subject-name">ECAT</span></div>
-            <div className="subject-item"><span className="subject-cat">Test Prep</span><span className="subject-name">IELTS / SAT</span></div>
-          </div>
-        </div>
-      </section>
-
-      {/* VALUE ADDS */}
-      <section className="section bg-grey bg-grid">
-        <div className="container">
-          <div className="section-header centered reveal">
-            <div className="section-eyebrow">Beyond Tutoring</div>
-            <h2 className="display-lg section-title">Everything you need,<br />nothing you don't.</h2>
-            <p className="body-lg section-subtitle mx-auto">
-              Every feature on Tutorista exists because a real parent, student, or tutor in Lahore 
-              asked for it. No bloat. No gimmicks. Just the tools that actually move the needle on 
-              academic performance.
-            </p>
-          </div>
-          <div className="addons-grid">
-            {addons.map((a, i) => (
-              <div key={i} className={`addon-card card reveal reveal-d${i+1}`}>
-                <div className="addon-icon">{a.icon}</div>
-                <h3 className="heading-sm mb-2">{a.title}</h3>
-                <p className="body-md">{a.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section className="section bg-dark">
-        <div className="glow-orb" style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '900px' }} />
-        <div className="container">
-          <div className="section-header centered reveal">
-            <div className="section-eyebrow">Simple Pricing</div>
-            <h2 className="display-lg section-title">Transparency by design.</h2>
-            <p className="body-lg section-subtitle mx-auto">
-              We fund our infrastructure via a flat 15% service fee on tutor earnings. 
-              Students pay the exact tutor rate, zero hidden markups, zero surprise charges. 
-              The rate you see is the rate you pay.
-            </p>
-          </div>
-
-          <div className="pricing-grid">
-            <div className="pricing-card card reveal">
-              <div className="pricing-header">
-                <div className="chip mb-4">For Students and Parents</div>
-                <h3 className="pricing-plan">Learn Direct</h3>
-                <div className="pricing-amount">Free</div>
-                <p className="body-md mt-4">Browse, compare, and book verified tutors at zero platform cost. You only pay the tutor's session rate.</p>
-              </div>
-              <ul className="pricing-features">
-                <li><RiCheckLine /> Instant intelligent matching</li>
-                <li><RiCheckLine /> Verified credential access</li>
-                <li><RiCheckLine /> EasyPaisa, JazzCash and Cards</li>
-                <li><RiCheckLine /> 90-day session archive</li>
-                <li><RiCheckLine /> Weekly progress reports</li>
-                <li><RiCheckLine /> Dedicated education consultant</li>
+          <div className="pricing__grid">
+            <div className="price reveal">
+              <p className="price__who">Students and parents</p>
+              <p className="price__amount">Free <span>to request and to book</span></p>
+              <ul className="list-check">
+                <li><RiCheckLine aria-hidden="true" />Pay the tutor’s listed session rate</li>
+                <li><RiCheckLine aria-hidden="true" />No booking fee, no markup</li>
+                <li><RiCheckLine aria-hidden="true" />EasyPaisa, JazzCash, card or bank transfer</li>
               </ul>
-              <Link to="/contact" className="btn btn--outline btn--full">Join as Student</Link>
+              <Link to="/contact" className="btn btn--dark">Request a tutor</Link>
             </div>
-
-            <div className="pricing-card card card--dark pricing-card--featured reveal reveal-d2">
-              <div className="pricing-badge">Most Popular</div>
-              <div className="pricing-header">
-                <div className="chip chip--gold mb-4">For Educators</div>
-                <h3 className="pricing-plan text-white">Scale Impact</h3>
-                <div className="pricing-amount text-gold">15% <span className="pricing-period">/ session</span></div>
-                <p className="body-md mt-4">Keep 85% of your earnings, far better than the 40% cut taken by traditional agencies. Grow your teaching practice with our technology.</p>
-              </div>
-              <ul className="pricing-features">
-                <li><RiCheckLine /> Performance-based ranking</li>
-                <li><RiCheckLine /> Enterprise virtual classroom</li>
-                <li><RiCheckLine /> Automated payout processing</li>
-                <li><RiCheckLine /> Verified educator badge</li>
-                <li><RiCheckLine /> Marketing and student pipeline</li>
-                <li><RiCheckLine /> Dedicated account manager</li>
+            <div className="price price--tutor reveal">
+              <p className="price__who">Tutors</p>
+              <p className="price__amount">15% <span>service fee per session</span></p>
+              <ul className="list-check">
+                <li><RiCheckLine aria-hidden="true" />Keep 85% of your rate</li>
+                <li><RiCheckLine aria-hidden="true" />Set your own rate and hours</li>
+                <li><RiCheckLine aria-hidden="true" />No fee to apply</li>
               </ul>
-              <Link to="/contact" className="btn btn--gold btn--full">Apply to Teach</Link>
+              <Link to={requestLink({ role: 'tutor' })} className="btn btn--primary">Apply to teach</Link>
             </div>
           </div>
         </div>
       </section>
 
-    </div>
+      <section id="faq" className="section faq">
+        <div className="container faq__grid">
+          <div>
+            <h2 className="t-title">Questions parents ask</h2>
+            <p className="t-lead faq__lead">Something else on your mind? <Link to="/contact" className="faq__link">Ask us directly</Link>.</p>
+          </div>
+          <Accordion items={faqs} />
+        </div>
+      </section>
+    </>
   )
 }
