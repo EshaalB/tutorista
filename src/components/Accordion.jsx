@@ -1,38 +1,35 @@
-import { useState } from 'react'
-import { RiAddLine, RiSubtractLine } from 'react-icons/ri'
+import { useState, useId } from 'react'
 import './Accordion.css'
 
 export default function Accordion({ items }) {
-  const [openIndex, setOpenIndex] = useState(null)
-
-  const toggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
+  const [openIndex, setOpenIndex] = useState(0)
+  const baseId = useId()
 
   return (
-    <div className="accordion-root">
-      {items.map((item, index) => (
-        <div 
-          key={index} 
-          className={`accordion-item ${openIndex === index ? 'is-open' : ''}`}
-        >
-          <button 
-            className="accordion-trigger" 
-            onClick={() => toggle(index)}
-            aria-expanded={openIndex === index}
-          >
-            <span className="accordion-title">{item.q}</span>
-            <span className="accordion-icon">
-              {openIndex === index ? <RiSubtractLine /> : <RiAddLine />}
-            </span>
-          </button>
-          <div className="accordion-content">
-            <div className="accordion-content-inner">
-              <p className="body-lg">{item.a}</p>
+    <div className="accordion">
+      {items.map((item, index) => {
+        const isOpen = openIndex === index
+        const id = `${baseId}-${index}`
+        return (
+          <div key={item.q} className={`accordion__item ${isOpen ? 'is-open' : ''}`}>
+            <h3>
+              <button
+                id={`${id}-btn`}
+                className="accordion__trigger"
+                aria-expanded={isOpen}
+                aria-controls={`${id}-panel`}
+                onClick={() => setOpenIndex(isOpen ? null : index)}
+              >
+                {item.q}
+                <span className="accordion__icon" aria-hidden="true" />
+              </button>
+            </h3>
+            <div id={`${id}-panel`} role="region" aria-labelledby={`${id}-btn`} className="accordion__panel" hidden={!isOpen}>
+              <p>{item.a}</p>
             </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
