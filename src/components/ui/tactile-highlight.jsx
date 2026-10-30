@@ -3,14 +3,13 @@ import { useMotionAllowed } from '../../a11y'
 import './tactile-highlight.css'
 
 /**
- * TactileHighlight: a block that springs in behind a phrase.
- * Port of the framer-motion original to plain React + CSS (the project has no
- * framer-motion; GSAP was removed to keep mobile light). Same API:
- *   direction  'left' | 'right' | 'top' | 'bottom'   where the block grows from
+ * TactileHighlight: a gold block that springs in behind a phrase.
+ * Port of the framer-motion original to plain React + CSS. Tied to scroll:
+ * it fills when the phrase scrolls into view and empties again when you
+ * scroll back up past it, so it replays on the way down. Not interactive.
+ *   direction  'left' | 'right' | 'top' | 'bottom'
  *   delay      seconds before it springs in
- *   trigger    'inView' (default, once) | 'auto' | 'hover'
- * The text uses mix-blend-mode: difference over a gold block, so it reads as
- * dark ink on light pages and as cobalt inside the block, without extra colours.
+ *   trigger    'inView' (default) | 'auto' (fill on mount, e.g. above the fold)
  */
 export default function TactileHighlight({ children, className = '', direction = 'left', delay = 0.1, trigger = 'inView' }) {
   const ref = useRef(null)
@@ -20,18 +19,20 @@ export default function TactileHighlight({ children, className = '', direction =
   useEffect(() => {
     if (trigger !== 'inView' || !allowed || !('IntersectionObserver' in window)) return
     const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setInView(true); io.disconnect() }
-    }, { rootMargin: '0px 0px -10% 0px' })
+      if (entry.isIntersecting) setInView(true)
+      // only reset when it leaves through the bottom (scrolling back up)
+      else if (entry.boundingClientRect.top > 0) setInView(false)
+    }, { rootMargin: '0px 0px -15% 0px' })
     io.observe(ref.current)
     return () => io.disconnect()
   }, [trigger, allowed])
 
-  const shown = !allowed || trigger === 'auto' || (trigger === 'inView' && (inView || !('IntersectionObserver' in window)))
+  const shown = !allowed || trigger === 'auto' || inView || !('IntersectionObserver' in window)
 
   return (
     <span
       ref={ref}
-      className={`tactile tactile--${direction} ${trigger === 'hover' ? 'tactile--hover' : ''} ${shown ? 'is-shown' : ''} ${className}`}
+      className={`tactile tactile--${direction} ${shown ? 'is-shown' : ''} ${className}`}
       style={{ '--tactile-delay': `${delay}s` }}
     >
       <span className="tactile__block" aria-hidden="true" />

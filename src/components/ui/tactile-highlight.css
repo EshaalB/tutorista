@@ -1,5 +1,5 @@
 .tactile {
-  position: relative; display: inline-block; white-space: nowrap; isolation: isolate;
+  position: relative; display: inline-block; white-space: nowrap; isolation: isolate; pointer-events: none;
   padding: 0 0.15em; margin: 0 -0.05em;
 }
 .tactile__block {
@@ -17,15 +17,6 @@
 :dir(rtl) .tactile--right .tactile__block { transform-origin: left center; }
 
 .tactile.is-shown .tactile__block { transform: none; border-radius: 4px; }
-.tactile--hover:hover .tactile__block, .tactile--hover:focus-within .tactile__block { transform: none; border-radius: 4px; }
-
-/* the "tactile" press: a small lift and tilt once it has landed */
-.tactile.is-shown:hover .tactile__block {
-  transform: scale(1.05) rotate(-1.5deg); border-radius: 8px;
-  transition: transform .3s cubic-bezier(.34, 1.6, .5, 1), border-radius .3s ease;
-}
-.tactile--right.is-shown:hover .tactile__block { transform: scale(1.05) rotate(1.5deg); }
-
 /* white text in difference mode: dark on light pages, cobalt-blue on the gold block */
 .tactile__text { position: relative; z-index: 1; color: #fff; mix-blend-mode: difference; pointer-events: none; }
 

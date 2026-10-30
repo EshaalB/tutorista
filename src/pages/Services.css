@@ -12,7 +12,7 @@
 .journey__list { display: grid; gap: 8px; }
 .journey__step { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 18px 0; }
 .journey__step p { margin-top: 8px; color: var(--muted); }
-.journey__num { position: relative; z-index: 1; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--ivory); border: 2px solid var(--cobalt); font-family: 'Zodiak', Georgia, serif; font-size: 1.3rem; color: var(--cobalt); }
+.journey__num { position: relative; z-index: 1; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--ivory); border: 2px solid var(--cobalt); font-family: var(--font-display); font-size: 1.3rem; color: var(--cobalt); }
 .journey__step:last-child .journey__num { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 
 /* formats: two image-led halves, the second dropped lower */
@@ -30,7 +30,7 @@
 .checks__row li { padding: 22px 20px 8px 0; border-inline-end: 1px solid rgb(254 249 232 / 22%); margin-inline-end: 20px; }
 :dir(rtl) .checks__row li { padding: 22px 0 8px 20px; }
 .checks__row li:last-child { border-inline-end: 0; margin-inline-end: 0; }
-.checks__n { display: block; font-family: 'Zodiak', Georgia, serif; font-style: italic; font-size: 1.6rem; color: var(--gold); margin-bottom: 14px; }
+.checks__n { display: block; font-family: var(--font-display); font-size: 1.6rem; color: var(--gold); margin-bottom: 14px; }
 .checks__row h3 { font-size: var(--step-1); margin-bottom: 6px; }
 .checks__row p { font-size: 0.9375rem; }
 

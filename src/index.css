@@ -3,14 +3,6 @@
    layered cobalt and gold page curves, and a gold underline. See docs/REDESIGN.md. */
 
 @font-face {
-  font-family: 'Zodiak'; font-style: normal; font-weight: 100 900; font-display: swap;
-  src: url('/fonts/zodiak-variable.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Zodiak'; font-style: italic; font-weight: 100 900; font-display: swap;
-  src: url('/fonts/zodiak-variable-italic.woff2') format('woff2');
-}
-@font-face {
   font-family: 'Ranade'; font-style: normal; font-weight: 100 700; font-display: swap;
   src: url('/fonts/ranade-variable.woff2') format('woff2');
 }
@@ -40,12 +32,12 @@
   --line: #e6dbba;
   --focus: #254d91;
 
-  --font-display: 'Zodiak', Georgia, 'Times New Roman', serif;
+  --font-display: 'Ranade', 'Segoe UI', system-ui, sans-serif;
   --font-body: 'Ranade', 'Segoe UI', system-ui, sans-serif;
   --lh-body: 1.6;
   --lh-head: 1.1;
-  --tracking-head: -0.02em;
-  --head-weight: 500;
+  --tracking-head: -0.025em;
+  --head-weight: 600;
 
   --step--1: 0.875rem;
   --step-0: 1.0625rem;
@@ -138,7 +130,7 @@ input, select, textarea { font: inherit; color: inherit; }
 
 /* type */
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: var(--head-weight); color: var(--ink); line-height: var(--lh-head); letter-spacing: var(--tracking-head); }
-h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--cobalt); }
+h1 em, h2 em { font-style: normal; color: var(--cobalt); }
 :lang(ur) h1 em, :lang(ur) h2 em { font-style: normal; }
 .section--blue h2 em { color: var(--gold); }
 .t-display { font-size: var(--step-4); line-height: 1.02; letter-spacing: -0.03em; }
@@ -150,33 +142,32 @@ h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--cobalt); }
 .t-small { font-size: var(--step--1); color: var(--muted); }
 .kicker { font-size: var(--step--1); font-weight: 600; color: var(--emerald); margin-bottom: 14px; }
 .section--blue .kicker { color: var(--gold); }
-/* Roman Urdu asides, set in Zodiak italic like a margin note */
-.aside-ur { font-family: 'Zodiak', Georgia, serif; font-style: italic; font-weight: 400; color: var(--emerald); }
+/* Roman Urdu asides, set in italic like a margin note */
+.aside-ur { font-family: var(--font-body); font-weight: 500; color: var(--emerald); }
 .section-head { max-width: 680px; margin-bottom: clamp(32px, 5vw, 56px); }
 .section-head .t-lead { margin-top: 14px; }
 
-/* buttons: primary actions get a fill sweep on hover; everything presses down on click */
+/* buttons: a clean colour shift on hover, a short press on click; no lift, no sweep */
 .btn {
-  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 48px; padding: 12px 22px; border-radius: var(--r-btn);
   font-weight: 600; font-size: var(--step-0); line-height: 1.2; white-space: nowrap;
-  border: 1.5px solid transparent;
-  background-image: linear-gradient(var(--fill, transparent), var(--fill, transparent));
-  background-size: 0% 100%; background-repeat: no-repeat; background-position: left center;
-  transition: background-size .4s cubic-bezier(.7, 0, .2, 1), color .3s var(--ease), border-color .3s var(--ease), transform .12s var(--ease), box-shadow .12s var(--ease);
+  border: 0; box-shadow: inset 0 0 0 1.5px var(--ring, transparent);
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, transform .1s ease;
 }
-:dir(rtl) .btn { background-position: right center; }
-.btn svg { width: 1.15em; height: 1.15em; flex: none; }
+.btn svg { width: 1.15em; height: 1.15em; flex: none; transition: transform .2s ease; }
+.btn:hover svg { transform: translateX(3px); }
 :dir(rtl) .btn svg { transform: scaleX(-1); }
-.btn:hover { background-size: 100% 100%; }
-.btn:active { transform: translateY(2px) scale(.98); box-shadow: inset 0 2px 6px rgb(0 0 0 / 18%); }
-.btn--primary { background-color: var(--cobalt); color: var(--on-primary); --fill: var(--cobalt-900); }
-.btn--gold { background-color: var(--gold); color: var(--ink); --fill: var(--cobalt); }
-.btn--gold:hover { color: var(--on-primary); }
-.btn--ghost { border-color: var(--ink); color: var(--ink); --fill: var(--ink); }
-.btn--ghost:hover { color: var(--on-primary); }
-.section--blue .btn--ghost { border-color: var(--on-primary-muted); color: var(--on-primary); --fill: var(--on-primary); }
-.section--blue .btn--ghost:hover { color: var(--cobalt); }
+:dir(rtl) .btn:hover svg { transform: scaleX(-1) translateX(3px); }
+.btn:active { transform: scale(.97); }
+.btn--primary { background: var(--cobalt); color: var(--on-primary); }
+.btn--primary:hover { background: var(--cobalt-700); }
+.btn--gold { background: var(--gold); color: var(--ink); }
+.btn--gold:hover { background: #f5d17f; }
+.btn--ghost { --ring: var(--ink); color: var(--ink); background: transparent; }
+.btn--ghost:hover { background: var(--ink); color: var(--on-primary); }
+.section--blue .btn--ghost { --ring: var(--on-primary-muted); color: var(--on-primary); }
+.section--blue .btn--ghost:hover { background: var(--on-primary); color: var(--cobalt); }
 .btn--block { width: 100%; }
 
 .link-arrow { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--cobalt); background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1.5px; transition: background-size .3s var(--ease); padding-bottom: 2px; }
@@ -241,3 +232,6 @@ h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--cobalt); }
 :root[data-motion='off'] *, :root[data-motion='off'] *::before, :root[data-motion='off'] *::after {
   transition-duration: 0s !important; animation-duration: 0s !important; scroll-behavior: auto !important;
 }
+
+/* parallax targets (moved by src/motion/usePageMotion.js) */
+.motion-on .frame > img { scale: 1.12; will-change: transform; }

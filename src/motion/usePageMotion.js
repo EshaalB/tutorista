@@ -37,7 +37,35 @@ export function usePageMotion(scope, key) {
 
     root.querySelectorAll('[data-reveal], [data-mask], [data-path]').forEach(el => io.observe(el))
 
+    // Parallax: [data-parallax="0.2"] drifts with scroll; photos inside frames drift
+    // a little inside their (slightly enlarged) frame. Transform only, one rAF per scroll.
+    const drifters = [
+      ...[...root.querySelectorAll('[data-parallax]')].map(el => ({ el, k: Number(el.dataset.parallax) })),
+      ...[...root.querySelectorAll('.frame > img')].map(el => ({ el, k: -0.06, box: el.parentElement })),
+    ]
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const vh = window.innerHeight
+      drifters.forEach(({ el, k, box }) => {
+        const r = (box || el).getBoundingClientRect()
+        if (r.bottom < -200 || r.top > vh + 200) return
+        const offset = (r.top + r.height / 2 - vh / 2) * k
+        el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`
+      })
+    }
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
+    if (drifters.length) {
+      update()
+      window.addEventListener('scroll', onScroll, { passive: true })
+      window.addEventListener('resize', onScroll)
+    }
+
     return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      cancelAnimationFrame(frame)
+      drifters.forEach(({ el }) => { el.style.transform = '' })
       io.disconnect()
       root.classList.remove('motion-on')
       root.querySelectorAll('.is-in').forEach(el => el.classList.remove('is-in'))

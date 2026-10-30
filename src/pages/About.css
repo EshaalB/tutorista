@@ -10,7 +10,7 @@
 .principles__title { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; }
 .principles__list li { display: grid; grid-template-columns: 56px 1fr; column-gap: 16px; padding: 28px 0; border-top: 1px solid var(--line); }
 .principles__list li:first-child { border-top: 0; padding-top: 0; }
-.principles__list span { grid-row: span 2; font-family: 'Zodiak', Georgia, serif; font-style: italic; font-size: 1.4rem; color: var(--emerald); }
+.principles__list span { grid-row: span 2; font-family: var(--font-display); font-size: 1.4rem; color: var(--emerald); }
 .principles__list p { margin-top: 8px; max-width: 52ch; color: var(--muted); }
 
 .team__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; }

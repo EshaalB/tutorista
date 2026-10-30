@@ -13,7 +13,7 @@ import './Home.css'
 
 // Full-bleed classroom footage behind the hero. Poster only under Lite mode,
 // reduced motion or Save-Data; always pausable.
-function HeroVideo({ label, caption }) {
+function HeroVideo({ label }) {
   const { t } = useLang()
   const allowed = useMotionAllowed()
   const ref = useRef(null)
@@ -37,6 +37,7 @@ function HeroVideo({ label, caption }) {
       <video
         ref={ref}
         className="vhero__video"
+        data-parallax="0.25"
         muted
         loop
         playsInline
@@ -53,7 +54,6 @@ function HeroVideo({ label, caption }) {
         <button type="button" className="vhero__toggle" onClick={toggle} aria-label={playing ? t.video.pause : t.video.play}>
           {playing ? <RiPauseFill aria-hidden="true" /> : <RiPlayFill aria-hidden="true" />}
         </button>
-        <p>{caption}</p>
       </div>
     </>
   )
@@ -86,7 +86,7 @@ function Why({ data }) {
   return (
     <section className="section why" aria-labelledby="why-title">
       <div className="container why__grid">
-        <div className="why__deck" aria-hidden="true">
+        <div className="why__deck" aria-hidden="true" data-parallax="-0.08">
           {data.items.map((item, i) => {
             const offset = (i - active + data.items.length) % data.items.length
             return (
@@ -159,7 +159,7 @@ export default function Home() {
   return (
     <div ref={scope}>
       <section className="vhero">
-        <HeroVideo label={h.hero.videoAlt} caption={h.hero.media} />
+        <HeroVideo label={h.hero.videoAlt} />
         <div className="vhero__shade" aria-hidden="true" />
         <div className="container vhero__inner">
           <div className="vhero__grid">
@@ -174,15 +174,6 @@ export default function Home() {
                 <Link to="/services" className="btn vhero__ghost"><RiPlayCircleLine aria-hidden="true" /> {h.hero.secondary}</Link>
               </div>
             </div>
-            <ol className="vhero__points">
-              {h.hero.points.map((p, i) => (
-                <li key={p.title}>
-                  <span>{String(i + 1).padStart(2, '0')}</span>
-                  <strong>{p.title}</strong>
-                  <small>{p.desc}</small>
-                </li>
-              ))}
-            </ol>
           </div>
           <dl className="vhero__stats">
             {h.hero.stats.map(s => (

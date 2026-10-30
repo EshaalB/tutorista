@@ -7,7 +7,7 @@
 
 /* the wordmark is drawn in outline, then a cobalt fill sweeps across it */
 .preloader__word {
-  position: relative; font-family: 'Zodiak', Georgia, serif; font-weight: 600; font-size: clamp(2rem, 7vw, 3rem);
+  position: relative; font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 7vw, 3rem);
   color: transparent; -webkit-text-stroke: 1px var(--line); line-height: 1;
 }
 .preloader__word::after {

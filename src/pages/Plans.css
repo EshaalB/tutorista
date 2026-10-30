@@ -27,7 +27,7 @@
 
 .included__grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 32px 64px; }
 .included__list li { display: grid; grid-template-columns: 48px 1fr; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: var(--step-1); color: var(--ink); }
-.included__list span { font-family: 'Zodiak', Georgia, serif; font-style: italic; color: var(--emerald); }
+.included__list span { font-family: var(--font-display); color: var(--emerald); }
 .included__tutor { grid-column: 2; display: grid; gap: 8px; justify-items: start; padding: 24px; border-radius: var(--r-card); background: var(--paper); }
 .included__tutor p { color: var(--muted); }
 
